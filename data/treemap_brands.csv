@@ -1,0 +1,31 @@
+category,brand,products,rank
+Skincare,SEPHORA COLLECTION,96,1
+Skincare,CLINIQUE,90,2
+Skincare,Peter Thomas Roth,58,3
+Skincare,Shiseido,56,4
+Skincare,Kiehl's Since 1851,53,5
+Skincare,Other brands (138),2067,6
+Makeup,SEPHORA COLLECTION,188,1
+Makeup,tarte,100,2
+Makeup,Anastasia Beverly Hills,88,3
+Makeup,Charlotte Tilbury,76,4
+Makeup,Fenty Beauty by Rihanna,74,5
+Makeup,Other brands (110),1843,6
+Hair,Kérastase,108,1
+Hair,Bumble and bumble,99,2
+Hair,Oribe,87,3
+Hair,Drybar,70,4
+Hair,Moroccanoil,63,5
+Hair,Other brands (63),1037,6
+Fragrance,NEST New York,111,1
+Fragrance,TOM FORD,67,2
+Fragrance,Jo Malone London,66,3
+Fragrance,VOLUSPA,60,4
+Fragrance,Commodity,48,5
+Fragrance,Other brands (74),1080,6
+Other,SEPHORA COLLECTION,44,1
+Other,Jack Black,37,2
+Other,Sol de Janeiro,28,3
+Other,CLINIQUE,26,4
+Other,Moroccanoil,26,5
+Other,Other brands (155),648,6

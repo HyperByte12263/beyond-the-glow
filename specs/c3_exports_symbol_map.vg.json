@@ -1,0 +1,90 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "C3 proportional-symbol map: Malaysia's HS 3304 exports by destination in 2024. Circle area shows value.",
+  "title": {
+    "text": "Who buys Malaysia's make-up and skincare",
+    "subtitle": [
+      "Exports in 2024: US$173 M to 187 countries, and 57% went to ASEAN neighbours. Circle area shows value.",
+      "Outside this map: the USA (US$5.7 M) and many small markets."
+    ]
+  },
+  "width": "container",
+  "height": 420,
+  "projection": {
+    "type": "mercator",
+    "fit": {
+      "type": "Feature",
+      "geometry": {"type": "MultiPoint", "coordinates": [[45, -12], [146, 42]]}
+    }
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/world-110m.json",
+        "format": {"type": "topojson", "feature": "countries"}
+      },
+      "mark": {"type": "geoshape", "stroke": "#ffffff", "strokeWidth": 0.5, "clip": true},
+      "encoding": {
+        "color": {
+          "condition": {"test": "datum.id == '458'", "value": "#cfc5cb"},
+          "value": "#ebe5e8"
+        }
+      }
+    },
+    {
+      "data": {"url": "data/trade_exports_2024.csv", "format": {"parse": {"year": "number", "value_usd": "number", "share_pct": "number", "lat": "number", "lon": "number"}}},
+      "transform": [
+        {"filter": "isValid(datum.lat) && datum.lat !== ''"},
+        {"calculate": "datum.value_usd / 1e6", "as": "value_m"}
+      ],
+      "mark": {"type": "circle", "color": "#c08a1e", "opacity": 0.7, "stroke": "#8f6514", "strokeWidth": 0.9, "clip": true},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "size": {
+          "field": "value_m",
+          "type": "quantitative",
+          "title": "Exports, 2024 (US$ M)",
+          "scale": {"domain": [0, 62], "range": [0, 1900]},
+          "legend": {"orient": "bottom-left", "values": [5, 20, 60], "symbolFillColor": "#c08a1e", "symbolOpacity": 0.55, "symbolStrokeColor": "#a8771a", "direction": "horizontal"}
+        },
+        "order": {"field": "value_m", "sort": "descending"},
+        "tooltip": [
+          {"field": "partner", "type": "nominal", "title": "Sold to"},
+          {"field": "value_m", "type": "quantitative", "title": "Exports, 2024 (US$ M)", "format": ",.1f"},
+          {"field": "share_pct", "type": "quantitative", "title": "Share of exports (%)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "description": "Labels for the five biggest buyers, placed beside their circles so they don't overlap.",
+      "data": {"url": "data/trade_exports_2024.csv", "format": {"parse": {"year": "number", "value_usd": "number", "share_pct": "number", "lat": "number", "lon": "number"}}},
+      "transform": [
+        {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "value_usd", "order": "descending"}]},
+        {"filter": "datum.rank <= 5"},
+        {"calculate": "datum.partner + ' · $' + format(datum.value_usd / 1e6, '.0f') + ' M' + (datum.rank == 1 ? ' (' + format(datum.share_pct, '.0f') + '%)' : '')", "as": "label"}
+      ],
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "label"}
+      },
+      "layer": [
+        {"transform": [{"filter": {"field": "partner", "oneOf": ["Singapore"]}}], "mark": {"type": "text", "align": "right", "dx": -30, "dy": 8, "fontSize": 13, "fontWeight": 700}},
+        {"transform": [{"filter": {"field": "partner", "oneOf": ["Hong Kong"]}}], "mark": {"type": "text", "align": "right", "dx": -16, "fontSize": 13, "fontWeight": 600}},
+        {"transform": [{"filter": {"field": "partner", "oneOf": ["Philippines"]}}], "mark": {"type": "text", "align": "left", "dx": 14, "fontSize": 13, "fontWeight": 600}},
+        {"transform": [{"filter": {"field": "partner", "oneOf": ["Japan"]}}], "mark": {"type": "text", "align": "center", "dy": -22, "fontSize": 13, "fontWeight": 600}},
+        {"transform": [{"filter": {"field": "partner", "oneOf": ["Indonesia"]}}], "mark": {"type": "text", "align": "center", "dy": 24, "fontSize": 13, "fontWeight": 600}}
+      ]
+    },
+    {
+      "description": "Malaysia, where every export starts.",
+      "data": {"values": [{"lat": 3.14, "lon": 101.69}]},
+      "mark": {"type": "point", "shape": "diamond", "size": 60, "filled": true, "color": "#261b24"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"}
+      }
+    }
+  ]
+}

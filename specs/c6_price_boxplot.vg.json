@@ -1,0 +1,78 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "C6 boxplot with jittered product dots: price of skincare products by category (US$, axis capped at 250).",
+  "title": {
+    "text": "A typical moisturiser costs US$58; a typical cleanser US$34",
+    "subtitle": [
+      "Each box holds the middle half of products; the dark line is the typical (median) price;",
+      "whiskers reach the cheapest and priciest. Each faint dot is one product.",
+      "Prices above US$250 (3% or fewer per category) are drawn at the right edge."
+    ]
+  },
+  "width": "container",
+  "height": 330,
+  "data": {
+    "url": "data/skincare_products.csv",
+    "format": {"parse": {"price_usd": "number", "rating": "number", "reviews": "number", "loves": "number"}}
+  },
+  "transform": [
+    {"filter": {"field": "category", "oneOf": ["Moisturizers", "Treatments", "Eye Care", "Masks", "Sunscreen", "Cleansers"]}},
+    {"calculate": "min(datum.price_usd, 250)", "as": "price_shown"},
+    {"joinaggregate": [{"op": "count", "as": "n"}], "groupby": ["category"]},
+    {"calculate": "datum.category + ' (' + datum.n + ' products)'", "as": "category_n"},
+    {"calculate": "{'Moisturizers': 1, 'Treatments': 2, 'Eye Care': 3, 'Masks': 4, 'Sunscreen': 5, 'Cleansers': 6}[datum.category]", "as": "order_by_median"},
+    {"calculate": "random()", "as": "jitter"}
+  ],
+  "encoding": {
+    "y": {
+      "field": "category_n",
+      "type": "nominal",
+      "title": null,
+      "sort": {"op": "min", "field": "order_by_median", "order": "ascending"},
+      "axis": {"labelFontSize": 13, "labelColor": "#261b24", "domain": false, "ticks": false, "labelPadding": 8}
+    },
+    "x": {
+      "field": "price_shown",
+      "type": "quantitative",
+      "title": "Price (US$)",
+      "scale": {"domain": [0, 250]},
+      "axis": {"values": [0, 50, 100, 150, 200, 250], "labelExpr": "datum.value == 250 ? '250+' : datum.value"}
+    }
+  },
+  "layer": [
+    {
+      "description": "Every product as a faint dot, spread up and down so they don't stack.",
+      "mark": {"type": "circle", "size": 14, "color": "#c4bcc1", "opacity": 0.55},
+      "encoding": {
+        "yOffset": {"field": "jitter", "type": "quantitative", "scale": {"domain": [0, 1], "range": [8, -8]}},
+        "tooltip": [
+          {"field": "product_name", "type": "nominal", "title": "Product"},
+          {"field": "brand", "type": "nominal", "title": "Brand"},
+          {"field": "price_usd", "type": "quantitative", "title": "Price (US$)", "format": "$,.2f"}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "boxplot",
+        "extent": "min-max",
+        "size": 22,
+        "box": {"color": "#7656b0", "opacity": 0.28, "stroke": "#7656b0", "strokeWidth": 1.2},
+        "median": {"color": "#261b24", "strokeWidth": 2.5},
+        "rule": {"color": "#7656b0"},
+        "ticks": {"color": "#7656b0", "size": 10}
+      }
+    },
+    {
+      "description": "Annotations: what the moisturiser box means, and the cheapest typical category.",
+      "data": {
+        "values": [
+          {"category_n": "Moisturizers (551 products)", "price_shown": 82, "label": "Typical US$58; the middle half cost US$39–80"},
+          {"category_n": "Cleansers (361 products)", "price_shown": 42, "label": "Cleansers are the cheapest: typical US$34"}
+        ]
+      },
+      "mark": {"type": "text", "align": "left", "dx": 6, "dy": -15, "fontSize": 13, "fontStyle": "italic", "color": "#261b24"},
+      "encoding": {"text": {"field": "label"}}
+    }
+  ]
+}

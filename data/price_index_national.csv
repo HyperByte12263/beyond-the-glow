@@ -1,0 +1,601 @@
+date,series,index
+2010-01-01,All items,99.4
+2010-02-01,All items,99.4
+2010-03-01,All items,99.4
+2010-04-01,All items,99.4
+2010-05-01,All items,99.6
+2010-06-01,All items,99.7
+2010-07-01,All items,100.0
+2010-08-01,All items,100.3
+2010-09-01,All items,100.4
+2010-10-01,All items,100.6
+2010-11-01,All items,100.8
+2010-12-01,All items,101.2
+2011-01-01,All items,101.8
+2011-02-01,All items,102.3
+2011-03-01,All items,102.4
+2011-04-01,All items,102.6
+2011-05-01,All items,102.9
+2011-06-01,All items,103.2
+2011-07-01,All items,103.4
+2011-08-01,All items,103.6
+2011-09-01,All items,103.9
+2011-10-01,All items,104.0
+2011-11-01,All items,104.1
+2011-12-01,All items,104.2
+2012-01-01,All items,104.5
+2012-02-01,All items,104.5
+2012-03-01,All items,104.5
+2012-04-01,All items,104.5
+2012-05-01,All items,104.7
+2012-06-01,All items,104.8
+2012-07-01,All items,104.8
+2012-08-01,All items,105.0
+2012-09-01,All items,105.2
+2012-10-01,All items,105.4
+2012-11-01,All items,105.5
+2012-12-01,All items,105.5
+2013-01-01,All items,105.9
+2013-02-01,All items,106.1
+2013-03-01,All items,106.2
+2013-04-01,All items,106.3
+2013-05-01,All items,106.6
+2013-06-01,All items,106.7
+2013-07-01,All items,106.9
+2013-08-01,All items,107.0
+2013-09-01,All items,107.9
+2013-10-01,All items,108.3
+2013-11-01,All items,108.6
+2013-12-01,All items,108.9
+2014-01-01,All items,109.5
+2014-02-01,All items,109.8
+2014-03-01,All items,109.9
+2014-04-01,All items,109.9
+2014-05-01,All items,110.0
+2014-06-01,All items,110.2
+2014-07-01,All items,110.3
+2014-08-01,All items,110.5
+2014-09-01,All items,110.7
+2014-10-01,All items,111.3
+2014-11-01,All items,111.9
+2014-12-01,All items,111.8
+2015-01-01,All items,110.6
+2015-02-01,All items,109.9
+2015-03-01,All items,110.9
+2015-04-01,All items,111.9
+2015-05-01,All items,112.3
+2015-06-01,All items,113.0
+2015-07-01,All items,113.9
+2015-08-01,All items,113.9
+2015-09-01,All items,113.6
+2015-10-01,All items,114.1
+2015-11-01,All items,114.8
+2015-12-01,All items,114.8
+2016-01-01,All items,114.5
+2016-02-01,All items,114.5
+2016-03-01,All items,113.8
+2016-04-01,All items,114.3
+2016-05-01,All items,114.6
+2016-06-01,All items,114.8
+2016-07-01,All items,115.1
+2016-08-01,All items,115.6
+2016-09-01,All items,115.3
+2016-10-01,All items,115.7
+2016-11-01,All items,116.8
+2016-12-01,All items,116.8
+2017-01-01,All items,118.1
+2017-02-01,All items,119.6
+2017-03-01,All items,119.4
+2017-04-01,All items,119.2
+2017-05-01,All items,119.0
+2017-06-01,All items,118.7
+2017-07-01,All items,118.7
+2017-08-01,All items,119.8
+2017-09-01,All items,120.1
+2017-10-01,All items,120.0
+2017-11-01,All items,120.8
+2017-12-01,All items,120.9
+2018-01-01,All items,121.3
+2018-02-01,All items,121.3
+2018-03-01,All items,120.9
+2018-04-01,All items,120.9
+2018-05-01,All items,121.1
+2018-06-01,All items,119.6
+2018-07-01,All items,119.8
+2018-08-01,All items,120.0
+2018-09-01,All items,120.5
+2018-10-01,All items,120.7
+2018-11-01,All items,121.0
+2018-12-01,All items,121.1
+2019-01-01,All items,120.5
+2019-02-01,All items,120.8
+2019-03-01,All items,121.1
+2019-04-01,All items,121.1
+2019-05-01,All items,121.4
+2019-06-01,All items,121.4
+2019-07-01,All items,121.5
+2019-08-01,All items,121.8
+2019-09-01,All items,121.8
+2019-10-01,All items,122.0
+2019-11-01,All items,122.1
+2019-12-01,All items,122.3
+2020-01-01,All items,122.4
+2020-02-01,All items,122.4
+2020-03-01,All items,120.9
+2020-04-01,All items,117.6
+2020-05-01,All items,117.9
+2020-06-01,All items,119.1
+2020-07-01,All items,119.9
+2020-08-01,All items,120.1
+2020-09-01,All items,120.1
+2020-10-01,All items,120.2
+2020-11-01,All items,120.0
+2020-12-01,All items,120.6
+2021-01-01,All items,122.1
+2021-02-01,All items,122.5
+2021-03-01,All items,122.9
+2021-04-01,All items,123.1
+2021-05-01,All items,123.1
+2021-06-01,All items,123.2
+2021-07-01,All items,122.5
+2021-08-01,All items,122.5
+2021-09-01,All items,122.8
+2021-10-01,All items,123.7
+2021-11-01,All items,124.0
+2021-12-01,All items,124.5
+2022-01-01,All items,124.9
+2022-02-01,All items,125.2
+2022-03-01,All items,125.6
+2022-04-01,All items,125.9
+2022-05-01,All items,126.6
+2022-06-01,All items,127.4
+2022-07-01,All items,127.9
+2022-08-01,All items,128.2
+2022-09-01,All items,128.3
+2022-10-01,All items,128.6
+2022-11-01,All items,129.0
+2022-12-01,All items,129.2
+2023-01-01,All items,129.5
+2023-02-01,All items,129.8
+2023-03-01,All items,129.9
+2023-04-01,All items,130.0
+2023-05-01,All items,130.2
+2023-06-01,All items,130.4
+2023-07-01,All items,130.5
+2023-08-01,All items,130.7
+2023-09-01,All items,130.8
+2023-10-01,All items,130.9
+2023-11-01,All items,130.9
+2023-12-01,All items,131.2
+2024-01-01,All items,131.4
+2024-02-01,All items,132.1
+2024-03-01,All items,132.2
+2024-04-01,All items,132.4
+2024-05-01,All items,132.8
+2024-06-01,All items,133.0
+2024-07-01,All items,133.1
+2024-08-01,All items,133.2
+2024-09-01,All items,133.2
+2024-10-01,All items,133.4
+2024-11-01,All items,133.3
+2024-12-01,All items,133.4
+2025-01-01,All items,133.6
+2025-02-01,All items,134.1
+2025-03-01,All items,134.1
+2025-04-01,All items,134.3
+2025-05-01,All items,134.4
+2025-06-01,All items,134.5
+2025-07-01,All items,134.7
+2025-08-01,All items,134.9
+2025-09-01,All items,135.2
+2025-10-01,All items,135.1
+2025-11-01,All items,135.1
+2025-12-01,All items,135.5
+2026-01-01,All items,135.7
+2026-02-01,All items,136.0
+2026-03-01,All items,136.4
+2026-04-01,All items,136.9
+2026-05-01,All items,137.1
+2026-06-01,All items,137.1
+2026-07-01,All items,137.1
+2026-08-01,All items,137.5
+2010-01-01,Beauty products,100.2
+2010-01-01,Salon & grooming,99.4
+2010-02-01,Beauty products,99.7
+2010-02-01,Salon & grooming,99.8
+2010-03-01,Beauty products,99.7
+2010-03-01,Salon & grooming,99.7
+2010-04-01,Beauty products,99.9
+2010-04-01,Salon & grooming,99.6
+2010-05-01,Beauty products,99.8
+2010-05-01,Salon & grooming,99.8
+2010-06-01,Beauty products,99.8
+2010-06-01,Salon & grooming,99.9
+2010-07-01,Beauty products,99.8
+2010-07-01,Salon & grooming,100.1
+2010-08-01,Beauty products,99.9
+2010-08-01,Salon & grooming,100.2
+2010-09-01,Beauty products,100.3
+2010-09-01,Salon & grooming,100.3
+2010-10-01,Beauty products,100.4
+2010-10-01,Salon & grooming,100.3
+2010-11-01,Beauty products,100.5
+2010-11-01,Salon & grooming,100.4
+2010-12-01,Beauty products,100.1
+2010-12-01,Salon & grooming,100.5
+2011-01-01,Beauty products,100.4
+2011-01-01,Salon & grooming,101.1
+2011-02-01,Beauty products,100.5
+2011-02-01,Salon & grooming,101.2
+2011-03-01,Beauty products,100.3
+2011-03-01,Salon & grooming,101.3
+2011-04-01,Beauty products,100.2
+2011-04-01,Salon & grooming,101.5
+2011-05-01,Beauty products,100.2
+2011-05-01,Salon & grooming,101.7
+2011-06-01,Beauty products,100.4
+2011-06-01,Salon & grooming,101.7
+2011-07-01,Beauty products,101.6
+2011-07-01,Salon & grooming,101.9
+2011-08-01,Beauty products,101.3
+2011-08-01,Salon & grooming,102.1
+2011-09-01,Beauty products,101.5
+2011-09-01,Salon & grooming,102.2
+2011-10-01,Beauty products,101.7
+2011-10-01,Salon & grooming,102.2
+2011-11-01,Beauty products,102.0
+2011-11-01,Salon & grooming,102.3
+2011-12-01,Beauty products,102.0
+2011-12-01,Salon & grooming,102.6
+2012-01-01,Beauty products,102.3
+2012-01-01,Salon & grooming,103.2
+2012-02-01,Beauty products,102.2
+2012-02-01,Salon & grooming,103.4
+2012-03-01,Beauty products,102.2
+2012-03-01,Salon & grooming,103.6
+2012-04-01,Beauty products,102.4
+2012-04-01,Salon & grooming,103.6
+2012-05-01,Beauty products,102.7
+2012-05-01,Salon & grooming,103.8
+2012-06-01,Beauty products,102.6
+2012-06-01,Salon & grooming,103.9
+2012-07-01,Beauty products,103.6
+2012-07-01,Salon & grooming,105.2
+2012-08-01,Beauty products,103.1
+2012-08-01,Salon & grooming,105.6
+2012-09-01,Beauty products,103.4
+2012-09-01,Salon & grooming,105.7
+2012-10-01,Beauty products,103.2
+2012-10-01,Salon & grooming,105.9
+2012-11-01,Beauty products,103.5
+2012-11-01,Salon & grooming,106.0
+2012-12-01,Beauty products,103.2
+2012-12-01,Salon & grooming,106.0
+2013-01-01,Beauty products,104.7
+2013-01-01,Salon & grooming,106.3
+2013-02-01,Beauty products,104.4
+2013-02-01,Salon & grooming,106.7
+2013-03-01,Beauty products,104.5
+2013-03-01,Salon & grooming,106.7
+2013-04-01,Beauty products,104.3
+2013-04-01,Salon & grooming,106.7
+2013-05-01,Beauty products,104.6
+2013-05-01,Salon & grooming,106.9
+2013-06-01,Beauty products,104.2
+2013-06-01,Salon & grooming,107.1
+2013-07-01,Beauty products,104.4
+2013-07-01,Salon & grooming,107.4
+2013-08-01,Beauty products,104.7
+2013-08-01,Salon & grooming,107.6
+2013-09-01,Beauty products,105.1
+2013-09-01,Salon & grooming,107.6
+2013-10-01,Beauty products,104.7
+2013-10-01,Salon & grooming,107.8
+2013-11-01,Beauty products,105.0
+2013-11-01,Salon & grooming,107.8
+2013-12-01,Beauty products,104.9
+2013-12-01,Salon & grooming,108.1
+2014-01-01,Beauty products,105.0
+2014-01-01,Salon & grooming,109.1
+2014-02-01,Beauty products,105.5
+2014-02-01,Salon & grooming,109.7
+2014-03-01,Beauty products,105.3
+2014-03-01,Salon & grooming,110.2
+2014-04-01,Beauty products,105.3
+2014-04-01,Salon & grooming,110.3
+2014-05-01,Beauty products,105.0
+2014-05-01,Salon & grooming,110.3
+2014-06-01,Beauty products,105.4
+2014-06-01,Salon & grooming,110.6
+2014-07-01,Beauty products,105.3
+2014-07-01,Salon & grooming,110.8
+2014-08-01,Beauty products,105.7
+2014-08-01,Salon & grooming,111.0
+2014-09-01,Beauty products,106.2
+2014-09-01,Salon & grooming,111.1
+2014-10-01,Beauty products,105.7
+2014-10-01,Salon & grooming,111.5
+2014-11-01,Beauty products,106.1
+2014-11-01,Salon & grooming,111.6
+2014-12-01,Beauty products,105.9
+2014-12-01,Salon & grooming,111.8
+2015-01-01,Beauty products,106.4
+2015-01-01,Salon & grooming,112.1
+2015-02-01,Beauty products,106.5
+2015-02-01,Salon & grooming,113.0
+2015-03-01,Beauty products,106.9
+2015-03-01,Salon & grooming,113.2
+2015-04-01,Beauty products,109.4
+2015-04-01,Salon & grooming,114.1
+2015-05-01,Beauty products,109.5
+2015-05-01,Salon & grooming,114.6
+2015-06-01,Beauty products,109.6
+2015-06-01,Salon & grooming,115.2
+2015-07-01,Beauty products,110.3
+2015-07-01,Salon & grooming,115.2
+2015-08-01,Beauty products,110.6
+2015-08-01,Salon & grooming,115.2
+2015-09-01,Beauty products,110.9
+2015-09-01,Salon & grooming,115.4
+2015-10-01,Beauty products,110.5
+2015-10-01,Salon & grooming,115.8
+2015-11-01,Beauty products,110.9
+2015-11-01,Salon & grooming,116.1
+2015-12-01,Beauty products,111.0
+2015-12-01,Salon & grooming,116.6
+2016-01-01,Beauty products,111.7
+2016-01-01,Salon & grooming,117.0
+2016-02-01,Beauty products,112.1
+2016-02-01,Salon & grooming,117.6
+2016-03-01,Beauty products,112.0
+2016-03-01,Salon & grooming,117.7
+2016-04-01,Beauty products,112.1
+2016-04-01,Salon & grooming,117.9
+2016-05-01,Beauty products,111.8
+2016-05-01,Salon & grooming,118.1
+2016-06-01,Beauty products,111.8
+2016-06-01,Salon & grooming,118.3
+2016-07-01,Beauty products,111.8
+2016-07-01,Salon & grooming,118.5
+2016-08-01,Beauty products,111.9
+2016-08-01,Salon & grooming,118.6
+2016-09-01,Beauty products,112.1
+2016-09-01,Salon & grooming,118.7
+2016-10-01,Beauty products,112.0
+2016-10-01,Salon & grooming,118.8
+2016-11-01,Beauty products,112.5
+2016-11-01,Salon & grooming,118.9
+2016-12-01,Beauty products,112.1
+2016-12-01,Salon & grooming,119.1
+2017-01-01,Beauty products,112.3
+2017-01-01,Salon & grooming,119.8
+2017-02-01,Beauty products,112.6
+2017-02-01,Salon & grooming,120.3
+2017-03-01,Beauty products,112.7
+2017-03-01,Salon & grooming,120.6
+2017-04-01,Beauty products,112.9
+2017-04-01,Salon & grooming,120.8
+2017-05-01,Beauty products,112.8
+2017-05-01,Salon & grooming,120.9
+2017-06-01,Beauty products,112.4
+2017-06-01,Salon & grooming,121.0
+2017-07-01,Beauty products,113.0
+2017-07-01,Salon & grooming,121.7
+2017-08-01,Beauty products,112.5
+2017-08-01,Salon & grooming,121.9
+2017-09-01,Beauty products,112.8
+2017-09-01,Salon & grooming,122.0
+2017-10-01,Beauty products,113.0
+2017-10-01,Salon & grooming,122.2
+2017-11-01,Beauty products,112.9
+2017-11-01,Salon & grooming,122.5
+2017-12-01,Beauty products,112.8
+2017-12-01,Salon & grooming,122.7
+2018-01-01,Beauty products,113.5
+2018-01-01,Salon & grooming,123.2
+2018-02-01,Beauty products,113.0
+2018-02-01,Salon & grooming,122.7
+2018-03-01,Beauty products,113.3
+2018-03-01,Salon & grooming,122.7
+2018-04-01,Beauty products,113.6
+2018-04-01,Salon & grooming,122.7
+2018-05-01,Beauty products,113.8
+2018-05-01,Salon & grooming,122.9
+2018-06-01,Beauty products,109.3
+2018-06-01,Salon & grooming,122.3
+2018-07-01,Beauty products,109.4
+2018-07-01,Salon & grooming,122.6
+2018-08-01,Beauty products,109.2
+2018-08-01,Salon & grooming,122.6
+2018-09-01,Beauty products,109.7
+2018-09-01,Salon & grooming,122.7
+2018-10-01,Beauty products,109.9
+2018-10-01,Salon & grooming,122.9
+2018-11-01,Beauty products,110.5
+2018-11-01,Salon & grooming,123.0
+2018-12-01,Beauty products,110.5
+2018-12-01,Salon & grooming,123.2
+2019-01-01,Beauty products,110.6
+2019-01-01,Salon & grooming,123.6
+2019-02-01,Beauty products,110.5
+2019-02-01,Salon & grooming,123.7
+2019-03-01,Beauty products,111.1
+2019-03-01,Salon & grooming,123.9
+2019-04-01,Beauty products,111.3
+2019-04-01,Salon & grooming,124.1
+2019-05-01,Beauty products,111.5
+2019-05-01,Salon & grooming,124.3
+2019-06-01,Beauty products,111.9
+2019-06-01,Salon & grooming,124.4
+2019-07-01,Beauty products,112.0
+2019-07-01,Salon & grooming,124.7
+2019-08-01,Beauty products,112.2
+2019-08-01,Salon & grooming,125.0
+2019-09-01,Beauty products,112.4
+2019-09-01,Salon & grooming,125.0
+2019-10-01,Beauty products,112.1
+2019-10-01,Salon & grooming,125.0
+2019-11-01,Beauty products,113.5
+2019-11-01,Salon & grooming,125.0
+2019-12-01,Beauty products,113.3
+2019-12-01,Salon & grooming,124.9
+2020-01-01,Beauty products,113.7
+2020-01-01,Salon & grooming,125.6
+2020-02-01,Beauty products,113.5
+2020-02-01,Salon & grooming,125.7
+2020-03-01,Beauty products,113.6
+2020-03-01,Salon & grooming,125.7
+2020-04-01,Beauty products,112.0
+2020-04-01,Salon & grooming,125.8
+2020-05-01,Beauty products,112.7
+2020-05-01,Salon & grooming,125.8
+2020-06-01,Beauty products,112.6
+2020-06-01,Salon & grooming,129.4
+2020-07-01,Beauty products,112.8
+2020-07-01,Salon & grooming,130.4
+2020-08-01,Beauty products,112.5
+2020-08-01,Salon & grooming,130.9
+2020-09-01,Beauty products,112.6
+2020-09-01,Salon & grooming,131.1
+2020-10-01,Beauty products,112.5
+2020-10-01,Salon & grooming,131.4
+2020-11-01,Beauty products,112.7
+2020-11-01,Salon & grooming,131.4
+2020-12-01,Beauty products,112.7
+2020-12-01,Salon & grooming,131.5
+2021-01-01,Beauty products,112.8
+2021-01-01,Salon & grooming,131.7
+2021-02-01,Beauty products,112.6
+2021-02-01,Salon & grooming,131.8
+2021-03-01,Beauty products,112.7
+2021-03-01,Salon & grooming,132.1
+2021-04-01,Beauty products,112.7
+2021-04-01,Salon & grooming,132.5
+2021-05-01,Beauty products,112.6
+2021-05-01,Salon & grooming,132.6
+2021-06-01,Beauty products,112.8
+2021-06-01,Salon & grooming,132.6
+2021-07-01,Beauty products,112.8
+2021-07-01,Salon & grooming,132.6
+2021-08-01,Beauty products,112.8
+2021-08-01,Salon & grooming,132.6
+2021-09-01,Beauty products,113.0
+2021-09-01,Salon & grooming,132.7
+2021-10-01,Beauty products,113.2
+2021-10-01,Salon & grooming,132.3
+2021-11-01,Beauty products,113.5
+2021-11-01,Salon & grooming,132.5
+2021-12-01,Beauty products,113.6
+2021-12-01,Salon & grooming,132.7
+2022-01-01,Beauty products,113.9
+2022-01-01,Salon & grooming,134.2
+2022-02-01,Beauty products,114.0
+2022-02-01,Salon & grooming,135.0
+2022-03-01,Beauty products,114.0
+2022-03-01,Salon & grooming,135.7
+2022-04-01,Beauty products,113.9
+2022-04-01,Salon & grooming,136.2
+2022-05-01,Beauty products,114.1
+2022-05-01,Salon & grooming,137.0
+2022-06-01,Beauty products,114.9
+2022-06-01,Salon & grooming,137.4
+2022-07-01,Beauty products,115.0
+2022-07-01,Salon & grooming,137.9
+2022-08-01,Beauty products,115.4
+2022-08-01,Salon & grooming,138.6
+2022-09-01,Beauty products,115.7
+2022-09-01,Salon & grooming,139.2
+2022-10-01,Beauty products,116.4
+2022-10-01,Salon & grooming,139.2
+2022-11-01,Beauty products,116.8
+2022-11-01,Salon & grooming,139.6
+2022-12-01,Beauty products,116.6
+2022-12-01,Salon & grooming,140.2
+2023-01-01,Beauty products,116.8
+2023-01-01,Salon & grooming,140.7
+2023-02-01,Beauty products,117.3
+2023-02-01,Salon & grooming,141.5
+2023-03-01,Beauty products,117.5
+2023-03-01,Salon & grooming,141.9
+2023-04-01,Beauty products,117.2
+2023-04-01,Salon & grooming,142.2
+2023-05-01,Beauty products,117.8
+2023-05-01,Salon & grooming,142.7
+2023-06-01,Beauty products,118.2
+2023-06-01,Salon & grooming,142.9
+2023-07-01,Beauty products,118.2
+2023-07-01,Salon & grooming,143.2
+2023-08-01,Beauty products,118.4
+2023-08-01,Salon & grooming,143.7
+2023-09-01,Beauty products,118.6
+2023-09-01,Salon & grooming,143.7
+2023-10-01,Beauty products,118.8
+2023-10-01,Salon & grooming,144.0
+2023-11-01,Beauty products,118.9
+2023-11-01,Salon & grooming,144.0
+2023-12-01,Beauty products,118.7
+2023-12-01,Salon & grooming,144.7
+2024-01-01,Beauty products,118.5
+2024-01-01,Salon & grooming,144.7
+2024-02-01,Beauty products,118.9
+2024-02-01,Salon & grooming,145.5
+2024-03-01,Beauty products,118.8
+2024-03-01,Salon & grooming,145.7
+2024-04-01,Beauty products,118.9
+2024-04-01,Salon & grooming,146.5
+2024-05-01,Beauty products,119.1
+2024-05-01,Salon & grooming,146.8
+2024-06-01,Beauty products,119.0
+2024-06-01,Salon & grooming,147.1
+2024-07-01,Beauty products,119.1
+2024-07-01,Salon & grooming,148.3
+2024-08-01,Beauty products,119.6
+2024-08-01,Salon & grooming,148.5
+2024-09-01,Beauty products,119.6
+2024-09-01,Salon & grooming,148.4
+2024-10-01,Beauty products,119.5
+2024-10-01,Salon & grooming,149.2
+2024-11-01,Beauty products,119.7
+2024-11-01,Salon & grooming,150.5
+2024-12-01,Beauty products,119.3
+2024-12-01,Salon & grooming,150.8
+2025-01-01,Beauty products,119.4
+2025-01-01,Salon & grooming,150.2
+2025-02-01,Beauty products,119.8
+2025-02-01,Salon & grooming,150.3
+2025-03-01,Beauty products,119.7
+2025-03-01,Salon & grooming,151.1
+2025-04-01,Beauty products,120.0
+2025-04-01,Salon & grooming,151.9
+2025-05-01,Beauty products,119.6
+2025-05-01,Salon & grooming,152.2
+2025-06-01,Beauty products,119.7
+2025-06-01,Salon & grooming,152.2
+2025-07-01,Beauty products,119.6
+2025-07-01,Salon & grooming,152.2
+2025-08-01,Beauty products,119.9
+2025-08-01,Salon & grooming,152.4
+2025-09-01,Beauty products,119.9
+2025-09-01,Salon & grooming,152.6
+2025-10-01,Beauty products,119.7
+2025-10-01,Salon & grooming,153.2
+2025-11-01,Beauty products,119.6
+2025-11-01,Salon & grooming,153.1
+2025-12-01,Beauty products,119.5
+2025-12-01,Salon & grooming,153.3
+2026-01-01,Beauty products,119.5
+2026-01-01,Salon & grooming,154.3
+2026-02-01,Beauty products,119.1
+2026-02-01,Salon & grooming,155.3
+2026-03-01,Beauty products,118.8
+2026-03-01,Salon & grooming,155.9
+2026-04-01,Beauty products,119.2
+2026-04-01,Salon & grooming,155.5
+2026-05-01,Beauty products,119.2
+2026-05-01,Salon & grooming,155.9
+2026-06-01,Beauty products,118.9
+2026-06-01,Salon & grooming,155.9
+2026-07-01,Beauty products,119.0
+2026-07-01,Salon & grooming,155.9
+2026-08-01,Beauty products,119.1
+2026-08-01,Salon & grooming,156.5

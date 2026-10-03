@@ -1,0 +1,6 @@
+# build outputs of the data script
+scripts/prepare_data/*.exe
+# editor / OS files
+.vscode/
+Thumbs.db
+.DS_Store

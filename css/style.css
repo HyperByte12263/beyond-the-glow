@@ -1,0 +1,102 @@
+/* Beyond the Glow: page styles.
+   Colour key (lecturer feedback): one colour = one meaning across every chart.
+   Data colours live in js/theme.js too; keep the two in sync. */
+:root {
+  --bg: #faf7f8;
+  --surface: #ffffff;
+  --ink: #261b24;         /* titles, annotations (figure) */
+  --text: #3a2c36;        /* body text people must read: contrast 12:1 */
+  --muted: #6e6069;       /* secondary text only: captions, sources, byline (ground) */
+  --line: #e4dce1;
+  --ui: #5b4256;          /* headings and UI only, never in charts */
+
+  --c-trade: #c08a1e;     /* C1-C3 */
+  --c-price: #1d8072;     /* C4-C5 */
+  --c-product: #7656b0;   /* C6-C8, C12 highlight */
+  --c-ingred: #a3442c;    /* C9-C10 */
+  --c-oily: #4f5f0c;      /* C11: dark olive, as in oil (darker = the focus group) */
+  --c-dry: #5f8ccc;       /* C11 */
+  --c-ctx: #c4bcc1;       /* context everywhere */
+
+  --display: "Gloock", Georgia, serif;
+  --body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+html { background: var(--bg); }
+body { margin: 0; color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.6; }
+
+/* One centred column, max 1100 px, with a 24 px gutter: no horizontal scrolling on small laptops. */
+.page { max-width: 1100px; margin: 0 auto; padding: 48px 24px 64px; }
+
+h1, h2, h3 { font-family: var(--display); font-weight: 400; line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2.6rem, 6vw, 4.2rem); }
+h2 { font-size: 1.9rem; }
+/* Hierarchy: page title > section title > chart title (21px, js/theme.js) > side-text heading (18px) > body (17px). */
+h3 { font-size: 1.1rem; margin-bottom: 6px; }
+/* About 60 characters (7 to 10 words) per line, as the typography notes recommend. */
+p { margin: 0 0 12px; max-width: 27em; }
+a { color: var(--ui); }
+
+.eyebrow { text-transform: uppercase; letter-spacing: .1em; font-size: .8rem; font-weight: 600; color: var(--ui); margin-bottom: 8px; }
+.muted { color: var(--muted); }
+
+/* Hero */
+.hero { padding-bottom: 32px; margin-bottom: 48px; border-bottom: 1px solid var(--line); }
+.subtitle { font-size: 1.25rem; color: var(--muted); max-width: 55ch; margin-top: 12px; }
+.byline { font-size: .85rem; color: var(--muted); }
+.stats { margin: 24px 0 16px; }
+.stat { font-size: .9rem; color: var(--muted); padding-right: 24px; }
+.stat b { display: block; font-family: var(--display); font-weight: 400; font-size: 2.2rem; color: var(--ink); line-height: 1.1; }
+.caveat { font-size: .85rem; color: var(--muted); border-left: 3px solid var(--line); padding-left: 12px; }
+
+/* Sections */
+section { margin-bottom: 64px; }
+.section-title { display: flex; align-items: baseline; gap: 14px; margin-bottom: 16px; }
+.section-title span { font-family: var(--body); font-size: .9rem; font-weight: 600; color: var(--ui); border: 1px solid var(--ui); border-radius: 50%; width: 1.9em; height: 1.9em; display: inline-grid; place-items: center; flex: none; transform: translateY(-4px); }
+.lede { color: var(--text); margin-bottom: 8px; }
+.row { margin-bottom: 32px; align-items: center; }
+/* Sight-lines: side text keeps the page's left/right edges and only gets space on the side facing the chart. */
+.text { box-sizing: border-box; }
+.row > .text:first-child { padding: 0 32px 0 0; }
+.row > .text:last-child { padding: 0 0 0 32px; }
+.text p { color: var(--text); }
+
+/* Coloured words act as the colour key in the text (same hue as the chart, darkened where needed for 4.5:1 contrast). */
+.k { font-weight: 600; }
+.k-trade { color: #8a6212; }
+.k-price { color: #1d8072; }
+.k-product { color: #7656b0; }
+.k-ingred { color: #a3442c; }
+.k-oily { color: #4f5f0c; }
+.k-dry { color: #3d6aa8; }
+
+/* Chart containers */
+.vis { width: 100%; min-height: 120px; }
+.vis .vega-embed { width: 100%; }
+/* Per-chart metadata: small and grey (ground), directly under its chart. */
+.source { font-size: .8rem; line-height: 1.45; color: var(--muted); margin: 6px 0 0; max-width: none; }
+.vis .placeholder { border: 1px dashed var(--line); border-radius: 8px; padding: 32px; text-align: center; color: var(--muted); font-size: .9rem; }
+
+/* Takeaways */
+.takeaways { margin: 16px -12px 8px; }
+.tip { margin: 0 12px 24px; padding: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; height: calc(100% - 24px); box-sizing: border-box; }
+.tip-num { display: inline-grid; place-items: center; width: 1.9em; height: 1.9em; border-radius: 50%; border: 1px solid var(--ui); color: var(--ui); font-weight: 600; font-size: .9rem; margin-bottom: 10px; }
+.tip h3 { margin-bottom: 8px; }
+.tip p { color: var(--text); font-size: .95rem; margin: 0; }
+
+/* Tooltips: the value is the figure (bold, dark), the field name is ground (small, grey). */
+#vg-tooltip-element { font-family: var(--body); font-size: 13px; border: 1px solid var(--line); border-radius: 6px; box-shadow: 0 4px 14px rgba(38, 27, 36, .12); }
+#vg-tooltip-element table tr td.key { color: var(--muted); font-weight: 400; }
+#vg-tooltip-element table tr td.value { color: var(--ink); font-weight: 600; }
+.small { font-size: .85rem; }
+
+/* Footer */
+.footer { border-top: 1px solid var(--line); padding-top: 32px; font-size: .9rem; }
+.footer h2 { margin-bottom: 12px; }
+.footer h3 { margin-top: 24px; }
+.sources { padding-left: 18px; color: var(--muted); }
+.sources li { margin-bottom: 6px; }
+
+@media (max-width: 767px) {
+  .row > .text:first-child, .row > .text:last-child { padding: 16px 0 0; }
+}

@@ -1,0 +1,152 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "C7 scatterplot linked to a histogram: price vs average rating for skincare products with 30+ reviews. Brushing the scatterplot filters the histogram.",
+  "title": {
+    "text": "Paying more barely changes the rating",
+    "subtitle": [
+      "1,812 skincare products with 30+ reviews. Products under US$25 average 4.17★; those over US$250 average 4.24★.",
+      "Drag across the left chart to select products. On the right, purple bars show how the selection is rated; grey bars show all products."
+    ]
+  },
+  "data": {
+    "url": "data/skincare_products.csv",
+    "format": {"parse": {"price_usd": "number", "rating": "number", "reviews": "number", "loves": "number"}}
+  },
+  "params": [
+    {
+      "name": "category",
+      "value": "All",
+      "bind": {
+        "input": "select",
+        "options": ["All", "Moisturizers", "Treatments", "Cleansers", "Eye Care", "Masks", "Sunscreen"],
+        "name": "Product type: "
+      }
+    }
+  ],
+  "transform": [
+    {"filter": "datum.reviews >= 30"},
+    {"filter": "category == 'All' || datum.category == category"},
+    {"calculate": "min(datum.price_usd, 250)", "as": "price_shown"},
+    {"calculate": "floor(datum.rating * 4) / 4", "as": "rating_bin"}
+  ],
+  "hconcat": [
+    {
+      "width": 680,
+      "height": 320,
+      "encoding": {
+        "x": {
+          "field": "price_shown",
+          "type": "quantitative",
+          "title": "Price (US$)",
+          "scale": {"domain": [0, 250]},
+          "axis": {"values": [0, 50, 100, 150, 200, 250], "labelExpr": "datum.value == 250 ? '250+' : datum.value"}
+        },
+        "y": {
+          "field": "rating",
+          "type": "quantitative",
+          "title": "Average rating (★)",
+          "scale": {"domain": [2, 5]},
+          "axis": {"values": [2, 3, 4, 5]}
+        }
+      },
+      "layer": [
+      {
+        "description": "Annotation band: 64% of these products average 4 to 4.6 stars (63% of those under US$25, 54% of those over US$100).",
+        "data": {"values": [{"x0": 0, "x1": 250, "lo": 4, "hi": 4.6}]},
+        "mark": {"type": "rect", "color": "#e6def3"},
+        "encoding": {"x": {"field": "x0", "type": "quantitative"}, "x2": {"field": "x1"}, "y": {"field": "lo", "type": "quantitative"}, "y2": {"field": "hi"}, "tooltip": null}
+      },
+      {
+        "data": {"values": [{"x": 248, "y": 2.35, "label": "Most products (64%) average 4–4.6★, cheap or expensive."}, {"x": 248, "y": 2.15, "label": "The shaded band marks that range."}]},
+        "mark": {"type": "text", "align": "right", "fontSize": 13, "fontStyle": "italic", "color": "#261b24"},
+        "encoding": {"x": {"field": "x", "type": "quantitative"}, "y": {"field": "y", "type": "quantitative"}, "text": {"field": "label"}}
+      },
+      {
+      "params": [{"name": "brush", "select": {"type": "interval", "encodings": ["x"]}}],
+      "mark": {"type": "circle", "size": 22},
+      "encoding": {
+        "color": {
+          "condition": {"param": "brush", "empty": false, "value": "#7656b0"},
+          "value": "#c4bcc1"
+        },
+        "opacity": {
+          "condition": {"param": "brush", "empty": false, "value": 0.85},
+          "value": 0.6
+        },
+        "tooltip": [
+          {"field": "product_name", "type": "nominal", "title": "Product"},
+          {"field": "brand", "type": "nominal", "title": "Brand"},
+          {"field": "price_usd", "type": "quantitative", "title": "Price (US$)", "format": "$,.2f"},
+          {"field": "rating", "type": "quantitative", "title": "Average rating", "format": ".2f"},
+          {"field": "reviews", "type": "quantitative", "title": "Reviews", "format": ","}
+        ]
+      }
+      }
+      ]
+    },
+    {
+      "width": 220,
+      "height": 320,
+      "layer": [
+        {
+          "description": "All products (grey): share of products in each rating band, so groups of any size compare fairly.",
+          "transform": [
+            {"aggregate": [{"op": "count", "as": "n"}], "groupby": ["rating_bin"]},
+            {"joinaggregate": [{"op": "sum", "field": "n", "as": "total"}]},
+            {"calculate": "100 * datum.n / datum.total", "as": "pct"}
+          ],
+          "mark": {"type": "bar", "color": "#e4dce1", "cornerRadiusEnd": 2},
+          "encoding": {
+            "y": {
+              "field": "rating_bin",
+              "type": "ordinal",
+              "title": "Average rating (★)",
+              "sort": "descending",
+              "axis": {"labelExpr": "format(datum.value, '.2f')"}
+            },
+            "x": {
+              "field": "pct",
+              "type": "quantitative",
+              "title": "% of products",
+              "scale": {"domain": [0, 50], "clamp": true},
+              "axis": {"values": [0, 25, 50]}
+            },
+            "tooltip": [
+              {"field": "rating_bin", "type": "quantitative", "title": "Rating band from", "format": ".2f"},
+              {"field": "pct", "type": "quantitative", "title": "% of all products", "format": ".1f"}
+            ]
+          }
+        },
+        {
+          "description": "Selected products (violet, thinner bars on top). Nothing is highlighted until the reader selects.",
+          "transform": [
+            {"filter": {"param": "brush", "empty": false}},
+            {"aggregate": [{"op": "count", "as": "n"}], "groupby": ["rating_bin"]},
+            {"joinaggregate": [{"op": "sum", "field": "n", "as": "total"}]},
+            {"calculate": "100 * datum.n / datum.total", "as": "pct"}
+          ],
+          "mark": {"type": "bar", "color": "#7656b0", "cornerRadiusEnd": 2, "height": {"band": 0.45}},
+          "encoding": {
+            "y": {"field": "rating_bin", "type": "ordinal", "sort": "descending"},
+            "x": {"field": "pct", "type": "quantitative"},
+            "tooltip": [
+              {"field": "rating_bin", "type": "quantitative", "title": "Rating band from", "format": ".2f"},
+              {"field": "pct", "type": "quantitative", "title": "% of selected products", "format": ".1f"}
+            ]
+          }
+        },
+        {
+          "description": "Average rating of the selection.",
+          "transform": [
+            {"filter": {"param": "brush", "empty": false}},
+            {"aggregate": [{"op": "mean", "field": "rating", "as": "avg"}, {"op": "count", "as": "n"}]},
+            {"calculate": "['Selected: ' + datum.n + ' products', 'average ' + format(datum.avg, '.2f') + '★']", "as": "label"}
+          ],
+          "mark": {"type": "text", "align": "left", "x": 0, "y": -26, "fontSize": 13, "fontWeight": 600, "color": "#7656b0"},
+          "encoding": {"text": {"field": "label"}}
+        }
+      ]
+    }
+  ],
+  "spacing": 40
+}

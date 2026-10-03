@@ -1,0 +1,90 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "C9 heatmap: % of skincare products in each category whose Sephora label highlights an ingredient or claim.",
+  "title": {
+    "text": "What each product type advertises on the label",
+    "subtitle": [
+      "% of products that list it as a highlight; darker squares mean more products.",
+      "This shows what is advertised, not every ingredient inside."
+    ]
+  },
+  "width": "container",
+  "height": 300,
+  "data": {
+    "url": "data/skincare_products.csv",
+    "format": {"parse": {"price_usd": "number", "rating": "number", "reviews": "number", "loves": "number"}}
+  },
+  "transform": [
+    {"filter": {"field": "category", "oneOf": ["Moisturizers", "Treatments", "Cleansers", "Eye Care", "Masks", "Sunscreen"]}},
+    {"calculate": "'|' + (datum.highlights || '') + '|'", "as": "tags"},
+    {"calculate": "indexof(datum.tags, '|Hyaluronic Acid|') >= 0 ? 100 : 0", "as": "Hyaluronic acid · holds moisture"},
+    {"calculate": "indexof(datum.tags, '|Vitamin C|') >= 0 ? 100 : 0", "as": "Vitamin C · brightens"},
+    {"calculate": "indexof(datum.tags, '|Niacinamide|') >= 0 ? 100 : 0", "as": "Niacinamide · evens skin tone"},
+    {"calculate": "indexof(datum.tags, '|AHA/Glycolic Acid|') >= 0 ? 100 : 0", "as": "AHA / glycolic acid · exfoliates"},
+    {"calculate": "indexof(datum.tags, '|Salicylic Acid|') >= 0 ? 100 : 0", "as": "Salicylic acid · unclogs pores"},
+    {"calculate": "indexof(datum.tags, '|Retinol|') >= 0 ? 100 : 0", "as": "Retinol · smooths fine lines"},
+    {"calculate": "indexof(datum.tags, '|Oil Free|') >= 0 ? 100 : 0", "as": "Oil-free · no added oils"},
+    {"calculate": "indexof(datum.tags, '|Alcohol Free|') >= 0 ? 100 : 0", "as": "Alcohol-free · no drying alcohol"},
+    {
+      "fold": [
+        "Hyaluronic acid · holds moisture", "Vitamin C · brightens", "Niacinamide · evens skin tone", "AHA / glycolic acid · exfoliates",
+        "Salicylic acid · unclogs pores", "Retinol · smooths fine lines", "Oil-free · no added oils", "Alcohol-free · no drying alcohol"
+      ],
+      "as": ["tag", "has"]
+    },
+    {"aggregate": [{"op": "mean", "field": "has", "as": "pct"}, {"op": "count", "as": "products"}], "groupby": ["category", "tag"]},
+    {"calculate": "round(datum.pct * datum.products / 100)", "as": "with_tag"}
+  ],
+  "encoding": {
+    "x": {
+      "field": "category",
+      "type": "nominal",
+      "title": null,
+      "sort": ["Moisturizers", "Treatments", "Cleansers", "Eye Care", "Masks", "Sunscreen"],
+      "axis": {"orient": "top", "labelAngle": 0, "domain": false, "ticks": false, "labelColor": "#261b24"}
+    },
+    "y": {
+      "field": "tag",
+      "type": "nominal",
+      "title": null,
+      "sort": {"op": "mean", "field": "pct", "order": "descending"},
+      "axis": {"domain": false, "ticks": false, "labelLimit": 240, "labelColor": "#261b24", "labelFontSize": 13}
+    }
+  },
+  "layer": [
+    {
+      "mark": {"type": "rect", "stroke": "#ffffff", "strokeWidth": 2, "cornerRadius": 3},
+      "encoding": {
+        "color": {
+          "field": "pct",
+          "type": "quantitative",
+          "title": "% of products",
+          "scale": {
+            "type": "threshold",
+            "domain": [0.5, 5, 10, 15, 20],
+            "range": ["#efeaec", "#f6e8d4", "#eec7a2", "#dd9a76", "#c2684e", "#a3442c"]
+          },
+          "legend": null
+        },
+        "tooltip": [
+          {"field": "tag", "type": "nominal", "title": "Advertised"},
+          {"field": "category", "type": "nominal", "title": "Product type"},
+          {"field": "pct", "type": "quantitative", "title": "% of products", "format": ".1f"},
+          {"field": "with_tag", "type": "quantitative", "title": "Products"},
+          {"field": "products", "type": "quantitative", "title": "Of"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "fontSize": 12},
+      "encoding": {
+        "text": {"field": "pct", "type": "quantitative", "format": ".0f"},
+        "color": {
+          "condition": {"test": "datum.pct >= 20", "value": "#ffffff"},
+          "value": "#261b24"
+        }
+      }
+    }
+  ],
+  "config": {"axis": {"labelPadding": 8}}
+}

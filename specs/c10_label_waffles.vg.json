@@ -1,0 +1,58 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "C10 waffle charts: share of skincare products carrying four common labels. Each grid has 100 squares, one per 1% of products.",
+  "title": {
+    "text": "Only about 1 in 9 skincare products is fragrance-free",
+    "subtitle": [
+      "Each grid has 100 squares, one for every 1% of 2,420 skincare products.",
+      "A product can carry several labels, so don't add them up.",
+      "*\"Clean at Sephora\" is Sephora's own label, not an official standard."
+    ]
+  },
+  "data": {"url": "data/skincare_products.csv"},
+  "transform": [
+    {"calculate": "'|' + (datum.highlights || '') + '|'", "as": "tags"},
+    {"calculate": "indexof(datum.tags, '|Clean at Sephora|') >= 0 ? 1 : 0", "as": "Clean at Sephora*"},
+    {"calculate": "indexof(datum.tags, '|Vegan|') >= 0 ? 1 : 0", "as": "Vegan"},
+    {"calculate": "indexof(datum.tags, '|Cruelty-Free|') >= 0 ? 1 : 0", "as": "Cruelty-free"},
+    {"calculate": "indexof(datum.tags, '|Fragrance Free|') >= 0 ? 1 : 0", "as": "Fragrance-free"},
+    {"fold": ["Clean at Sephora*", "Vegan", "Cruelty-free", "Fragrance-free"], "as": ["label", "has"]},
+    {"aggregate": [{"op": "mean", "field": "has", "as": "share"}, {"op": "sum", "field": "has", "as": "n"}], "groupby": ["label"]},
+    {"calculate": "round(datum.share * 100)", "as": "pct"},
+    {"calculate": "datum.label + ': ' + datum.pct + '%'", "as": "heading"},
+    {"calculate": "sequence(0, 100)", "as": "cell"},
+    {"flatten": ["cell"]},
+    {"calculate": "datum.cell % 10", "as": "col"},
+    {"calculate": "floor(datum.cell / 10)", "as": "row"},
+    {"calculate": "datum.cell < datum.pct", "as": "filled"}
+  ],
+  "facet": {
+    "column": {
+      "field": "heading",
+      "type": "nominal",
+      "title": null,
+      "sort": {"field": "pct", "order": "descending"},
+      "header": {"labelExpr": "split(datum.value, ': ')", "labelFontSize": 13, "labelFontWeight": 600, "labelColor": "#261b24", "labelOrient": "bottom", "labelPadding": 8}
+    }
+  },
+  "spec": {
+    "width": 145,
+    "height": 145,
+    "mark": {"type": "rect", "cornerRadius": 2, "stroke": "#ffffff", "strokeWidth": 2},
+    "encoding": {
+      "x": {"field": "col", "type": "ordinal", "axis": null},
+      "y": {"field": "row", "type": "ordinal", "axis": null, "sort": "descending"},
+      "color": {
+        "condition": {"test": "datum.filled", "value": "#a3442c"},
+        "value": "#efeaec"
+      },
+      "tooltip": [
+        {"field": "label", "type": "nominal", "title": "Label"},
+        {"field": "pct", "type": "quantitative", "title": "% of skincare products"},
+        {"field": "n", "type": "quantitative", "title": "Products", "format": ","}
+      ]
+    }
+  },
+  "resolve": {"scale": {"x": "independent", "y": "independent"}},
+  "spacing": 22
+}

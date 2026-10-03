@@ -1,0 +1,91 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "C5 indexed line chart: national price indexes (2010 = 100) for all items, personal-care products and personal grooming services.",
+  "title": {
+    "text": "Beauty products got cheaper compared with everything else",
+    "subtitle": "Price index, 2010 = 100. A value of 150 means prices are 50% higher than in 2010."
+  },
+  "width": "container",
+  "height": 320,
+  "data": {
+    "url": "data/price_index_national.csv",
+    "format": {"parse": {"date": "date", "index": "number"}}
+  },
+  "encoding": {
+    "x": {
+      "field": "date",
+      "type": "temporal",
+      "title": null,
+      "axis": {"format": "%Y", "tickCount": 8, "grid": false}
+    },
+    "y": {
+      "field": "index",
+      "type": "quantitative",
+      "title": "Price index (2010 = 100)",
+      "scale": {"domain": [90, 165], "zero": false},
+      "axis": {"values": [100, 120, 140, 160]}
+    }
+  },
+  "layer": [
+    {
+      "description": "Baseline: 2010 prices.",
+      "data": {"values": [{"index": 100}]},
+      "mark": {"type": "rule", "color": "#b7adb3", "strokeDash": [2, 2]},
+      "encoding": {"x": null, "y": {"field": "index", "type": "quantitative"}}
+    },
+    {
+      "description": "COVID-19 movement control order began 18 March 2020.",
+      "data": {
+        "values": [{"date": "2020-03-18", "label": "COVID-19 lockdown"}],
+        "format": {"parse": {"date": "date"}}
+      },
+      "layer": [
+        {"mark": {"type": "rule", "color": "#b7adb3", "strokeDash": [4, 3]}, "encoding": {"y": null}},
+        {
+          "mark": {"type": "text", "align": "right", "dx": -5, "y": 8, "color": "#6e6069", "fontSize": 12},
+          "encoding": {"y": null, "text": {"field": "label"}}
+        }
+      ]
+    },
+    {
+      "mark": {"type": "line", "interpolate": "monotone"},
+      "encoding": {
+        "strokeWidth": {"condition": {"test": "datum.series == 'Beauty products'", "value": 3.5}, "value": 2.2},
+        "color": {
+          "field": "series",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Salon & grooming", "All items", "Beauty products"],
+            "range": ["#4fa596", "#c4bcc1", "#125e54"]
+          },
+          "legend": null
+        },
+        "strokeDash": {
+          "field": "series",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Salon & grooming", "All items", "Beauty products"],
+            "range": [[6, 3], [1, 0], [1, 0]]
+          },
+          "legend": null
+        },
+        "tooltip": [
+          {"field": "series", "type": "nominal", "title": "Prices of"},
+          {"field": "date", "type": "temporal", "title": "Month", "format": "%b %Y"},
+          {"field": "index", "type": "quantitative", "title": "Index (2010 = 100)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "description": "Direct labels at the end of each line instead of a legend.",
+      "transform": [
+        {"joinaggregate": [{"op": "max", "field": "date", "as": "last"}]},
+        {"filter": "time(datum.date) == time(datum.last)"},
+        {"calculate": "datum.series + ' +' + format(datum.index - 100, '.0f') + '%'", "as": "label"}
+      ],
+      "mark": {"type": "text", "align": "left", "dx": 8, "fontSize": 13, "fontWeight": 600},
+      "encoding": {"text": {"field": "label"}}
+    }
+  ],
+  "padding": {"right": 160}
+}

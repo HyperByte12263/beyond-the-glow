@@ -1,0 +1,130 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "C2 bump chart: rank of Malaysia's top 8 HS 3304 import suppliers each year, 2015–2024.",
+  "title": {
+    "text": ["Singapore climbed from 6th to 1st supplier", "(7% → 30% of imports)"],
+    "subtitle": [
+      "Rank of each country among Malaysia's make-up and skincare suppliers",
+      "by import value, 1st at the top. Hover a line to follow one country."
+    ]
+  },
+  "width": "container",
+  "height": 330,
+  "data": {"url": "data/trade_imports.csv", "format": {"parse": {"year": "number", "value_usd": "number", "share_pct": "number", "lat": "number", "lon": "number"}}},
+  "transform": [
+    {
+      "window": [{"op": "rank", "as": "rank"}],
+      "sort": [{"field": "value_usd", "order": "descending"}],
+      "groupby": ["year"]
+    },
+    {"filter": {"field": "partner", "oneOf": ["Singapore", "South Korea", "China", "USA", "France", "Thailand", "Japan", "Indonesia"]}},
+    {"calculate": "min(datum.rank, 9)", "as": "rank_shown"},
+    {"calculate": "datum.value_usd / 1e6", "as": "value_m"},
+    {"calculate": "datum.partner == 'Singapore'", "as": "is_singapore"}
+  ],
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "quantitative",
+      "title": null,
+      "scale": {"domain": [2015, 2024]},
+      "axis": {"format": "d", "values": [2015, 2018, 2021, 2024], "grid": false, "domain": false, "ticks": false, "labelPadding": 8}
+    },
+    "y": {
+      "field": "rank_shown",
+      "type": "quantitative",
+      "scale": {"domain": [0.5, 9.5], "reverse": true},
+      "axis": null
+    },
+    "detail": {"field": "partner"}
+  },
+  "layer": [
+    {
+      "description": "COVID-19 year.",
+      "data": {"values": [{"year": 2020, "label": "COVID-19"}]},
+      "layer": [
+        {"mark": {"type": "rule", "color": "#c4bcc1", "strokeDash": [4, 3]}, "encoding": {"y": null, "detail": null}},
+        {"mark": {"type": "text", "y": -6, "fontSize": 13, "color": "#6e6069"}, "encoding": {"y": null, "detail": null, "text": {"field": "label"}}}
+      ]
+    },
+    {
+      "params": [
+        {"name": "hover", "select": {"type": "point", "fields": ["partner"], "on": "mouseover", "clear": "mouseout"}}
+      ],
+      "mark": {"type": "line", "strokeCap": "round", "strokeJoin": "round"},
+      "encoding": {
+        "color": {
+          "condition": {"test": "datum.is_singapore", "value": "#c08a1e"},
+          "value": "#c4bcc1"
+        },
+        "strokeWidth": {
+          "condition": [
+            {"param": "hover", "empty": false, "value": 4},
+            {"test": "datum.is_singapore", "value": 4}
+          ],
+          "value": 2
+        },
+        "opacity": {
+          "condition": {"param": "hover", "value": 1},
+          "value": 0.35
+        }
+      }
+    },
+    {
+      "mark": {"type": "circle", "size": 50, "opacity": 1},
+      "encoding": {
+        "color": {
+          "condition": {"test": "datum.is_singapore", "value": "#c08a1e"},
+          "value": "#b7adb3"
+        },
+        "opacity": {
+          "condition": {"param": "hover", "value": 1},
+          "value": 0.35
+        },
+        "tooltip": [
+          {"field": "partner", "type": "nominal", "title": "Country"},
+          {"field": "year", "type": "quantitative", "title": "Year", "format": "d"},
+          {"field": "rank", "type": "quantitative", "title": "Rank"},
+          {"field": "value_m", "type": "quantitative", "title": "Imports (US$ M)", "format": ",.1f"},
+          {"field": "share_pct", "type": "quantitative", "title": "Share of imports (%)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "description": "Annotations on the turning points.",
+      "data": {
+        "values": [
+          {"year": 2018.5, "rank_shown": 0.45, "label": "France led in 2018–19"},
+          {"year": 2023.2, "rank_shown": 2.55, "label": "China jumps to 3rd"}
+        ]
+      },
+      "mark": {"type": "text", "fontSize": 12, "fontStyle": "italic", "color": "#261b24"},
+      "encoding": {"text": {"field": "label"}, "detail": null}
+    },
+    {
+      "description": "Rank and name on the left (2015). These labels replace a rank axis, so nothing collides.",
+      "transform": [
+        {"filter": "datum.year == 2015"},
+        {"calculate": "(datum.rank <= 8 ? datum.rank + '. ' + datum.partner : datum.partner + ' (9th+)') + '  ' + format(datum.share_pct, '.0f') + '%'", "as": "label"}
+      ],
+      "mark": {"type": "text", "align": "right", "dx": -10, "fontSize": 12},
+      "encoding": {
+        "text": {"field": "label"},
+        "fontWeight": {"condition": {"test": "datum.is_singapore", "value": 700}, "value": 400}
+      }
+    },
+    {
+      "description": "Rank and name on the right (2024).",
+      "transform": [
+        {"filter": "datum.year == 2024"},
+        {"calculate": "datum.rank + '. ' + datum.partner + '  ' + format(datum.share_pct, '.0f') + '%'", "as": "label"}
+      ],
+      "mark": {"type": "text", "align": "left", "dx": 10, "fontSize": 12},
+      "encoding": {
+        "text": {"field": "label"},
+        "fontWeight": {"condition": {"test": "datum.is_singapore", "value": 700}, "value": 400}
+      }
+    }
+  ],
+  "padding": {"left": 125, "right": 125, "top": 10}
+}

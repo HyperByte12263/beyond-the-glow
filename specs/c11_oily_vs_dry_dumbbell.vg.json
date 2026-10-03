@@ -1,0 +1,120 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "C11 dumbbell (connected dot plot): average rating from oily-skin vs dry-skin reviewers for the skincare products where the two groups disagree most.",
+  "title": {
+    "text": "Where oily and dry skin disagree",
+    "subtitle": [
+      "Most products (72%) score within 0.2★ for both skin types. These are the biggest exceptions,",
+      "among products with 30+ reviews from each skin type."
+    ]
+  },
+  "data": {
+    "url": "data/skin_ratings.csv",
+    "format": {"parse": {"reviews": "number", "avg_rating": "number", "pct_recommended": "number"}}
+  },
+  "transform": [
+    {"filter": {"field": "skin_type", "oneOf": ["oily", "dry"]}},
+    {"calculate": "datum.skin_type == 'oily' ? datum.avg_rating : null", "as": "r_oily"},
+    {"calculate": "datum.skin_type == 'oily' ? datum.reviews : null", "as": "n_oily"},
+    {"calculate": "datum.skin_type == 'dry' ? datum.avg_rating : null", "as": "r_dry"},
+    {"calculate": "datum.skin_type == 'dry' ? datum.reviews : null", "as": "n_dry"},
+    {
+      "aggregate": [
+        {"op": "max", "field": "r_oily", "as": "r_oily"},
+        {"op": "max", "field": "n_oily", "as": "n_oily"},
+        {"op": "max", "field": "r_dry", "as": "r_dry"},
+        {"op": "max", "field": "n_dry", "as": "n_dry"}
+      ],
+      "groupby": ["product_id"]
+    },
+    {"filter": "datum.n_oily >= 30 && datum.n_dry >= 30"},
+    {
+      "lookup": "product_id",
+      "from": {"data": {"url": "data/skincare_products.csv"}, "key": "product_id", "fields": ["product_name", "brand", "category"]}
+    },
+    {"filter": {"field": "category", "oneOf": ["Moisturizers", "Treatments", "Cleansers", "Eye Care", "Masks", "Sunscreen"]}},
+    {"calculate": "datum.r_oily - datum.r_dry", "as": "gap"},
+    {"window": [{"op": "row_number", "as": "low_rank"}], "sort": [{"field": "gap", "order": "ascending"}]},
+    {"window": [{"op": "row_number", "as": "high_rank"}], "sort": [{"field": "gap", "order": "descending"}]},
+    {"filter": "datum.low_rank <= 5 || datum.high_rank <= 5"},
+    {"calculate": "datum.brand + ' – ' + datum.product_name", "as": "full_name"},
+    {"calculate": "length(datum.full_name) > 42 ? substring(datum.full_name, 0, 40) + '…' : datum.full_name", "as": "name"},
+    {"calculate": "abs(datum.gap)", "as": "abs_gap"},
+    {"calculate": "datum.gap < 0 ? 'Oily skin rates it lower' : 'Oily skin rates it higher'", "as": "group"}
+  ],
+  "facet": {
+    "row": {
+      "field": "group",
+      "type": "nominal",
+      "title": null,
+      "sort": ["Oily skin rates it lower", "Oily skin rates it higher"],
+      "header": {"labelAngle": 0, "labelOrient": "top", "labelAnchor": "start", "labelFontSize": 13, "labelFontWeight": 600, "labelColor": "#261b24", "labelPadding": 6}
+    }
+  },
+  "spec": {
+    "width": 420,
+    "encoding": {
+      "y": {
+        "field": "name",
+        "type": "nominal",
+        "title": null,
+        "sort": {"field": "abs_gap", "order": "descending"},
+        "axis": {"domain": false, "ticks": false, "labelLimit": 280, "labelColor": "#261b24", "labelFontSize": 13}
+      }
+    },
+    "layer": [
+      {
+        "mark": {"type": "rule", "color": "#c4bcc1", "strokeWidth": 3},
+        "encoding": {
+          "x": {"field": "r_dry", "type": "quantitative", "scale": {"domain": [2.8, 5], "zero": false}},
+          "x2": {"field": "r_oily"}
+        }
+      },
+      {
+        "transform": [
+          {"fold": ["r_oily", "r_dry"], "as": ["who", "rating"]},
+          {"calculate": "datum.who == 'r_oily' ? 'Oily skin' : 'Dry skin'", "as": "reviewers"},
+          {"calculate": "datum.who == 'r_oily' ? datum.n_oily : datum.n_dry", "as": "n"}
+        ],
+        "mark": {"type": "circle", "size": 110, "opacity": 1, "stroke": "#ffffff", "strokeWidth": 1.5},
+        "encoding": {
+          "x": {
+            "field": "rating",
+            "type": "quantitative",
+            "title": "Average rating (★)",
+            "scale": {"domain": [2.8, 5]},
+            "axis": {"values": [3, 3.5, 4, 4.5, 5], "grid": true}
+          },
+          "color": {
+            "field": "reviewers",
+            "type": "nominal",
+            "title": null,
+            "scale": {"domain": ["Oily skin", "Dry skin"], "range": ["#4f5f0c", "#5f8ccc"]},
+            "legend": {"orient": "top", "direction": "horizontal", "symbolSize": 140, "labelFontSize": 13}
+          },
+          "tooltip": [
+            {"field": "full_name", "type": "nominal", "title": "Product"},
+            {"field": "reviewers", "type": "nominal", "title": "Reviewers with"},
+            {"field": "rating", "type": "quantitative", "title": "Average rating", "format": ".2f"},
+            {"field": "n", "type": "quantitative", "title": "Reviews"}
+          ]
+        }
+      },
+      {
+        "description": "Direct labels on the first row, so readers don't depend on the colour key.",
+        "transform": [
+          {"filter": "datum.low_rank == 1"},
+          {"fold": ["r_oily", "r_dry"], "as": ["who", "rating"]},
+          {"calculate": "datum.who == 'r_oily' ? 'oily' : 'dry'", "as": "who_label"}
+        ],
+        "mark": {"type": "text", "dy": -13, "fontSize": 13, "fontWeight": 600, "color": "#261b24"},
+        "encoding": {
+          "x": {"field": "rating", "type": "quantitative"},
+          "text": {"field": "who_label"}
+        }
+      }
+    ]
+  },
+  "resolve": {"scale": {"y": "independent"}},
+  "spacing": 18
+}

@@ -1,0 +1,125 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "description": "C8 treemap (Vega): number of Sephora products by category, split into each category's top 5 brands and all other brands.",
+  "title": {
+    "text": "304 brands, and none owns the shelf",
+    "subtitle": [
+      "Area = number of products listed (not sales).",
+      "Purple = skincare, the focus of this page; grey = other categories.",
+      "Darker blocks are each category's 5 biggest brands; the light block is all other brands.",
+      "No brand has more than 8% of any category."
+    ],
+    "anchor": "start",
+    "font": "Gloock, Georgia, serif",
+    "fontSize": 21,
+    "fontWeight": "normal",
+    "subtitleFont": "Figtree, system-ui, sans-serif",
+    "subtitleFontSize": 14,
+    "subtitleColor": "#6e6069",
+    "offset": 14
+  },
+  "autosize": "pad",
+  "height": 380,
+  "signals": [
+    {
+      "name": "width",
+      "init": "max(containerSize()[0] - 10, 300)",
+      "on": [{"events": "window:resize", "update": "max(containerSize()[0] - 10, 300)"}]
+    }
+  ],
+  "data": [
+    {
+      "name": "brands",
+      "url": "data/treemap_brands.csv",
+      "format": {"type": "csv", "parse": {"products": "number", "rank": "number"}},
+      "transform": [
+        {"type": "joinaggregate", "groupby": ["category"], "fields": ["products"], "ops": ["sum"], "as": ["category_total"]},
+        {"type": "formula", "expr": "datum.products / datum.category_total", "as": "share"},
+        {"type": "nest", "keys": ["category"], "generate": true},
+        {
+          "type": "treemap",
+          "field": "products",
+          "sort": {"field": "value", "order": "descending"},
+          "round": true,
+          "method": "squarify",
+          "ratio": 1.4,
+          "paddingInner": 2,
+          "paddingOuter": 0,
+          "paddingTop": 22,
+          "size": [{"signal": "width"}, {"signal": "height"}]
+        }
+      ]
+    },
+    {
+      "name": "category_totals",
+      "source": "brands",
+      "transform": [
+        {"type": "filter", "expr": "datum.depth == 2"},
+        {"type": "aggregate", "groupby": ["category"], "fields": ["products"], "ops": ["sum"], "as": ["total"]}
+      ]
+    },
+    {
+      "name": "categories",
+      "source": "brands",
+      "transform": [
+        {"type": "filter", "expr": "datum.depth == 1"},
+        {"type": "lookup", "from": "category_totals", "key": "category", "fields": ["key"], "values": ["total"], "as": ["total"]}
+      ]
+    },
+    {"name": "leaves", "source": "brands", "transform": [{"type": "filter", "expr": "datum.depth == 2"}]}
+  ],
+  "marks": [
+    {
+      "type": "rect",
+      "from": {"data": "categories"},
+      "encode": {
+        "enter": {"fill": {"value": "#ffffff"}, "stroke": {"value": "#ffffff"}},
+        "update": {"x": {"field": "x0"}, "y": {"field": "y0"}, "x2": {"field": "x1"}, "y2": {"field": "y1"}}
+      }
+    },
+    {
+      "type": "rect",
+      "from": {"data": "leaves"},
+      "encode": {
+        "enter": {
+          "stroke": {"value": "#ffffff"},
+          "strokeWidth": {"value": 1.5},
+          "tooltip": {"signal": "{'Category': datum.category, 'Brand': datum.brand, 'Products': datum.products, 'Share of category': format(datum.share, '.1%')}"}
+        },
+        "update": {
+          "x": {"field": "x0"}, "y": {"field": "y0"}, "x2": {"field": "x1"}, "y2": {"field": "y1"},
+          "fill": {"signal": "datum.category == 'Skincare' ? (datum.rank == 6 ? '#ddd3ec' : '#9d86c9') : (datum.rank == 6 ? '#efeaec' : '#d6ccd2')"}
+        },
+        "hover": {"fill": {"signal": "datum.category == 'Skincare' ? '#7656b0' : '#b7adb3'"}}
+      }
+    },
+    {
+      "description": "Category names and totals in each category's header strip.",
+      "type": "text",
+      "from": {"data": "categories"},
+      "encode": {
+        "enter": {"font": {"value": "Figtree, system-ui, sans-serif"}, "fontSize": {"value": 14}, "fontWeight": {"value": 700}, "fill": {"value": "#261b24"}, "baseline": {"value": "top"}},
+        "update": {
+          "x": {"signal": "datum.x0 + 4"},
+          "y": {"signal": "datum.y0 + 4"},
+          "text": {"signal": "datum.key + ' · ' + format(datum.total, ',') + ' products'"},
+          "limit": {"signal": "datum.x1 - datum.x0 - 8"}
+        }
+      }
+    },
+    {
+      "description": "Brand names, only where the block is big enough to hold them.",
+      "type": "text",
+      "from": {"data": "leaves"},
+      "encode": {
+        "enter": {"font": {"value": "Figtree, system-ui, sans-serif"}, "fontSize": {"value": 12}, "fill": {"value": "#261b24"}, "baseline": {"value": "top"}},
+        "update": {
+          "x": {"signal": "datum.x0 + 4"},
+          "y": {"signal": "datum.y0 + 4"},
+          "text": {"signal": "(datum.x1 - datum.x0 > 60 && datum.y1 - datum.y0 > 30) ? [datum.brand, format(datum.share, '.0%')] : ''"},
+          "limit": {"signal": "datum.x1 - datum.x0 - 8"}
+        }
+      }
+    }
+  ]
+}

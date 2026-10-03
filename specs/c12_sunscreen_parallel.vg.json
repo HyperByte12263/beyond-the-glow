@@ -1,0 +1,136 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "C12 parallel coordinates: the 15 face sunscreens most reviewed by oily-skin reviewers, compared on price, ratings, recommendation and popularity. Better is at the top of every axis.",
+  "title": {
+    "text": "Finding a sunscreen for oily skin",
+    "subtitle": [
+      "The 15 face sunscreens most reviewed by people with oily skin. Each line is one product; on every axis, better is at the top.",
+      "Highlighted: innisfree Daily UV Defense, the cheapest (US$16), rated 4.5★ by oily skin across 195 reviews.",
+      "None of these 15 is labelled \"Best for Oily\". Tick the box below to compare the 12 that are."
+    ]
+  },
+  "width": "container",
+  "height": 300,
+  "data": {
+    "url": "data/skin_ratings.csv",
+    "format": {"parse": {"reviews": "number", "avg_rating": "number", "pct_recommended": "number"}}
+  },
+  "params": [
+    {"name": "only_oily", "value": false, "bind": {"input": "checkbox", "name": "Show the 12 sunscreens labelled \"Best for Oily\" instead "}}
+  ],
+  "transform": [
+    {"filter": {"field": "skin_type", "oneOf": ["oily", "dry"]}},
+    {"calculate": "datum.skin_type == 'oily' ? datum.avg_rating : null", "as": "r_oily"},
+    {"calculate": "datum.skin_type == 'oily' ? datum.reviews : null", "as": "n_oily"},
+    {"calculate": "datum.skin_type == 'oily' ? datum.pct_recommended : null", "as": "rec_oily"},
+    {"calculate": "datum.skin_type == 'dry' ? datum.avg_rating : null", "as": "r_dry"},
+    {
+      "aggregate": [
+        {"op": "max", "field": "r_oily", "as": "r_oily"},
+        {"op": "max", "field": "n_oily", "as": "n_oily"},
+        {"op": "max", "field": "rec_oily", "as": "rec_oily"},
+        {"op": "max", "field": "r_dry", "as": "r_dry"}
+      ],
+      "groupby": ["product_id"]
+    },
+    {"filter": "datum.n_oily >= 30"},
+    {
+      "lookup": "product_id",
+      "from": {
+        "data": {"url": "data/skincare_products.csv", "format": {"parse": {"price_usd": "number", "loves": "number"}}},
+        "key": "product_id",
+        "fields": ["product_name", "brand", "category", "price_usd", "loves", "highlights"]
+      }
+    },
+    {"calculate": "toNumber(datum.price_usd)", "as": "price_usd"},
+    {"calculate": "toNumber(datum.loves)", "as": "loves"},
+    {"filter": "datum.category == 'Sunscreen' || (datum.category == 'Moisturizers' && indexof(datum.product_name, 'SPF') >= 0)"},
+    {"window": [{"op": "row_number", "as": "most_reviewed"}], "sort": [{"field": "n_oily", "order": "descending"}]},
+    {"calculate": "indexof(datum.highlights || '', 'Best for Oily') >= 0", "as": "best_for_oily"},
+    {
+      "description": "Default: the 15 most reviewed. With the box ticked: the 12 labelled 'Best for Oily' (none of them is in the top 15). Axes rescale to whichever set is shown.",
+      "filter": "only_oily ? datum.best_for_oily : datum.most_reviewed <= 15"
+    },
+    {"calculate": "datum.brand == 'innisfree' && indexof(datum.product_name, 'Daily UV Defense') >= 0", "as": "is_pick"},
+    {"calculate": "datum.brand + ' – ' + datum.product_name", "as": "name"},
+    {"fold": ["price_usd", "r_oily", "r_dry", "rec_oily", "loves"], "as": ["key", "value"]},
+    {"joinaggregate": [{"op": "min", "field": "value", "as": "min"}, {"op": "max", "field": "value", "as": "max"}], "groupby": ["key"]},
+    {"calculate": "datum.key == 'price_usd' ? (datum.max - datum.value) / (datum.max - datum.min) : (datum.value - datum.min) / (datum.max - datum.min)", "as": "norm"},
+    {"calculate": "{'price_usd': 'Price', 'r_oily': 'Rating, oily skin', 'r_dry': 'Rating, dry skin', 'rec_oily': '% of oily skin who recommend', 'loves': 'Loves (popularity)'}[datum.key]", "as": "axis"},
+    {"calculate": "datum.key == 'price_usd' ? format(datum.value, '$.0f') : datum.key == 'rec_oily' ? format(datum.value, '.0f') + '%' : datum.key == 'loves' ? format(datum.value, ',') : format(datum.value, '.2f') + '★'", "as": "value_text"}
+  ],
+  "encoding": {
+    "x": {
+      "field": "axis",
+      "type": "nominal",
+      "title": null,
+      "sort": ["Price", "Rating, oily skin", "Rating, dry skin", "% of oily skin who recommend", "Loves (popularity)"],
+      "axis": {"orient": "top", "labelAngle": 0, "labelPadding": 26, "domain": false, "ticks": false, "labelColor": "#261b24", "labelFontSize": 13, "labelFontWeight": 600, "labelLimit": 180}
+    },
+    "y": {"field": "norm", "type": "quantitative", "axis": null, "scale": {"domain": [0, 1]}}
+  },
+  "layer": [
+    {
+      "description": "One vertical rule per measure.",
+      "mark": {"type": "rule", "color": "#b7adb3"},
+      "encoding": {"detail": {"field": "axis"}, "y": {"datum": 0}, "y2": {"datum": 1}}
+    },
+    {
+      "description": "All other products (grey). Hover a line to see which product it is.",
+      "transform": [{"filter": "!datum.is_pick"}],
+      "params": [{"name": "hover", "select": {"type": "point", "fields": ["product_id"], "on": "mouseover", "clear": "mouseout"}}],
+      "mark": {"type": "line", "strokeWidth": 1.6, "interpolate": "linear"},
+      "encoding": {
+        "detail": {"field": "product_id"},
+        "color": {"condition": {"param": "hover", "empty": false, "value": "#261b24"}, "value": "#c4bcc1"},
+        "strokeWidth": {"condition": {"param": "hover", "empty": false, "value": 3}, "value": 1.6},
+        "tooltip": [
+          {"field": "name", "type": "nominal", "title": "Product"},
+          {"field": "axis", "type": "nominal", "title": "Measure"},
+          {"field": "value_text", "type": "nominal", "title": "Value"}
+        ]
+      }
+    },
+    {
+      "description": "The highlighted product, drawn on top.",
+      "transform": [{"filter": "datum.is_pick"}],
+      "layer": [
+        {
+          "mark": {"type": "line", "color": "#7656b0", "strokeWidth": 3.5},
+          "encoding": {
+            "detail": {"field": "product_id"},
+            "tooltip": [
+              {"field": "name", "type": "nominal", "title": "Product"},
+              {"field": "axis", "type": "nominal", "title": "Measure"},
+              {"field": "value_text", "type": "nominal", "title": "Value"}
+            ]
+          }
+        },
+        {"mark": {"type": "circle", "color": "#7656b0", "size": 60, "opacity": 1}},
+        {
+          "mark": {"type": "text", "align": "left", "dx": 8, "dy": -10, "fontSize": 13, "fontWeight": 600, "color": "#7656b0"},
+          "encoding": {"text": {"field": "value_text"}}
+        }
+      ]
+    },
+    {
+      "description": "Worst value under the bottom of each axis (best values are labelled on the highlighted line).",
+      "transform": [
+        {"filter": "datum.norm == 0"},
+        {"aggregate": [{"op": "count", "as": "n"}], "groupby": ["axis", "value_text", "norm"]}
+      ],
+      "mark": {"type": "text", "dy": 14, "fontSize": 13, "color": "#6e6069"},
+      "encoding": {"y": {"datum": 0}, "text": {"field": "value_text"}}
+    },
+    {
+      "description": "Best value above the top of each axis.",
+      "transform": [
+        {"filter": "datum.norm == 1"},
+        {"aggregate": [{"op": "count", "as": "n"}], "groupby": ["axis", "value_text", "norm"]}
+      ],
+      "mark": {"type": "text", "align": "right", "dx": -6, "dy": -2, "fontSize": 13, "color": "#6e6069"},
+      "encoding": {"y": {"datum": 1}, "text": {"field": "value_text"}}
+    }
+  ],
+  "padding": {"left": 0, "right": 40, "top": 10, "bottom": 20}
+}
