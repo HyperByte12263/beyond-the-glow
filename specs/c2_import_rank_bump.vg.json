@@ -42,10 +42,10 @@
   "layer": [
     {
       "description": "COVID-19 year.",
-      "data": {"values": [{"year": 2020, "label": "COVID-19"}]},
+      "data": {"values": [{"year": 2020, "rank_shown": 8.9, "label": ["COVID-19: total imports", "fell 28% in 2020"]}]},
       "layer": [
         {"mark": {"type": "rule", "color": "#c4bcc1", "strokeDash": [4, 3]}, "encoding": {"y": null, "detail": null}},
-        {"mark": {"type": "text", "align": "left", "dx": 5, "fontSize": 13, "color": "#6e6069"}, "encoding": {"y": {"datum": 9.2}, "detail": null, "text": {"field": "label"}}}
+        {"mark": {"type": "text", "align": "left", "dx": 5, "fontSize": 13, "color": "#6e6069"}, "encoding": {"detail": null, "text": {"field": "label"}}}
       ]
     },
     {
@@ -92,11 +92,10 @@
       }
     },
     {
-      "description": "Annotations on the turning points.",
+      "description": "Context the chart cannot show by itself: why Singapore rose. Singapore is South-East Asia's beauty distribution hub; many international brands ship there first and re-export across the region (US International Trade Administration; industry reports).",
       "data": {
         "values": [
-          {"year": 2018.5, "rank_shown": 0.45, "label": "France led in 2018–19"},
-          {"year": 2023.2, "rank_shown": 2.55, "label": "China jumps to 3rd"}
+          {"year": 2019.4, "rank_shown": 0.42, "label": "Why Singapore? It is the region's beauty hub: brands ship there first"}
         ]
       },
       "mark": {"type": "text", "fontSize": 12, "fontStyle": "italic", "color": "#261b24"},

@@ -66,7 +66,7 @@
       "description": "Leader lines from the small territories (too small to see) to their labels in the sea.",
       "data": {
         "values": [
-          {"label": "Putrajaya +27.5% (highest)", "lon": 101.69, "lat": 2.93, "labelLon": 99.9, "labelLat": 2.15},
+          {"label": ["Putrajaya +27.5%, the highest:", "nearly double neighbouring Kuala Lumpur"], "lon": 101.69, "lat": 2.93, "labelLon": 99.9, "labelLat": 2.15},
           {"label": "Kuala Lumpur +14.5%", "lon": 101.69, "lat": 3.14, "labelLon": 99.9, "labelLat": 3.55},
           {"label": "Labuan +23.5%", "lon": 115.24, "lat": 5.29, "labelLon": 114.2, "labelLat": 6.6}
         ]
@@ -93,7 +93,7 @@
     },
     {
       "description": "Label for the state with the smallest rise.",
-      "data": {"values": [{"label": "Sabah +12.6% (lowest)", "lon": 117.1, "lat": 5.35}]},
+      "data": {"values": [{"label": ["Sabah +12.6% and Sarawak +14.3%:", "the slowest rises of any state"], "lon": 113.6, "lat": 2.7}]},
       "mark": {"type": "text", "fontWeight": 600},
       "encoding": {
         "longitude": {"field": "lon", "type": "quantitative"},

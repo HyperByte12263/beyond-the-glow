@@ -80,6 +80,16 @@
       ]
     },
     {
+      "description": "Context the circles cannot show: 20.2% of export value goes to 44 Muslim-majority countries (Indonesia, the UAE, Brunei and Saudi Arabia lead), markets where halal certification often decides whether a product can be sold.",
+      "data": {"values": [{"lon": 46, "lat": 41, "label": ["1 in 5 export dollars goes to", "Muslim-majority countries, where", "halal certification matters"]}]},
+      "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 13, "fontStyle": "italic", "color": "#261b24", "lineHeight": 16},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "label"}
+      }
+    },
+    {
       "description": "Malaysia, where every export starts.",
       "data": {"values": [{"lat": 3.14, "lon": 101.69}]},
       "mark": {"type": "point", "shape": "diamond", "size": 60, "filled": true, "color": "#261b24"},

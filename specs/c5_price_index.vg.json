@@ -25,7 +25,7 @@
       "field": "index",
       "type": "quantitative",
       "title": "Price index (2010 = 100)",
-      "scale": {"domain": [90, 165], "zero": false},
+      "scale": {"domain": [82, 165], "zero": false},
       "axis": {"values": [100, 120, 140, 160]}
     }
   },
@@ -37,18 +37,28 @@
       "encoding": {"x": null, "y": {"field": "index", "type": "quantitative"}}
     },
     {
-      "description": "COVID-19 movement control order began 18 March 2020.",
+      "description": "Events that explain the steps in the lines. GST: 6% from 1 April 2015, zero-rated from 1 June 2018 (replaced by SST on 1 September 2018). COVID-19 movement control order: 18 March 2020. Percentages are from the monthly index values (March vs April 2015; May vs June 2018; March vs June 2020).",
       "data": {
-        "values": [{"date": "2020-03-18", "label": "COVID-19 lockdown"}],
+        "values": [{"date": "2015-04-01"}, {"date": "2018-06-01"}, {"date": "2020-03-18"}],
         "format": {"parse": {"date": "date"}}
       },
-      "layer": [
-        {"mark": {"type": "rule", "color": "#b7adb3", "strokeDash": [4, 3]}, "encoding": {"y": null}},
-        {
-          "mark": {"type": "text", "align": "right", "dx": -5, "y": 8, "color": "#6e6069", "fontSize": 12},
-          "encoding": {"y": null, "text": {"field": "label"}}
-        }
-      ]
+      "mark": {"type": "rule", "color": "#b7adb3", "strokeDash": [4, 3]},
+      "encoding": {"y": null}
+    },
+    {
+      "data": {"values": [{"date": "2015-04-01", "y": 95.5, "label": ["GST begins, April 2015:", "beauty prices up 2.3%"]}], "format": {"parse": {"date": "date"}}},
+      "mark": {"type": "text", "align": "right", "baseline": "top", "dx": -5, "fontSize": 12, "fontStyle": "italic", "color": "#261b24", "lineHeight": 15},
+      "encoding": {"y": {"field": "y", "type": "quantitative"}, "text": {"field": "label"}}
+    },
+    {
+      "data": {"values": [{"date": "2018-06-01", "y": 97.5, "label": ["GST removed, June 2018: beauty", "prices fell 4% in a month and stayed low"]}], "format": {"parse": {"date": "date"}}},
+      "mark": {"type": "text", "align": "left", "baseline": "top", "dx": 5, "fontSize": 12, "fontStyle": "italic", "color": "#261b24", "lineHeight": 15},
+      "encoding": {"y": {"field": "y", "type": "quantitative"}, "text": {"field": "label"}}
+    },
+    {
+      "data": {"values": [{"date": "2020-03-18", "y": 163, "label": ["Lockdown, March 2020: overall prices", "fell, but salon prices rose 3%"]}], "format": {"parse": {"date": "date"}}},
+      "mark": {"type": "text", "align": "right", "baseline": "top", "dx": -5, "fontSize": 12, "fontStyle": "italic", "color": "#261b24", "lineHeight": 15},
+      "encoding": {"y": {"field": "y", "type": "quantitative"}, "text": {"field": "label"}}
     },
     {
       "mark": {"type": "line", "interpolate": "monotone"},

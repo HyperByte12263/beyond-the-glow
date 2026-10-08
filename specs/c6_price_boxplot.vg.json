@@ -65,14 +65,13 @@
       }
     },
     {
-      "description": "Annotations: what the moisturiser box means, and the cheapest typical category.",
+      "description": "Context the boxes cannot show: Malaysia sits near the equator, with very high to extreme UV levels most of the year (MetMalaysia), so sunscreen is an everyday product here.",
       "data": {
         "values": [
-          {"category_n": "Moisturizers (551 products)", "price_shown": 82, "label": "Typical US$58; the middle half cost US$39–80"},
-          {"category_n": "Cleansers (361 products)", "price_shown": 42, "label": "Cleansers are the cheapest: typical US$34"}
+          {"category_n": "Sunscreen (108 products)", "price_shown": 248, "label": ["Good news under Malaysia's strong, year-round sun:", "sunscreen, an everyday need, is among the cheapest"]}
         ]
       },
-      "mark": {"type": "text", "align": "left", "dx": 6, "dy": -15, "fontSize": 13, "fontStyle": "italic", "color": "#261b24"},
+      "mark": {"type": "text", "align": "right", "baseline": "bottom", "dy": -13, "fontSize": 13, "fontStyle": "italic", "color": "#261b24", "lineHeight": 16},
       "encoding": {"text": {"field": "label"}}
     }
   ]
