@@ -11,7 +11,7 @@
     ]
   },
   "width": "container",
-  "height": 330,
+  "height": 430,
   "data": {
     "url": "data/skincare_products.csv",
     "format": {"parse": {"price_usd": "number", "rating": "number", "reviews": "number", "loves": "number"}}
@@ -65,13 +65,13 @@
       }
     },
     {
-      "description": "Context the boxes cannot show: Malaysia sits near the equator, with very high to extreme UV levels most of the year (MetMalaysia), so sunscreen is an everyday product here.",
+      "description": "Context the boxes cannot show: Malaysia sits near the equator, with very high to extreme UV levels most of the year (MetMalaysia), so sunscreen is an everyday product here. One line, placed in the empty gap above the Sunscreen row so it never crosses a box or whisker.",
       "data": {
         "values": [
-          {"category_n": "Sunscreen (108 products)", "price_shown": 248, "label": ["Good news under Malaysia's strong, year-round sun:", "sunscreen, an everyday need, is among the cheapest"]}
+          {"category_n": "Sunscreen (108 products)", "price_shown": 248, "label": "Good news for sunny Malaysia: sunscreen is among the cheapest"}
         ]
       },
-      "mark": {"type": "text", "align": "right", "baseline": "bottom", "dy": -13, "fontSize": 13, "fontStyle": "italic", "color": "#261b24", "lineHeight": 16},
+      "mark": {"type": "text", "align": "right", "baseline": "bottom", "dy": -17, "fontSize": 13, "fontStyle": "italic", "color": "#261b24"},
       "encoding": {"text": {"field": "label"}}
     }
   ]

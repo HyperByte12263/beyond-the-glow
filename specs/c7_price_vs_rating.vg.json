@@ -1,13 +1,13 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "C7 scatterplot linked to a histogram: price vs average rating for skincare products with 30+ reviews. Brushing the scatterplot filters the histogram.",
+  "description": "C7 strip plot by price band, linked to a bar chart of ratings. Skincare products with 30+ reviews, grouped into six price bands. Each dot is one product (jittered sideways so dots don't hide each other); the dark line joins each band's average rating. Clicking a band highlights it and shows its rating spread in the bar chart beside it.",
   "title": {
     "text": "Paying more barely changes the rating",
     "subtitle": [
-      "1,812 skincare products with 30+ reviews.",
-      "Under US$25 they average 4.17★; over US$250, 4.24★.",
-      "Drag across the left chart to select products.",
-      "Purple bars: your selection. Grey bars: all products."
+      "1,812 skincare products with 30+ reviews, by price band.",
+      "Band averages differ by less than 0.2★.",
+      "Click a band to compare its ratings on the right;",
+      "Shift-click to add bands; double-click to clear."
     ]
   },
   "data": {
@@ -28,67 +28,92 @@
   "transform": [
     {"filter": "datum.reviews >= 30"},
     {"filter": "category == 'All' || datum.category == category"},
-    {"calculate": "min(datum.price_usd, 250)", "as": "price_shown"},
-    {"calculate": "floor(datum.rating * 4) / 4", "as": "rating_bin"}
+    {"calculate": "datum.price_usd < 25 ? 0 : datum.price_usd < 50 ? 1 : datum.price_usd < 75 ? 2 : datum.price_usd < 100 ? 3 : datum.price_usd < 250 ? 4 : 5", "as": "band_i"},
+    {"calculate": "['Under US$25', 'US$25–50', 'US$50–75', 'US$75–100', 'US$100–250', 'Over US$250'][datum.band_i]", "as": "band"},
+    {"calculate": "floor(datum.rating * 4) / 4", "as": "rating_bin"},
+    {"calculate": "random()", "as": "jitter"}
   ],
+  "resolve": {"scale": {"color": "shared"}, "legend": {"color": "shared"}},
   "hconcat": [
     {
-      "width": 740,
-      "height": 320,
+      "width": 700,
+      "height": 340,
       "encoding": {
         "x": {
-          "field": "price_shown",
-          "type": "quantitative",
+          "field": "band",
+          "type": "ordinal",
           "title": "Price (US$)",
-          "scale": {"domain": [0, 250]},
-          "axis": {"values": [0, 50, 100, 150, 200, 250], "labelExpr": "datum.value == 250 ? '250+' : datum.value"}
+          "sort": ["Under US$25", "US$25–50", "US$50–75", "US$75–100", "US$100–250", "Over US$250"],
+          "scale": {"paddingInner": 0.15},
+          "axis": {"labelAngle": 0, "labelFontSize": 13, "labelColor": "#261b24", "domain": false, "ticks": false}
         },
         "y": {
           "field": "rating",
           "type": "quantitative",
           "title": "Average rating (★)",
           "scale": {"domain": [2, 5]},
-          "axis": {"values": [2, 3, 4, 5]}
+          "axis": {"values": [2, 2.5, 3, 3.5, 4, 4.5, 5]}
         }
       },
       "layer": [
-      {
-        "description": "Annotation band: 64% of these products average 4 to 4.6 stars (63% of those under US$25, 54% of those over US$100).",
-        "data": {"values": [{"x0": 0, "x1": 250, "lo": 4, "hi": 4.6}]},
-        "mark": {"type": "rect", "color": "#e6def3"},
-        "encoding": {"x": {"field": "x0", "type": "quantitative"}, "x2": {"field": "x1"}, "y": {"field": "lo", "type": "quantitative"}, "y2": {"field": "hi"}, "tooltip": null}
-      },
-      {
-        "data": {"values": [{"x": 248, "y": 2.35, "label": "Most products (64%) average 4–4.6★, cheap or expensive."}, {"x": 248, "y": 2.15, "label": "The shaded band marks that range."}]},
-        "mark": {"type": "text", "align": "right", "fontSize": 13, "fontStyle": "italic", "color": "#261b24"},
-        "encoding": {"x": {"field": "x", "type": "quantitative"}, "y": {"field": "y", "type": "quantitative"}, "text": {"field": "label"}}
-      },
-      {
-      "params": [{"name": "brush", "select": {"type": "interval", "encodings": ["x"]}}],
-      "mark": {"type": "circle", "size": 22},
-      "encoding": {
-        "color": {
-          "condition": {"param": "brush", "empty": false, "value": "#7656b0"},
-          "value": "#c4bcc1"
+        {
+          "description": "Each product as a dot, spread sideways inside its band (jitter). Click to pick its band.",
+          "params": [{"name": "pick", "select": {"type": "point", "fields": ["band"], "on": "click"}}],
+          "mark": {"type": "circle", "size": 20, "cursor": "pointer"},
+          "encoding": {
+            "xOffset": {"field": "jitter", "type": "quantitative", "scale": {"domain": [0, 1], "range": [-40, 40]}},
+            "color": {
+              "condition": {"param": "pick", "empty": false, "datum": "Products in the band you picked"},
+              "datum": "One product"
+            },
+            "opacity": {"condition": {"param": "pick", "empty": false, "value": 0.75}, "value": 0.5},
+            "tooltip": [
+              {"field": "product_name", "type": "nominal", "title": "Product"},
+              {"field": "brand", "type": "nominal", "title": "Brand"},
+              {"field": "price_usd", "type": "quantitative", "title": "Price (US$)", "format": "$,.2f"},
+              {"field": "rating", "type": "quantitative", "title": "Average rating", "format": ".2f"},
+              {"field": "reviews", "type": "quantitative", "title": "Reviews", "format": ","}
+            ]
+          }
         },
-        "opacity": {
-          "condition": {"param": "brush", "empty": false, "value": 0.85},
-          "value": 0.6
+        {
+          "description": "Average rating of each band, joined by a line.",
+          "transform": [{"aggregate": [{"op": "mean", "field": "rating", "as": "rating"}, {"op": "count", "as": "n"}], "groupby": ["band", "band_i"]}],
+          "layer": [
+            {"mark": {"type": "line", "strokeWidth": 2.5}, "encoding": {"color": {"datum": "Average rating of the band"}, "order": {"field": "band_i"}}},
+            {
+              "mark": {"type": "point", "filled": true, "size": 70, "stroke": "#ffffff", "strokeWidth": 1.5, "opacity": 1},
+              "encoding": {
+                "color": {
+                  "datum": "Average rating of the band",
+                  "title": null,
+                  "scale": {"domain": ["One product", "Products in the band you picked", "Average rating of the band"], "range": ["#c4bcc1", "#7656b0", "#261b24"]},
+                  "legend": {"orient": "top", "direction": "horizontal", "symbolType": "circle", "labelFontSize": 13, "labelLimit": 0, "columnPadding": 18, "offset": 14}
+                },
+                "tooltip": [
+                  {"field": "band", "type": "nominal", "title": "Price band"},
+                  {"field": "rating", "type": "quantitative", "title": "Average rating", "format": ".2f"},
+                  {"field": "n", "type": "quantitative", "title": "Products"}
+                ]
+              }
+            },
+            {
+              "mark": {"type": "text", "dy": -14, "fontSize": 13, "fontWeight": 700},
+              "encoding": {"text": {"field": "rating", "type": "quantitative", "format": ".2f"}}
+            }
+          ]
         },
-        "tooltip": [
-          {"field": "product_name", "type": "nominal", "title": "Product"},
-          {"field": "brand", "type": "nominal", "title": "Brand"},
-          {"field": "price_usd", "type": "quantitative", "title": "Price (US$)", "format": "$,.2f"},
-          {"field": "rating", "type": "quantitative", "title": "Average rating", "format": ".2f"},
-          {"field": "reviews", "type": "quantitative", "title": "Reviews", "format": ","}
-        ]
-      }
-      }
+        {
+          "description": "Context the dots can't show at a glance: in the over-US$250 band, 3 of 29 products (10%) average under 3.5 stars, more than in any other band (1.5–5%).",
+          "transform": [{"filter": "category == 'All'"}, {"aggregate": [{"op": "count", "as": "n"}]}, {"calculate": "'Over US$250'", "as": "band"}, {"calculate": "2.42", "as": "rating"}],
+          "mark": {"type": "text", "align": "right", "baseline": "top", "dx": 48, "fontSize": 12, "fontStyle": "italic", "color": "#261b24", "lineHeight": 15},
+          "encoding": {"text": {"value": ["Over US$250, 1 in 10 products is rated under 3.5★:", "the highest share of any band. Pricey is no guarantee."]}}
+        }
       ]
     },
     {
       "width": 220,
-      "height": 320,
+      "height": 340,
       "layer": [
         {
           "description": "All products (grey): share of products in each rating band, so groups of any size compare fairly.",
@@ -120,9 +145,9 @@
           }
         },
         {
-          "description": "Selected products (violet, thinner bars on top). Nothing is highlighted until the reader selects.",
+          "description": "Products in the picked band(s) (violet, thinner bars on top). Nothing is highlighted until the reader picks.",
           "transform": [
-            {"filter": {"param": "brush", "empty": false}},
+            {"filter": {"param": "pick", "empty": false}},
             {"aggregate": [{"op": "count", "as": "n"}], "groupby": ["rating_bin"]},
             {"joinaggregate": [{"op": "sum", "field": "n", "as": "total"}]},
             {"calculate": "100 * datum.n / datum.total", "as": "pct"}
@@ -133,19 +158,25 @@
             "x": {"field": "pct", "type": "quantitative"},
             "tooltip": [
               {"field": "rating_bin", "type": "quantitative", "title": "Rating band from", "format": ".2f"},
-              {"field": "pct", "type": "quantitative", "title": "% of selected products", "format": ".1f"}
+              {"field": "pct", "type": "quantitative", "title": "% of picked products", "format": ".1f"}
             ]
           }
         },
         {
-          "description": "Average rating of the selection.",
+          "description": "Average rating of the picked products.",
           "transform": [
-            {"filter": {"param": "brush", "empty": false}},
+            {"filter": {"param": "pick", "empty": false}},
             {"aggregate": [{"op": "mean", "field": "rating", "as": "avg"}, {"op": "count", "as": "n"}]},
-            {"calculate": "['Selected: ' + datum.n + ' products', 'average ' + format(datum.avg, '.2f') + '★']", "as": "label"}
+            {"calculate": "['Picked: ' + datum.n + ' products', 'average ' + format(datum.avg, '.2f') + '★']", "as": "label"}
           ],
           "mark": {"type": "text", "align": "left", "x": 0, "y": -26, "fontSize": 13, "fontWeight": 600, "color": "#7656b0"},
           "encoding": {"text": {"field": "label"}}
+        },
+        {
+          "description": "Prompt shown until a band is picked.",
+          "transform": [{"aggregate": [{"op": "count", "as": "n"}]}, {"filter": "!length(data('pick_store'))"}],
+          "mark": {"type": "text", "align": "left", "x": 0, "y": -26, "fontSize": 13, "color": "#6e6069"},
+          "encoding": {"text": {"value": ["Grey: all products.", "Click a band to compare."]}}
         }
       ]
     }

@@ -39,7 +39,11 @@
     {"window": [{"op": "row_number", "as": "high_rank"}], "sort": [{"field": "gap", "order": "descending"}]},
     {"filter": "datum.low_rank <= 5 || datum.high_rank <= 5"},
     {"calculate": "datum.brand + ' – ' + datum.product_name", "as": "full_name"},
-    {"calculate": "length(datum.full_name) > 42 ? substring(datum.full_name, 0, 40) + '…' : datum.full_name", "as": "name"},
+    {
+      "description": "Short, readable names (brand + what the product is), written by hand for the ten products shown; the full name is in the tooltip.",
+      "calculate": "{'P446934': 'Murad Oil & Pore Control SPF 45', 'P439928': 'Supergoop! Superscreen SPF 40', 'P442754': 'The Ordinary Ascorbic Acid 8%', 'P466154': 'Supergoop! Vitamin C + SPF 40 Serum', 'P467115': 'First Aid Beauty Dark Spot Serum', 'P428668': 'Wander Beauty Eye Masks', 'P429662': 'Dr. Brandt Pore Purifying Mask', 'P396623': 'COOLA Setting Spray SPF 30', 'P482323': 'Supergoop! (Re)setting Mist SPF 40', 'P384821': 'Clinique Cleansing Oil'}[datum.product_id] || datum.full_name",
+      "as": "name"
+    },
     {"calculate": "abs(datum.gap)", "as": "abs_gap"},
     {"calculate": "datum.gap < 0 ? 'Oily skin rates it lower' : 'Oily skin rates it higher'", "as": "group"}
   ],
@@ -53,7 +57,7 @@
     }
   },
   "spec": {
-    "width": 448,
+    "width": 530,
     "encoding": {
       "y": {
         "field": "name",

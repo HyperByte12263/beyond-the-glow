@@ -21,7 +21,8 @@
     {"filter": {"field": "partner", "oneOf": ["Singapore", "South Korea", "China", "USA", "France", "Thailand", "Japan", "Indonesia"]}},
     {"calculate": "min(datum.rank, 9)", "as": "rank_shown"},
     {"calculate": "datum.value_usd / 1e6", "as": "value_m"},
-    {"calculate": "datum.partner == 'Singapore'", "as": "is_singapore"}
+    {"calculate": "datum.partner == 'Singapore'", "as": "is_singapore"},
+    {"calculate": "datum.is_singapore ? 'Singapore' : 'Other top suppliers'", "as": "who"}
   ],
   "encoding": {
     "x": {
@@ -55,8 +56,11 @@
       "mark": {"type": "line", "strokeCap": "round", "strokeJoin": "round"},
       "encoding": {
         "color": {
-          "condition": {"test": "datum.is_singapore", "value": "#c08a1e"},
-          "value": "#c4bcc1"
+          "field": "who",
+          "type": "nominal",
+          "title": null,
+          "scale": {"domain": ["Singapore", "Other top suppliers"], "range": ["#c08a1e", "#c4bcc1"]},
+          "legend": {"orient": "top", "direction": "horizontal", "symbolType": "stroke", "symbolStrokeWidth": 3, "labelFontSize": 13, "offset": 14}
         },
         "strokeWidth": {
           "condition": [
@@ -74,10 +78,7 @@
     {
       "mark": {"type": "circle", "size": 50, "opacity": 1},
       "encoding": {
-        "color": {
-          "condition": {"test": "datum.is_singapore", "value": "#c08a1e"},
-          "value": "#b7adb3"
-        },
+        "color": {"field": "who", "type": "nominal", "legend": null},
         "opacity": {
           "condition": {"param": "hover", "value": 1},
           "value": 0.35
@@ -95,7 +96,7 @@
       "description": "Context the chart cannot show by itself: why Singapore rose. Singapore is South-East Asia's beauty distribution hub; many international brands ship there first and re-export across the region (US International Trade Administration; industry reports).",
       "data": {
         "values": [
-          {"year": 2019.4, "rank_shown": 0.42, "label": "Why Singapore? It is the region's beauty hub: brands ship there first"}
+          {"year": 2019.4, "rank_shown": 0.42, "label": "Why Singapore? The region's beauty hub: brands ship there first"}
         ]
       },
       "mark": {"type": "text", "fontSize": 12, "fontStyle": "italic", "color": "#261b24"},

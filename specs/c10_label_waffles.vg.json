@@ -24,7 +24,8 @@
     {"flatten": ["cell"]},
     {"calculate": "datum.cell % 10", "as": "col"},
     {"calculate": "floor(datum.cell / 10)", "as": "row"},
-    {"calculate": "datum.cell < datum.pct", "as": "filled"}
+    {"calculate": "datum.cell < datum.pct", "as": "filled"},
+    {"calculate": "datum.filled ? 'Products with the label' : 'Products without it'", "as": "key"}
   ],
   "facet": {
     "column": {
@@ -36,8 +37,8 @@
     }
   },
   "spec": {
-    "width": 160,
-    "height": 160,
+    "width": 170,
+    "height": 170,
     "layer": [
       {
         "mark": {"type": "rect", "cornerRadius": 2, "stroke": "#ffffff", "strokeWidth": 2},
@@ -45,8 +46,11 @@
           "x": {"field": "col", "type": "ordinal", "axis": null},
           "y": {"field": "row", "type": "ordinal", "axis": null, "sort": "descending"},
           "color": {
-            "condition": {"test": "datum.filled", "value": "#a3442c"},
-            "value": "#efeaec"
+            "field": "key",
+            "type": "nominal",
+            "title": "1 square = 1% of 2,420 skincare products",
+            "scale": {"domain": ["Products with the label", "Products without it"], "range": ["#a3442c", "#efeaec"]},
+            "legend": {"orient": "top", "direction": "horizontal", "symbolType": "square", "symbolSize": 150, "titleLimit": 400, "labelFontSize": 13, "offset": 14}
           },
           "tooltip": [
             {"field": "label", "type": "nominal", "title": "Label"},
@@ -62,7 +66,7 @@
           {"calculate": "{'Clean at Sephora*': 'Sephora\\'s own standard', 'Vegan': 'no animal ingredients', 'Cruelty-free': 'not tested on animals', 'Fragrance-free': 'no added scent'}[datum.label]", "as": "meaning"},
           {"calculate": "[datum.meaning, format(datum.n, ',') + ' of 2,420 products']", "as": "note"}
         ],
-        "mark": {"type": "text", "align": "left", "baseline": "bottom", "x": 0, "y": -8, "fontSize": 12, "lineHeight": 16, "color": "#261b24"},
+        "mark": {"type": "text", "align": "left", "baseline": "top", "x": 0, "y": -42, "fontSize": 12, "lineHeight": 16, "color": "#261b24"},
         "encoding": {"text": {"field": "note"}}
       }
     ]

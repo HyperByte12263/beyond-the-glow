@@ -6,8 +6,6 @@
     "subtitle": [
       "Each category is split into its brands.",
       "Area shows the number of products listed, not sales.",
-      "Purple is skincare, this page's focus; grey, other categories.",
-      "Darker blocks: each category's 5 biggest brands.",
       "No brand has more than 8% of any category."
     ],
     "anchor": "start",
@@ -20,7 +18,7 @@
     "offset": 14
   },
   "autosize": "pad",
-  "height": 380,
+  "height": 420,
   "signals": [
     {
       "name": "width",
@@ -46,7 +44,7 @@
           "ratio": 1.4,
           "paddingInner": 2,
           "paddingOuter": 0,
-          "paddingTop": 22,
+          "paddingTop": 40,
           "size": [{"signal": "width"}, {"signal": "height"}]
         }
       ]
@@ -68,6 +66,33 @@
       ]
     },
     {"name": "leaves", "source": "brands", "transform": [{"type": "filter", "expr": "datum.depth == 2"}]}
+  ],
+  "scales": [
+    {
+      "name": "key",
+      "type": "ordinal",
+      "domain": ["Skincare: top 5 brands", "Skincare: all other brands", "Other categories: top 5 brands", "Other categories: all other brands"],
+      "range": ["#9d86c9", "#ddd3ec", "#d6ccd2", "#efeaec"]
+    }
+  ],
+  "legends": [
+    {
+      "fill": "key",
+      "orient": "top",
+      "direction": "horizontal",
+      "columns": 2,
+      "columnPadding": 24,
+      "rowPadding": 6,
+      "symbolType": "square",
+      "symbolSize": 160,
+      "symbolStrokeColor": "#b7adb3",
+      "symbolStrokeWidth": 0.5,
+      "labelFont": "Figtree, system-ui, sans-serif",
+      "labelFontSize": 13,
+      "labelColor": "#261b24",
+      "labelLimit": 0,
+      "offset": 12
+    }
   ],
   "marks": [
     {
@@ -95,30 +120,41 @@
       }
     },
     {
-      "description": "Category names and totals in each category's header strip.",
+      "description": "Category name (line 1) in each category's header strip.",
       "type": "text",
       "from": {"data": "categories"},
       "encode": {
         "enter": {"font": {"value": "Figtree, system-ui, sans-serif"}, "fontSize": {"value": 14}, "fontWeight": {"value": 700}, "fill": {"value": "#261b24"}, "baseline": {"value": "top"}},
         "update": {
           "x": {"signal": "datum.x0 + 4"},
-          "y": {"signal": "datum.y0 + 4"},
-          "text": {"signal": "datum.key + ' · ' + format(datum.total, ',') + ' products'"},
-          "limit": {"signal": "datum.x1 - datum.x0 - 8"}
+          "y": {"signal": "datum.y0 + 3"},
+          "text": {"signal": "(datum.key == 'Other' ? 'Other categories' : datum.key)"}
         }
       }
     },
     {
-      "description": "Brand names, only where the block is big enough to hold them.",
+      "description": "Product count (line 2) in each category's header strip.",
+      "type": "text",
+      "from": {"data": "categories"},
+      "encode": {
+        "enter": {"font": {"value": "Figtree, system-ui, sans-serif"}, "fontSize": {"value": 12}, "fill": {"value": "#6e6069"}, "baseline": {"value": "top"}},
+        "update": {
+          "x": {"signal": "datum.x0 + 4"},
+          "y": {"signal": "datum.y0 + 20"},
+          "text": {"signal": "format(datum.total, ',') + ' products'"}
+        }
+      }
+    },
+    {
+      "description": "Brand name and share, drawn only when the whole name fits in the block (about 6.8 px per character at 12 px), so no name is ever cut off. Smaller blocks show their brand in the tooltip.",
       "type": "text",
       "from": {"data": "leaves"},
       "encode": {
-        "enter": {"font": {"value": "Figtree, system-ui, sans-serif"}, "fontSize": {"value": 12}, "fill": {"value": "#261b24"}, "baseline": {"value": "top"}},
+        "enter": {"font": {"value": "Figtree, system-ui, sans-serif"}, "fontSize": {"value": 12}, "fill": {"value": "#261b24"}, "baseline": {"value": "top"}, "lineHeight": {"value": 15}},
         "update": {
           "x": {"signal": "datum.x0 + 4"},
           "y": {"signal": "datum.y0 + 4"},
-          "text": {"signal": "(datum.x1 - datum.x0 > 60 && datum.y1 - datum.y0 > 30) ? [datum.brand, format(datum.share, '.0%')] : ''"},
-          "limit": {"signal": "datum.x1 - datum.x0 - 8"}
+          "text": {"signal": "(datum.x1 - datum.x0 - 8 >= length(datum.brand) * 6.8 && datum.y1 - datum.y0 >= 36) ? [datum.brand, format(datum.share, '.0%')] : ''"}
         }
       }
     }

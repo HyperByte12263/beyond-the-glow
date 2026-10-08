@@ -1,0 +1,99 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "C2b streamgraph: Malaysia's imports of beauty, make-up and skincare products (trade code 3304) by supplier, 2015–2024. Stream thickness = import value in US dollars.",
+  "title": {
+    "text": "Imports doubled in ten years; Singapore drove half the growth",
+    "subtitle": [
+      "Yearly imports by supplier. A thicker stream means more value.",
+      "Hover a stream to see its value each year."
+    ]
+  },
+  "width": "container",
+  "height": 340,
+  "data": {"url": "data/trade_imports.csv", "format": {"parse": {"year": "number", "value_usd": "number", "share_pct": "number", "lat": "number", "lon": "number"}}},
+  "transform": [
+    {"calculate": "indexof(['Singapore', 'South Korea', 'China', 'USA', 'France', 'Thailand', 'Japan'], datum.partner)", "as": "idx"},
+    {"calculate": "datum.idx >= 0 ? datum.partner : 'All other countries'", "as": "supplier"},
+    {"calculate": "datum.idx >= 0 ? datum.idx : 7", "as": "ord"},
+    {"calculate": "datum.supplier == 'Singapore' ? 'Singapore' : datum.supplier == 'All other countries' ? 'All other countries (75)' : 'Other top suppliers'", "as": "group"},
+    {"aggregate": [{"op": "sum", "field": "value_usd", "as": "value_usd"}], "groupby": ["year", "supplier", "ord", "group"]},
+    {"calculate": "datum.value_usd / 1e6", "as": "value_m"},
+    {"joinaggregate": [{"op": "sum", "field": "value_m", "as": "year_total"}], "groupby": ["year"]},
+    {"calculate": "100 * datum.value_m / datum.year_total", "as": "share"},
+    {"stack": "value_m", "groupby": ["year"], "offset": "center", "sort": [{"field": "ord", "order": "descending"}], "as": ["y0", "y1"]},
+    {"calculate": "(datum.y0 + datum.y1) / 2", "as": "ymid"}
+  ],
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "quantitative",
+      "title": null,
+      "scale": {"domain": [2015, 2024], "range": [80, {"expr": "width - 180"}]},
+      "axis": {"format": "d", "values": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024], "grid": false, "domain": false, "ticks": false, "labelPadding": 6}
+    }
+  },
+  "layer": [
+    {
+      "description": "Gridlines on each year help read the streams against time.",
+      "data": {"sequence": {"start": 2015, "stop": 2025, "as": "year"}},
+      "mark": {"type": "rule", "color": "#efe9ec", "strokeWidth": 1},
+      "encoding": {"x": {"field": "year", "type": "quantitative"}}
+    },
+    {
+      "mark": {"type": "area", "interpolate": "monotone", "stroke": "#ffffff", "strokeWidth": 1},
+      "encoding": {
+        "y": {"field": "y0", "type": "quantitative", "axis": null, "scale": {"domain": [-40, 720]}},
+        "y2": {"field": "y1"},
+        "detail": {"field": "supplier"},
+        "color": {
+          "field": "group",
+          "type": "nominal",
+          "title": null,
+          "scale": {"domain": ["Singapore", "Other top suppliers", "All other countries (75)"], "range": ["#c08a1e", "#e6cf9c", "#e4dce1"]},
+          "legend": {"orient": "top-left", "direction": "vertical", "symbolType": "square", "symbolSize": 160, "labelFontSize": 13, "offset": 0}
+        },
+        "tooltip": [
+          {"field": "supplier", "type": "nominal", "title": "From"},
+          {"field": "year", "type": "quantitative", "title": "Year", "format": "d"},
+          {"field": "value_m", "type": "quantitative", "title": "Imports (US$ million)", "format": ",.0f"},
+          {"field": "share", "type": "quantitative", "title": "Share of that year's imports (%)", "format": ".0f"}
+        ]
+      }
+    },
+    {
+      "description": "Supplier names at the right end of each stream (direct labels).",
+      "transform": [
+        {"filter": "datum.year == 2024"},
+        {"calculate": "datum.supplier + '  $' + format(datum.value_m, '.0f') + ' million'", "as": "label"}
+      ],
+      "encoding": {"y": {"field": "ymid", "type": "quantitative"}, "text": {"field": "label"}},
+      "layer": [
+        {"transform": [{"filter": "datum.supplier == 'Singapore'"}], "mark": {"type": "text", "align": "left", "dx": 8, "fontSize": 12, "fontWeight": 700}},
+        {"transform": [{"filter": "datum.supplier != 'Singapore'"}], "mark": {"type": "text", "align": "left", "dx": 8, "fontSize": 12}}
+      ]
+    },
+    {
+      "description": "Scale bar: how thick US$100 million is.",
+      "data": {"values": [{"year": 2014.55, "a": 0, "b": 100, "label": ["US$100", "million"]}]},
+      "layer": [
+        {"mark": {"type": "rule", "color": "#6e6069", "strokeWidth": 2}, "encoding": {"y": {"field": "a", "type": "quantitative"}, "y2": {"field": "b"}}},
+        {"mark": {"type": "text", "align": "right", "dx": -6, "fontSize": 12, "color": "#6e6069", "lineHeight": 15}, "encoding": {"y": {"datum": 57}, "text": {"field": "label"}}}
+      ]
+    },
+    {
+      "description": "Informative annotations. COVID-19: total imports fell from US$482 million (2019) to US$349 million (2020), a 28% drop, and passed the 2019 level again in 2022 (US$523 million). Growth: US$292 million (2015) to US$624 million (2024) = +US$332 million, of which Singapore added US$166 million (50%).",
+      "data": {
+        "values": [
+          {"year": 2020, "y": 58, "align": "center", "label": ["COVID-19: imports fell 28% in 2020,", "then beat 2019's level by 2022"]},
+          {"year": 2021.7, "y": 598, "align": "right", "label": ["Singapore's imports grew from US$21 million", "to US$187 million: half of all the growth"]}
+        ]
+      },
+      "encoding": {"y": {"field": "y", "type": "quantitative"}, "text": {"field": "label"}},
+      "layer": [
+        {"transform": [{"filter": "datum.align == 'center'"}], "mark": {"type": "text", "align": "center", "baseline": "top", "fontSize": 12, "fontStyle": "italic", "color": "#261b24", "lineHeight": 15}},
+        {"transform": [{"filter": "datum.align == 'right'"}], "mark": {"type": "text", "align": "right", "baseline": "bottom", "fontSize": 12, "fontStyle": "italic", "color": "#261b24", "lineHeight": 15}}
+      ]
+    }
+  ],
+  "padding": {"left": 0, "right": 0, "top": 5}
+}

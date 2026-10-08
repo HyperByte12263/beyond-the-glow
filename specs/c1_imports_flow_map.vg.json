@@ -1,65 +1,65 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "C1 flow map: where Malaysia's HS 3304 imports came from in 2024. Line width shows value.",
+  "description": "C1 flow map: where Malaysia's imports of beauty, make-up and skincare products (trade code 3304) came from in 2024. Curved routes, width = value. Left: world view. Right: zoom on South-East Asia, where short routes would otherwise bunch together.",
   "title": {
     "text": "Where Malaysia's make-up and skincare imports come from",
     "subtitle": [
       "Imports in 2024: US$624 million from 82 countries.",
-      "Thicker lines carry more value; top 10 suppliers shown.",
-      "Singapore, the biggest supplier, is a trading hub",
-      "for goods made elsewhere, so it appears as a circle."
+      "Thicker routes carry more value; top 10 suppliers shown.",
+      "Short routes from our neighbours are clearer in the zoom."
     ]
   },
-  "width": "container",
-  "height": 420,
-  "projection": {"type": "equalEarth", "rotate": [-150, 0, 0]},
   "params": [
     {"name": "focus", "value": "", "description": "Set by js/main.js when the reader hovers a country in the bump chart (C2): that route is highlighted, the others fade."}
   ],
-  "layer": [
+  "spacing": 28,
+  "resolve": {"scale": {"strokeWidth": "shared"}, "legend": {"strokeWidth": "shared"}},
+  "hconcat": [
     {
-      "description": "Base map without Antarctica (saves space). Malaysia is a slightly darker grey.",
-      "data": {
-        "url": "data/world-110m.json",
-        "format": {"type": "topojson", "feature": "countries"}
-      },
-      "transform": [{"filter": "datum.id != '010'"}],
-      "mark": {"type": "geoshape", "stroke": "#ffffff", "strokeWidth": 0.5},
-      "encoding": {
-        "color": {
-          "condition": {"test": "datum.id == '458'", "value": "#cfc5cb"},
-          "value": "#ebe5e8"
-        }
-      }
-    },
-    {
-      "description": "Import routes: top 10 suppliers in 2024, excluding Singapore.",
-      "data": {"url": "data/trade_imports.csv", "format": {"parse": {"year": "number", "value_usd": "number", "share_pct": "number", "lat": "number", "lon": "number"}}},
-      "transform": [
-        {"filter": "datum.year == 2024 && datum.partner != 'Singapore'"},
-        {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "value_usd", "order": "descending"}]},
-        {"filter": "datum.rank <= 9"},
-        {"calculate": "3.14", "as": "kl_lat"},
-        {"calculate": "101.69", "as": "kl_lon"},
-        {"calculate": "datum.value_usd / 1e6", "as": "value_m"}
-      ],
+      "description": "World view.",
+      "width": 680,
+      "height": 400,
+      "projection": {"type": "equalEarth", "rotate": [-150, 0, 0]},
       "layer": [
+        {"description": "Ocean.", "data": {"sphere": true}, "mark": {"type": "geoshape", "fill": "#e2eaee", "stroke": null}},
+        {"description": "Grid lines every 30 degrees.", "data": {"graticule": {"step": [30, 30]}}, "mark": {"type": "geoshape", "filled": false, "stroke": "#d2dce1", "strokeWidth": 0.5}},
         {
-          "mark": {"type": "rule", "color": "#c08a1e", "strokeCap": "round"},
+          "description": "Land without Antarctica. Malaysia slightly darker.",
+          "data": {"url": "data/world-110m.json", "format": {"type": "topojson", "feature": "countries"}},
+          "transform": [{"filter": "datum.id != '010'"}],
+          "mark": {"type": "geoshape", "stroke": "#ffffff", "strokeWidth": 0.5},
+          "encoding": {"color": {"condition": {"test": "datum.id == '458'", "value": "#cfc5cb"}, "value": "#f4f1f2"}}
+        },
+        {
+          "description": "Curved routes for the top 9 suppliers after Singapore. Each route is a quadratic curve from the supplier to Kuala Lumpur, bowed to one side so routes fan out. Western-hemisphere longitudes are shifted by 360 so the USA route crosses the Pacific.",
+          "data": {"url": "data/trade_imports.csv", "format": {"parse": {"year": "number", "value_usd": "number", "share_pct": "number", "lat": "number", "lon": "number"}}},
+          "transform": [
+            {"filter": "datum.year == 2024 && datum.partner != 'Singapore'"},
+            {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "value_usd", "order": "descending"}]},
+            {"filter": "datum.rank <= 9"},
+            {"calculate": "datum.value_usd / 1e6", "as": "value_m"},
+            {"calculate": "datum.lon < -30 ? datum.lon + 360 : datum.lon", "as": "lon0"},
+            {"calculate": "(datum.lon0 + 101.69) / 2 + 0.15 * (datum.lat - 3.14)", "as": "cx"},
+            {"calculate": "(datum.lat + 3.14) / 2 + 0.15 * (101.69 - datum.lon0)", "as": "cy"},
+            {"calculate": "sequence(0, 1.0001, 0.05)", "as": "t"},
+            {"flatten": ["t"]},
+            {"calculate": "pow(1 - datum.t, 2) * datum.lon0 + 2 * (1 - datum.t) * datum.t * datum.cx + pow(datum.t, 2) * 101.69", "as": "plon"},
+            {"calculate": "pow(1 - datum.t, 2) * datum.lat + 2 * (1 - datum.t) * datum.t * datum.cy + pow(datum.t, 2) * 3.14", "as": "plat"}
+          ],
+          "mark": {"type": "line", "color": "#c08a1e", "strokeCap": "round", "interpolate": "monotone"},
           "encoding": {
+            "longitude": {"field": "plon", "type": "quantitative"},
+            "latitude": {"field": "plat", "type": "quantitative"},
+            "detail": {"field": "partner"},
+            "order": {"field": "t", "type": "quantitative"},
             "opacity": {"condition": {"test": "focus == '' || datum.partner == focus", "value": 0.8}, "value": 0.12},
-            "longitude": {"field": "lon", "type": "quantitative"},
-            "latitude": {"field": "lat", "type": "quantitative"},
-            "longitude2": {"field": "kl_lon"},
-            "latitude2": {"field": "kl_lat"},
             "strokeWidth": {
               "field": "value_m",
               "type": "quantitative",
               "title": "Imports, 2024 (US$ million)",
-              "scale": {"domain": [0, 75], "range": [0.5, 9]},
-              "legend": {"orient": "bottom-left", "values": [10, 30, 70], "direction": "horizontal"}
+              "scale": {"domain": [0, 190], "range": [0.8, 14]},
+              "legend": {"orient": "bottom-left", "values": [10, 70, 180], "direction": "horizontal", "symbolStrokeColor": "#c08a1e"}
             },
-            "order": {"field": "value_m", "sort": "ascending"},
             "tooltip": [
               {"field": "partner", "type": "nominal", "title": "From"},
               {"field": "value_m", "type": "quantitative", "title": "Imports, 2024 (US$ million)", "format": ",.1f"},
@@ -68,63 +68,50 @@
           }
         },
         {
-          "mark": {"type": "circle", "color": "#c08a1e", "size": 30},
-          "encoding": {
-            "opacity": {"condition": {"test": "focus == '' || datum.partner == focus", "value": 1}, "value": 0.2},
-            "longitude": {"field": "lon", "type": "quantitative"},
-            "latitude": {"field": "lat", "type": "quantitative"},
-            "tooltip": [
-              {"field": "partner", "type": "nominal", "title": "From"},
-              {"field": "value_m", "type": "quantitative", "title": "Imports, 2024 (US$ million)", "format": ",.1f"}
-            ]
-          }
-        },
-        {
-          "description": "Label the four biggest long-distance suppliers. China and South Korea sit close together, so their labels go to opposite sides.",
+          "description": "Supplier dots and labels for the four biggest long-distance suppliers (China and South Korea sit close together, so their labels go to opposite sides).",
+          "data": {"url": "data/trade_imports.csv", "format": {"parse": {"year": "number", "value_usd": "number", "share_pct": "number", "lat": "number", "lon": "number"}}},
           "transform": [
-            {"filter": "datum.rank <= 4"},
+            {"filter": "datum.year == 2024 && datum.partner != 'Singapore'"},
+            {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "value_usd", "order": "descending"}]},
+            {"filter": "datum.rank <= 9"},
+            {"calculate": "datum.value_usd / 1e6", "as": "value_m"},
             {"calculate": "datum.partner + ' · $' + format(datum.value_m, '.0f') + ' million'", "as": "label"}
           ],
           "encoding": {
             "longitude": {"field": "lon", "type": "quantitative"},
-            "latitude": {"field": "lat", "type": "quantitative"},
-            "text": {"field": "label"}
+            "latitude": {"field": "lat", "type": "quantitative"}
           },
           "layer": [
-            {"transform": [{"filter": "datum.partner == 'China'"}], "mark": {"type": "text", "align": "right", "dx": -8, "dy": -8, "fontSize": 13, "fontWeight": 600}},
-            {"transform": [{"filter": "datum.partner == 'South Korea'"}], "mark": {"type": "text", "align": "left", "dx": 8, "dy": -8, "fontSize": 13, "fontWeight": 600}},
-            {"transform": [{"filter": "datum.partner != 'China' && datum.partner != 'South Korea'"}], "mark": {"type": "text", "dy": -10, "fontSize": 13, "fontWeight": 600}}
+            {
+              "mark": {"type": "circle", "color": "#c08a1e", "size": 30},
+              "encoding": {
+                "opacity": {"condition": {"test": "focus == '' || datum.partner == focus", "value": 1}, "value": 0.2},
+                "tooltip": [
+                  {"field": "partner", "type": "nominal", "title": "From"},
+                  {"field": "value_m", "type": "quantitative", "title": "Imports, 2024 (US$ million)", "format": ",.1f"}
+                ]
+              }
+            },
+            {"transform": [{"filter": "datum.partner == 'China'"}], "mark": {"type": "text", "align": "right", "dx": -8, "dy": -8, "fontSize": 13, "fontWeight": 600}, "encoding": {"text": {"field": "label"}}},
+            {"transform": [{"filter": "datum.partner == 'South Korea'"}], "mark": {"type": "text", "align": "left", "dx": 8, "dy": -8, "fontSize": 13, "fontWeight": 600}, "encoding": {"text": {"field": "label"}}},
+            {"transform": [{"filter": "datum.partner == 'USA' || datum.partner == 'France'"}], "mark": {"type": "text", "dy": -10, "fontSize": 13, "fontWeight": 600}, "encoding": {"text": {"field": "label"}}},
+            {
+              "description": "Details on demand: label the hovered supplier if it isn't labelled already.",
+              "transform": [{"filter": "focus != '' && datum.partner == focus && datum.rank > 4"}],
+              "mark": {"type": "text", "dy": -10, "fontSize": 13, "fontWeight": 600},
+              "encoding": {"text": {"field": "label"}}
+            }
           ]
         },
         {
-          "description": "Details on demand: label the hovered supplier if it isn't one of the four labelled already.",
-          "transform": [
-            {"filter": "focus != '' && datum.partner == focus && datum.rank > 4"},
-            {"calculate": "datum.partner + ' · $' + format(datum.value_m, '.0f') + ' million'", "as": "label"}
-          ],
-          "mark": {"type": "text", "dy": -10, "fontSize": 13, "fontWeight": 600},
+          "description": "Singapore: too close to draw a route at world scale, so a circle here; its route is in the zoom.",
+          "data": {"url": "data/trade_imports.csv", "format": {"parse": {"year": "number", "value_usd": "number", "share_pct": "number", "lat": "number", "lon": "number"}}},
+          "transform": [{"filter": "datum.year == 2024 && datum.partner == 'Singapore'"}],
+          "mark": {"type": "circle", "size": 300, "color": "#c08a1e", "stroke": "#c08a1e", "strokeWidth": 1.2},
           "encoding": {
             "longitude": {"field": "lon", "type": "quantitative"},
             "latitude": {"field": "lat", "type": "quantitative"},
-            "text": {"field": "label"}
-          }
-        }
-      ]
-    },
-    {
-      "description": "Singapore: too close to draw a line, so a circle with a note.",
-      "data": {"url": "data/trade_imports.csv", "format": {"parse": {"year": "number", "value_usd": "number", "share_pct": "number", "lat": "number", "lon": "number"}}},
-      "transform": [
-        {"filter": "datum.year == 2024 && datum.partner == 'Singapore'"},
-        {"calculate": "'Singapore · $' + format(datum.value_usd / 1e6, '.0f') + ' million (' + format(datum.share_pct, '.0f') + '%)'", "as": "label"}
-      ],
-      "layer": [
-        {
-          "mark": {"type": "circle", "size": 420, "color": "#c08a1e", "stroke": "#c08a1e", "strokeWidth": 1.2},
-          "encoding": {
             "opacity": {"condition": {"test": "focus == '' || focus == 'Singapore'", "value": 0.4}, "value": 0.1},
-            "longitude": {"field": "lon", "type": "quantitative"},
-            "latitude": {"field": "lat", "type": "quantitative"},
             "tooltip": [
               {"field": "partner", "type": "nominal", "title": "From"},
               {"field": "value_usd", "type": "quantitative", "title": "Imports, 2024 (US$)", "format": "$,.0f"},
@@ -133,41 +120,88 @@
           }
         },
         {
-          "mark": {"type": "text", "align": "left", "dx": 14, "dy": 12, "fontSize": 13, "fontWeight": 600},
-          "encoding": {
-            "longitude": {"field": "lon", "type": "quantitative"},
-            "latitude": {"field": "lat", "type": "quantitative"},
-            "text": {"field": "label"}
-          }
-        },
-        {
-          "mark": {"type": "text", "align": "left", "dx": 14, "dy": 26, "fontSize": 13, "color": "#6e6069"},
-          "encoding": {
-            "longitude": {"field": "lon", "type": "quantitative"},
-            "latitude": {"field": "lat", "type": "quantitative"},
-            "text": {"value": "a trading hub: much of it was made in other countries"}
-          }
+          "description": "Malaysia, where every route ends.",
+          "data": {"values": [{"lat": 3.14, "lon": 101.69, "label": "Malaysia"}]},
+          "encoding": {"longitude": {"field": "lon", "type": "quantitative"}, "latitude": {"field": "lat", "type": "quantitative"}},
+          "layer": [
+            {"mark": {"type": "circle", "size": 70, "color": "#261b24", "stroke": "#ffffff", "strokeWidth": 1.5, "opacity": 1}},
+            {"mark": {"type": "text", "align": "right", "dx": -9, "dy": 2, "fontSize": 13, "fontWeight": 700}, "encoding": {"text": {"field": "label"}}}
+          ]
         }
       ]
     },
     {
-      "description": "Malaysia, where every route ends.",
-      "data": {"values": [{"lat": 3.14, "lon": 101.69, "label": "Malaysia"}]},
+      "description": "Zoom on South-East Asia (focus + context): routes from far suppliers are clipped at the edge, showing only their direction.",
+      "title": {"text": "Zoom: South-East Asia", "fontSize": 16},
+      "width": 370,
+      "height": 400,
+      "projection": {"type": "mercator", "fit": {"type": "Feature", "geometry": {"type": "MultiPoint", "coordinates": [[96, -8], [122, 18]]}}},
       "layer": [
+        {"data": {"sphere": true}, "mark": {"type": "geoshape", "fill": "#e2eaee", "stroke": null, "clip": true}},
         {
-          "mark": {"type": "circle", "size": 70, "color": "#261b24", "stroke": "#ffffff", "strokeWidth": 1.5, "opacity": 1},
+          "data": {"url": "data/world-110m.json", "format": {"type": "topojson", "feature": "countries"}},
+          "mark": {"type": "geoshape", "stroke": "#ffffff", "strokeWidth": 0.7, "clip": true},
+          "encoding": {"color": {"condition": {"test": "datum.id == '458'", "value": "#cfc5cb"}, "value": "#f4f1f2"}}
+        },
+        {
+          "description": "Curved routes for the top 10 suppliers, now including Singapore. Same curve formula as the world view.",
+          "data": {"url": "data/trade_imports.csv", "format": {"parse": {"year": "number", "value_usd": "number", "share_pct": "number", "lat": "number", "lon": "number"}}},
+          "transform": [
+            {"filter": "datum.year == 2024"},
+            {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "value_usd", "order": "descending"}]},
+            {"filter": "datum.rank <= 10"},
+            {"calculate": "datum.value_usd / 1e6", "as": "value_m"},
+            {"calculate": "datum.lon < -30 ? datum.lon + 360 : datum.lon", "as": "lon0"},
+            {"calculate": "(datum.lon0 + 101.69) / 2 + 0.15 * (datum.lat - 3.14)", "as": "cx"},
+            {"calculate": "(datum.lat + 3.14) / 2 + 0.15 * (101.69 - datum.lon0)", "as": "cy"},
+            {"calculate": "sequence(0, 1.0001, 0.025)", "as": "t"},
+            {"flatten": ["t"]},
+            {"calculate": "pow(1 - datum.t, 2) * datum.lon0 + 2 * (1 - datum.t) * datum.t * datum.cx + pow(datum.t, 2) * 101.69", "as": "plon"},
+            {"calculate": "pow(1 - datum.t, 2) * datum.lat + 2 * (1 - datum.t) * datum.t * datum.cy + pow(datum.t, 2) * 3.14", "as": "plat"},
+            {"filter": "datum.plon > 75 && datum.plon < 150 && datum.plat > -30 && datum.plat < 45"}
+          ],
+          "mark": {"type": "line", "color": "#c08a1e", "strokeCap": "round", "clip": true, "interpolate": "monotone"},
           "encoding": {
-            "longitude": {"field": "lon", "type": "quantitative"},
-            "latitude": {"field": "lat", "type": "quantitative"}
+            "longitude": {"field": "plon", "type": "quantitative"},
+            "latitude": {"field": "plat", "type": "quantitative"},
+            "detail": {"field": "partner"},
+            "order": {"field": "t", "type": "quantitative"},
+            "opacity": {"condition": {"test": "focus == '' || datum.partner == focus", "value": 0.8}, "value": 0.12},
+            "strokeWidth": {"field": "value_m", "type": "quantitative"},
+            "tooltip": [
+              {"field": "partner", "type": "nominal", "title": "From"},
+              {"field": "value_m", "type": "quantitative", "title": "Imports, 2024 (US$ million)", "format": ",.1f"},
+              {"field": "share_pct", "type": "quantitative", "title": "Share of imports (%)", "format": ".1f"}
+            ]
           }
         },
         {
-          "mark": {"type": "text", "align": "right", "dx": -9, "dy": 2, "fontSize": 13, "fontWeight": 700},
-          "encoding": {
-            "longitude": {"field": "lon", "type": "quantitative"},
-            "latitude": {"field": "lat", "type": "quantitative"},
-            "text": {"field": "label"}
-          }
+          "description": "Labels for the neighbours whose routes are hidden in the world view.",
+          "data": {"url": "data/trade_imports.csv", "format": {"parse": {"year": "number", "value_usd": "number", "share_pct": "number", "lat": "number", "lon": "number"}}},
+          "transform": [
+            {"filter": "datum.year == 2024 && (datum.partner == 'Singapore' || datum.partner == 'Thailand' || datum.partner == 'Indonesia')"},
+            {"calculate": "datum.partner + ' · $' + format(datum.value_usd / 1e6, '.0f') + ' million'", "as": "label"}
+          ],
+          "encoding": {"longitude": {"field": "lon", "type": "quantitative"}, "latitude": {"field": "lat", "type": "quantitative"}},
+          "layer": [
+            {"mark": {"type": "circle", "color": "#c08a1e", "size": 30, "opacity": 1}},
+            {"transform": [{"filter": "datum.partner == 'Singapore'"}], "mark": {"type": "text", "align": "left", "dx": 9, "dy": 14, "fontSize": 13, "fontWeight": 700}, "encoding": {"text": {"field": "label"}}},
+            {"transform": [{"filter": "datum.partner != 'Singapore'"}], "mark": {"type": "text", "align": "left", "dx": 8, "dy": 4, "fontSize": 13, "fontWeight": 600}, "encoding": {"text": {"field": "label"}}}
+          ]
+        },
+        {
+          "description": "Annotation: why Singapore leads.",
+          "data": {"values": [{"lon": 108.6, "lat": -0.6, "label": ["Singapore, our biggest supplier,", "is a trading hub: brands", "ship there first"]}]},
+          "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 12, "fontStyle": "italic", "color": "#261b24", "lineHeight": 15},
+          "encoding": {"longitude": {"field": "lon", "type": "quantitative"}, "latitude": {"field": "lat", "type": "quantitative"}, "text": {"field": "label"}}
+        },
+        {
+          "data": {"values": [{"lat": 3.14, "lon": 101.69, "label": "Malaysia"}]},
+          "encoding": {"longitude": {"field": "lon", "type": "quantitative"}, "latitude": {"field": "lat", "type": "quantitative"}},
+          "layer": [
+            {"mark": {"type": "circle", "size": 70, "color": "#261b24", "stroke": "#ffffff", "strokeWidth": 1.5, "opacity": 1}},
+            {"mark": {"type": "text", "align": "right", "dx": -9, "dy": 2, "fontSize": 13, "fontWeight": 700}, "encoding": {"text": {"field": "label"}}}
+          ]
         }
       ]
     }

@@ -1,13 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "C3 proportional-symbol map: Malaysia's HS 3304 exports by destination in 2024. Circle area shows value.",
+  "description": "C3 proportional-symbol map: Malaysia's exports of beauty, make-up and skincare products (trade code 3304) by destination in 2024. Circle area shows value. The map is zoomed on Asia, where 81% of export value goes, so circles stay small next to the land.",
   "title": {
     "text": "Who buys Malaysia's make-up and skincare",
     "subtitle": [
       "Exports in 2024: US$173 million to 187 countries.",
       "57% went to our South-East Asian neighbours.",
-      "Circle area shows value. Not on this map:",
-      "the USA (US$5.7 million) and many small markets."
+      "Circle area shows export value."
     ]
   },
   "width": "container",
@@ -16,10 +15,12 @@
     "type": "mercator",
     "fit": {
       "type": "Feature",
-      "geometry": {"type": "MultiPoint", "coordinates": [[45, -12], [146, 42]]}
+      "geometry": {"type": "MultiPoint", "coordinates": [[68, -11], [146, 40]]}
     }
   },
   "layer": [
+    {"description": "Ocean.", "data": {"sphere": true}, "mark": {"type": "geoshape", "fill": "#e2eaee", "stroke": null, "clip": true}},
+    {"description": "Grid lines every 10 degrees.", "data": {"graticule": {"step": [10, 10]}}, "mark": {"type": "geoshape", "filled": false, "stroke": "#d2dce1", "strokeWidth": 0.5, "clip": true}},
     {
       "data": {
         "url": "data/world-110m.json",
@@ -29,7 +30,7 @@
       "encoding": {
         "color": {
           "condition": {"test": "datum.id == '458'", "value": "#cfc5cb"},
-          "value": "#ebe5e8"
+          "value": "#f4f1f2"
         }
       }
     },
@@ -47,8 +48,8 @@
           "field": "value_m",
           "type": "quantitative",
           "title": "Exports, 2024 (US$ million)",
-          "scale": {"domain": [0, 62], "range": [0, 1900]},
-          "legend": {"orient": "bottom-left", "values": [5, 20, 60], "symbolFillColor": "#c08a1e", "symbolOpacity": 0.55, "symbolStrokeColor": "#a8771a", "direction": "horizontal"}
+          "scale": {"domain": [0, 62], "range": [0, 1000]},
+          "legend": {"orient": "bottom-right", "values": [5, 20, 60], "symbolFillColor": "#c08a1e", "symbolOpacity": 0.55, "symbolStrokeColor": "#a8771a", "direction": "horizontal", "fillColor": "#ffffffcc", "padding": 6}
         },
         "order": {"field": "value_m", "sort": "descending"},
         "tooltip": [
@@ -72,17 +73,27 @@
         "text": {"field": "label"}
       },
       "layer": [
-        {"transform": [{"filter": {"field": "partner", "oneOf": ["Singapore"]}}], "mark": {"type": "text", "align": "right", "dx": -30, "dy": 8, "fontSize": 13, "fontWeight": 700}},
-        {"transform": [{"filter": {"field": "partner", "oneOf": ["Hong Kong"]}}], "mark": {"type": "text", "align": "right", "dx": -16, "fontSize": 13, "fontWeight": 600}},
-        {"transform": [{"filter": {"field": "partner", "oneOf": ["Philippines"]}}], "mark": {"type": "text", "align": "left", "dx": 14, "fontSize": 13, "fontWeight": 600}},
-        {"transform": [{"filter": {"field": "partner", "oneOf": ["Japan"]}}], "mark": {"type": "text", "align": "center", "dy": -22, "fontSize": 13, "fontWeight": 600}},
-        {"transform": [{"filter": {"field": "partner", "oneOf": ["Indonesia"]}}], "mark": {"type": "text", "align": "center", "dy": 24, "fontSize": 13, "fontWeight": 600}}
+        {"transform": [{"filter": {"field": "partner", "oneOf": ["Singapore"]}}], "mark": {"type": "text", "align": "right", "dx": -22, "dy": 12, "fontSize": 13, "fontWeight": 700}},
+        {"transform": [{"filter": {"field": "partner", "oneOf": ["Hong Kong"]}}], "mark": {"type": "text", "align": "right", "dx": -13, "fontSize": 13, "fontWeight": 600}},
+        {"transform": [{"filter": {"field": "partner", "oneOf": ["Philippines"]}}], "mark": {"type": "text", "align": "left", "dx": 12, "fontSize": 13, "fontWeight": 600}},
+        {"transform": [{"filter": {"field": "partner", "oneOf": ["Japan"]}}], "mark": {"type": "text", "align": "center", "dy": -18, "fontSize": 13, "fontWeight": 600}},
+        {"transform": [{"filter": {"field": "partner", "oneOf": ["Indonesia"]}}], "mark": {"type": "text", "align": "center", "dy": 18, "fontSize": 13, "fontWeight": 600}}
       ]
     },
     {
       "description": "Context the circles cannot show: 20.2% of export value goes to 44 Muslim-majority countries (Indonesia, the UAE, Brunei and Saudi Arabia lead), markets where halal certification often decides whether a product can be sold.",
-      "data": {"values": [{"lon": 46, "lat": 41, "label": ["1 in 5 export dollars goes to", "Muslim-majority countries, where", "halal certification matters"]}]},
-      "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 13, "fontStyle": "italic", "color": "#261b24", "lineHeight": 16},
+      "data": {"values": [{"lon": 69, "lat": 38.5, "label": ["1 in 5 export dollars goes to", "Muslim-majority countries, where", "halal certification matters"]}]},
+      "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 12, "fontStyle": "italic", "color": "#261b24", "lineHeight": 15},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "label"}
+      }
+    },
+    {
+      "description": "Buyers outside the zoomed area, so the reader knows what the map leaves out.",
+      "data": {"values": [{"lon": 69, "lat": -2, "label": ["Beyond this map: United Arab Emirates", "$7 million, USA $5.7 million,", "Saudi Arabia $4 million"]}]},
+      "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 12, "color": "#6e6069", "lineHeight": 15},
       "encoding": {
         "longitude": {"field": "lon", "type": "quantitative"},
         "latitude": {"field": "lat", "type": "quantitative"},
@@ -91,12 +102,15 @@
     },
     {
       "description": "Malaysia, where every export starts.",
-      "data": {"values": [{"lat": 3.14, "lon": 101.69}]},
-      "mark": {"type": "point", "shape": "diamond", "size": 60, "filled": true, "color": "#261b24"},
+      "data": {"values": [{"lat": 3.14, "lon": 101.69, "label": "Malaysia"}]},
       "encoding": {
         "longitude": {"field": "lon", "type": "quantitative"},
         "latitude": {"field": "lat", "type": "quantitative"}
-      }
+      },
+      "layer": [
+        {"mark": {"type": "point", "shape": "diamond", "size": 60, "filled": true, "color": "#261b24", "opacity": 1}},
+        {"mark": {"type": "text", "align": "right", "dx": -8, "dy": -6, "fontSize": 13, "fontWeight": 700}, "encoding": {"text": {"field": "label"}}}
+      ]
     }
   ]
 }

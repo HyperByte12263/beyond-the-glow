@@ -14,8 +14,18 @@
   "width": "container",
   "height": 400,
   "padding": {"left": 3, "top": 5, "right": 5, "bottom": 5},
-  "projection": {"type": "mercator"},
+  "projection": {
+    "type": "mercator",
+    "fit": {"type": "Feature", "geometry": {"type": "MultiPoint", "coordinates": [[93.3, 0.6], [119.4, 7.5]]}}
+  },
   "layer": [
+    {"description": "Sea.", "data": {"sphere": true}, "mark": {"type": "geoshape", "fill": "#e2eaee", "stroke": null, "clip": true}},
+    {
+      "description": "Neighbouring countries in light grey, so Malaysia stands out as the figure.",
+      "data": {"url": "data/world-110m.json", "format": {"type": "topojson", "feature": "countries"}},
+      "transform": [{"filter": "datum.id != '458'"}],
+      "mark": {"type": "geoshape", "fill": "#f4f1f2", "stroke": "#ffffff", "strokeWidth": 0.5, "clip": true}
+    },
     {
       "data": {
         "url": "data/malaysia_states.geojson",
@@ -39,7 +49,7 @@
         "color": {
           "field": "rise_pct",
           "type": "quantitative",
-          "title": "Price rise, 2016–2026 (%). Lighter = slower than Malaysia overall (19.5%), darker = faster",
+          "title": ["Price rise, 2016–2026 (%)", "Lighter = slower than Malaysia overall (19.5%), darker = faster"],
           "scale": {
             "type": "threshold",
             "domain": [16.5, 19.5, 22.5, 25.5],

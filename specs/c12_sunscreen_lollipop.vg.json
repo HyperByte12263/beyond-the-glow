@@ -1,0 +1,144 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "C12 ranked lollipop chart: every face sunscreen (Sunscreen category, or a moisturiser with added sun protection) with 30+ reviews from oily-skin reviewers, ranked by its average oily-skin rating. Stems start at the average of the 57 products (4.07 stars), so above and below average read at a glance. Fill shows the two most-listed brands; shape shows sunscreen versus moisturiser with sun protection.",
+  "title": {
+    "text": "Sunscreen for oily skin: pick the brand, not the label",
+    "subtitle": [
+      "57 face sunscreens with 30+ reviews from oily skin,",
+      "ranked from best to worst. Stems start at the average.",
+      "Hover a dot for the product, price and reviews."
+    ]
+  },
+  "width": "container",
+  "height": 380,
+  "data": {
+    "url": "data/skin_ratings.csv",
+    "format": {"parse": {"reviews": "number", "avg_rating": "number", "pct_recommended": "number"}}
+  },
+  "transform": [
+    {"filter": "datum.skin_type == 'oily' && datum.reviews >= 30"},
+    {
+      "lookup": "product_id",
+      "from": {
+        "data": {"url": "data/skincare_products.csv", "format": {"parse": {"price_usd": "number"}}},
+        "key": "product_id",
+        "fields": ["product_name", "brand", "category", "price_usd", "highlights"]
+      }
+    },
+    {"filter": "datum.category == 'Sunscreen' || (datum.category == 'Moisturizers' && indexof(datum.product_name, 'SPF') >= 0)"},
+    {"calculate": "toNumber(datum.price_usd)", "as": "price_usd"},
+    {"window": [{"op": "row_number", "as": "rank"}], "sort": [{"field": "avg_rating", "order": "descending"}]},
+    {"joinaggregate": [{"op": "mean", "field": "avg_rating", "as": "average"}]},
+    {"calculate": "datum.brand == 'Shiseido' ? 'Shiseido (7 products)' : datum.brand == 'Supergoop!' ? 'Supergoop! (15 products)' : 'Other brands (35 products)'", "as": "brand_group"},
+    {"calculate": "datum.category == 'Sunscreen' ? 'Sunscreen' : 'Moisturiser with sun protection'", "as": "type"},
+    {"calculate": "indexof(datum.highlights || '', 'Best for Oily') >= 0 ? 'Yes' : 'No'", "as": "best_for_oily"},
+    {"calculate": "datum.brand + ' – ' + datum.product_name", "as": "name"}
+  ],
+  "encoding": {
+    "x": {
+      "field": "rank",
+      "type": "quantitative",
+      "title": "57 face sunscreens, ranked best to worst for oily skin",
+      "scale": {"domain": [0, 58], "nice": false},
+      "axis": {"values": [1, 10, 20, 30, 40, 50, 57], "labelExpr": "datum.value == 1 ? '1st' : datum.value + 'th'", "grid": false, "titlePadding": 10}
+    }
+  },
+  "layer": [
+    {
+      "description": "Average of the 57 products.",
+      "transform": [{"aggregate": [{"op": "mean", "field": "avg_rating", "as": "average"}]}],
+      "layer": [
+        {"mark": {"type": "rule", "color": "#6e6069", "strokeDash": [4, 3]}, "encoding": {"x": null, "y": {"field": "average", "type": "quantitative", "scale": {"domain": [2.7, 5]}}}},
+        {
+          "mark": {"type": "text", "align": "right", "baseline": "bottom", "dy": -4, "fontSize": 12, "color": "#6e6069", "x": {"expr": "width"}},
+          "encoding": {"x": null, "y": {"field": "average", "type": "quantitative", "scale": {"domain": [2.7, 5]}}, "text": {"value": "Average of all 57: 4.07★"}}
+        }
+      ]
+    },
+    {
+      "description": "Stems from the average to each product's rating.",
+      "mark": {"type": "rule", "color": "#d6ccd2", "strokeWidth": 2},
+      "encoding": {
+        "y": {"field": "average", "type": "quantitative", "scale": {"domain": [2.7, 5]}},
+        "y2": {"field": "avg_rating"}
+      }
+    },
+    {
+      "mark": {"type": "point", "size": 85, "strokeWidth": 1.8, "opacity": 1},
+      "encoding": {
+        "y": {
+          "field": "avg_rating",
+          "type": "quantitative",
+          "title": "Average rating from oily skin (★)",
+          "scale": {"domain": [2.7, 5]},
+          "axis": {"values": [3, 3.5, 4, 4.5, 5]}
+        },
+        "fill": {
+          "field": "brand_group",
+          "type": "nominal",
+          "title": "Brand",
+          "scale": {"domain": ["Shiseido (7 products)", "Supergoop! (15 products)", "Other brands (35 products)"], "range": ["#7656b0", "#ffffff", "#c4bcc1"]},
+          "legend": {"orient": "top", "direction": "horizontal", "labelFontSize": 13, "titleFontSize": 13, "columnPadding": 16, "symbolStrokeWidth": 1.8}
+        },
+        "stroke": {
+          "field": "brand_group",
+          "type": "nominal",
+          "scale": {"domain": ["Shiseido (7 products)", "Supergoop! (15 products)", "Other brands (35 products)"], "range": ["#7656b0", "#7656b0", "#b7adb3"]},
+          "legend": null
+        },
+        "shape": {
+          "field": "type",
+          "type": "nominal",
+          "title": "Product",
+          "scale": {"domain": ["Sunscreen", "Moisturiser with sun protection"], "range": ["circle", "square"]},
+          "legend": {"orient": "top", "direction": "horizontal", "labelFontSize": 13, "titleFontSize": 13, "columnPadding": 16, "labelLimit": 0, "symbolFillColor": "#c4bcc1", "symbolStrokeColor": "#b7adb3"}
+        },
+        "tooltip": [
+          {"field": "name", "type": "nominal", "title": "Product"},
+          {"field": "rank", "type": "quantitative", "title": "Rank for oily skin"},
+          {"field": "avg_rating", "type": "quantitative", "title": "Average rating from oily skin", "format": ".2f"},
+          {"field": "reviews", "type": "quantitative", "title": "Reviews from oily skin"},
+          {"field": "price_usd", "type": "quantitative", "title": "Price (US$)", "format": "$,.0f"},
+          {"field": "best_for_oily", "type": "nominal", "title": "Labelled \"Best for Oily\""}
+        ]
+      }
+    },
+    {
+      "description": "Direct labels for four products a reader might act on.",
+      "encoding": {"y": {"field": "avg_rating", "type": "quantitative", "scale": {"domain": [2.7, 5]}}},
+      "layer": [
+        {
+          "transform": [{"filter": "datum.product_id == 'P501321'"}],
+          "mark": {"type": "text", "align": "left", "dx": 10, "fontSize": 12, "fontWeight": 600},
+          "encoding": {"text": {"value": "Best: Saint Jane, 4.82★ (US$38)"}}
+        },
+        {
+          "transform": [{"filter": "datum.product_id == 'P456392'"}],
+          "mark": {"type": "text", "align": "left", "baseline": "bottom", "dx": -4, "dy": -17, "fontSize": 12, "fontWeight": 600, "lineHeight": 15},
+          "encoding": {"text": {"value": ["innisfree Daily UV Defense, 4.51★:", "the cheapest here at US$16"]}}
+        },
+        {
+          "transform": [{"filter": "datum.product_id == 'P446934'"}],
+          "mark": {"type": "text", "align": "right", "dx": -26, "fontSize": 12, "fontWeight": 600, "lineHeight": 15},
+          "encoding": {"text": {"value": ["Murad Oil & Pore Control, 3.14★:", "made for oily skin, rated near the bottom"]}}
+        },
+        {
+          "transform": [{"filter": "datum.product_id == 'P419221'"}],
+          "mark": {"type": "text", "align": "right", "baseline": "top", "dx": 4, "dy": 9, "fontSize": 12, "fontWeight": 600},
+          "encoding": {"text": {"value": "Worst: Drunk Elephant Umbra Tinte, 2.95★"}}
+        }
+      ]
+    },
+    {
+      "description": "Informative annotations: brand is the clearest pattern. All 7 Shiseido products score above the average (4.23–4.60); 12 of the 15 Supergoop! products score below it.",
+      "data": {
+        "values": [
+          {"rank": 29, "y": 4.75, "label": ["Shiseido: all 7 of its", "sunscreens beat the average"]},
+          {"rank": 30, "y": 3.55, "label": ["Supergoop!, the most-listed brand:", "12 of its 15 products fall below average"]}
+        ]
+      },
+      "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 12, "fontStyle": "italic", "color": "#261b24", "lineHeight": 15},
+      "encoding": {"y": {"field": "y", "type": "quantitative", "scale": {"domain": [2.7, 5]}}, "text": {"field": "label"}}
+    }
+  ]
+}

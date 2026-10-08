@@ -1,16 +1,16 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "C9 heatmap: % of skincare products in each category whose Sephora label highlights an ingredient or claim.",
+  "description": "C9 heatmap: % of skincare products in each category whose Sephora label highlights an ingredient or claim. Rows are labelled in two aligned columns: the ingredient, and what it does. A continuous colour scale (with a legend) replaces printed numbers; exact values are in the tooltip.",
   "title": {
     "text": "What each product type advertises on the label",
     "subtitle": [
       "Share of products advertising each ingredient or claim.",
-      "Darker squares mean more products.",
-      "This shows what is advertised, not every ingredient inside."
+      "This shows what is advertised, not every ingredient inside.",
+      "Hover a square for the exact number."
     ]
   },
   "width": "container",
-  "height": 300,
+  "height": 330,
   "data": {
     "url": "data/skincare_products.csv",
     "format": {"parse": {"price_usd": "number", "rating": "number", "reviews": "number", "loves": "number"}}
@@ -18,54 +18,51 @@
   "transform": [
     {"filter": {"field": "category", "oneOf": ["Moisturizers", "Treatments", "Cleansers", "Eye Care", "Masks", "Sunscreen"]}},
     {"calculate": "'|' + (datum.highlights || '') + '|'", "as": "tags"},
-    {"calculate": "indexof(datum.tags, '|Hyaluronic Acid|') >= 0 ? 100 : 0", "as": "Hyaluronic acid · holds moisture"},
-    {"calculate": "indexof(datum.tags, '|Vitamin C|') >= 0 ? 100 : 0", "as": "Vitamin C · brightens"},
-    {"calculate": "indexof(datum.tags, '|Niacinamide|') >= 0 ? 100 : 0", "as": "Niacinamide · evens skin tone"},
-    {"calculate": "indexof(datum.tags, '|AHA/Glycolic Acid|') >= 0 ? 100 : 0", "as": "Glycolic acid · exfoliates"},
-    {"calculate": "indexof(datum.tags, '|Salicylic Acid|') >= 0 ? 100 : 0", "as": "Salicylic acid · unclogs pores"},
-    {"calculate": "indexof(datum.tags, '|Retinol|') >= 0 ? 100 : 0", "as": "Retinol · smooths fine lines"},
-    {"calculate": "indexof(datum.tags, '|Oil Free|') >= 0 ? 100 : 0", "as": "Oil-free · no added oils"},
-    {"calculate": "indexof(datum.tags, '|Alcohol Free|') >= 0 ? 100 : 0", "as": "Alcohol-free · no drying alcohol"},
+    {"calculate": "indexof(datum.tags, '|Hyaluronic Acid|') >= 0 ? 100 : 0", "as": "Hyaluronic acid"},
+    {"calculate": "indexof(datum.tags, '|Vitamin C|') >= 0 ? 100 : 0", "as": "Vitamin C"},
+    {"calculate": "indexof(datum.tags, '|Niacinamide|') >= 0 ? 100 : 0", "as": "Niacinamide"},
+    {"calculate": "indexof(datum.tags, '|AHA/Glycolic Acid|') >= 0 ? 100 : 0", "as": "Glycolic acid"},
+    {"calculate": "indexof(datum.tags, '|Salicylic Acid|') >= 0 ? 100 : 0", "as": "Salicylic acid"},
+    {"calculate": "indexof(datum.tags, '|Retinol|') >= 0 ? 100 : 0", "as": "Retinol"},
+    {"calculate": "indexof(datum.tags, '|Oil Free|') >= 0 ? 100 : 0", "as": "Oil-free"},
+    {"calculate": "indexof(datum.tags, '|Alcohol Free|') >= 0 ? 100 : 0", "as": "Alcohol-free"},
     {
-      "fold": [
-        "Hyaluronic acid · holds moisture", "Vitamin C · brightens", "Niacinamide · evens skin tone", "Glycolic acid · exfoliates",
-        "Salicylic acid · unclogs pores", "Retinol · smooths fine lines", "Oil-free · no added oils", "Alcohol-free · no drying alcohol"
-      ],
+      "fold": ["Hyaluronic acid", "Vitamin C", "Niacinamide", "Glycolic acid", "Salicylic acid", "Retinol", "Oil-free", "Alcohol-free"],
       "as": ["tag", "has"]
     },
     {"aggregate": [{"op": "mean", "field": "has", "as": "pct"}, {"op": "count", "as": "products"}], "groupby": ["category", "tag"]},
-    {"calculate": "round(datum.pct * datum.products / 100)", "as": "with_tag"}
+    {"calculate": "round(datum.pct * datum.products / 100)", "as": "with_tag"},
+    {
+      "calculate": "{'Hyaluronic acid': 'holds moisture', 'Vitamin C': 'brightens', 'Niacinamide': 'evens skin tone', 'Glycolic acid': 'exfoliates', 'Salicylic acid': 'unclogs pores', 'Retinol': 'smooths fine lines', 'Oil-free': 'no added oils', 'Alcohol-free': 'no drying alcohol'}[datum.tag]",
+      "as": "does"
+    }
   ],
   "encoding": {
-    "x": {
-      "field": "category",
-      "type": "nominal",
-      "title": null,
-      "sort": ["Moisturizers", "Treatments", "Cleansers", "Eye Care", "Masks", "Sunscreen"],
-      "axis": {"orient": "top", "labelAngle": 0, "domain": false, "ticks": false, "labelColor": "#261b24"}
-    },
     "y": {
       "field": "tag",
       "type": "nominal",
       "title": null,
-      "sort": {"op": "mean", "field": "pct", "order": "descending"},
-      "axis": {"domain": false, "ticks": false, "labelLimit": 240, "labelColor": "#261b24", "labelFontSize": 13}
+      "sort": ["Hyaluronic acid", "Vitamin C", "Niacinamide", "Glycolic acid", "Salicylic acid", "Oil-free", "Retinol", "Alcohol-free"],
+      "axis": null
     }
   },
   "layer": [
     {
       "mark": {"type": "rect", "stroke": "#ffffff", "strokeWidth": 2, "cornerRadius": 3},
       "encoding": {
+        "x": {
+          "field": "category",
+          "type": "nominal",
+          "title": null,
+          "sort": ["Moisturizers", "Treatments", "Cleansers", "Eye Care", "Masks", "Sunscreen"],
+          "axis": {"orient": "top", "labelAngle": 0, "domain": false, "ticks": false, "labelColor": "#261b24", "labelPadding": 8}
+        },
         "color": {
           "field": "pct",
           "type": "quantitative",
-          "title": "% of products",
-          "scale": {
-            "type": "threshold",
-            "domain": [0.5, 5, 10, 15, 20],
-            "range": ["#efeaec", "#f6e8d4", "#eec7a2", "#dd9a76", "#c2684e", "#a3442c"]
-          },
-          "legend": null
+          "title": "% of products advertising it",
+          "scale": {"domain": [0, 6.25, 12.5, 18.75, 25], "range": ["#fdf6ec", "#f2cfa6", "#df9670", "#bf5d40", "#8c3020"], "interpolate": "lab", "clamp": true},
+          "legend": {"orient": "bottom", "direction": "horizontal", "gradientLength": 300, "gradientThickness": 12, "values": [0, 5, 10, 15, 20, 25], "labelExpr": "datum.value + '%'", "titleLimit": 400, "offset": 14}
         },
         "tooltip": [
           {"field": "tag", "type": "nominal", "title": "Advertised"},
@@ -77,15 +74,25 @@
       }
     },
     {
-      "mark": {"type": "text", "fontSize": 12},
-      "encoding": {
-        "text": {"field": "pct", "type": "quantitative", "format": ".0f"},
-        "color": {
-          "condition": {"test": "datum.pct >= 20", "value": "#ffffff"},
-          "value": "#261b24"
-        }
-      }
+      "description": "Row labels, column 1: the ingredient or claim (bold, dark).",
+      "transform": [{"filter": "datum.category == 'Moisturizers'"}],
+      "mark": {"type": "text", "align": "left", "x": -262, "fontSize": 13, "fontWeight": 700, "color": "#261b24"},
+      "encoding": {"text": {"field": "tag"}}
+    },
+    {
+      "description": "Row labels, column 2: what it does (grey), aligned in its own column.",
+      "transform": [{"filter": "datum.category == 'Moisturizers'"}],
+      "mark": {"type": "text", "align": "left", "x": -138, "fontSize": 13, "color": "#6e6069"},
+      "encoding": {"text": {"field": "does"}}
+    },
+    {
+      "description": "Column headings for the two label columns, level with the product-type labels.",
+      "data": {"values": [{}]},
+      "encoding": {"y": null},
+      "layer": [
+        {"mark": {"type": "text", "align": "left", "baseline": "bottom", "x": -262, "y": -8, "fontSize": 12, "color": "#6e6069", "fontStyle": "italic", "text": "Ingredient or claim"}},
+        {"mark": {"type": "text", "align": "left", "baseline": "bottom", "x": -138, "y": -8, "fontSize": 12, "color": "#6e6069", "fontStyle": "italic", "text": "What it does"}}
+      ]
     }
-  ],
-  "config": {"axis": {"labelPadding": 8}}
+  ]
 }

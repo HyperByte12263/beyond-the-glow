@@ -1,0 +1,101 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "C11a ridgeline plot: how skincare products are rated by reviewers of each skin type. One smoothed distribution (density) of per-product average ratings per skin type, using products with 30+ reviews from that skin type. Rows overlap slightly so the shapes are easy to compare.",
+  "title": {
+    "text": "Oily skin is the hardest to please",
+    "subtitle": [
+      "How products score with each skin type: taller means",
+      "more products got that rating. Products with 30+ reviews",
+      "from that skin type. Lines mark the typical (median) rating."
+    ]
+  },
+  "data": {
+    "url": "data/skin_ratings.csv",
+    "format": {"parse": {"reviews": "number", "avg_rating": "number", "pct_recommended": "number"}}
+  },
+  "transform": [
+    {"filter": "datum.reviews >= 30 && indexof(['oily', 'dry', 'combination', 'normal'], datum.skin_type) >= 0"},
+    {"calculate": "{'oily': 'Oily skin', 'dry': 'Dry skin', 'combination': 'Combination skin', 'normal': 'Normal skin'}[datum.skin_type]", "as": "skin"},
+    {"joinaggregate": [{"op": "count", "as": "n"}], "groupby": ["skin"]},
+    {"calculate": "indexof(['oily', 'dry', 'combination', 'normal'], datum.skin_type)", "as": "ord"},
+    {"calculate": "datum.skin + ' (' + format(datum.n, ',') + ' products)'", "as": "row_label"}
+  ],
+  "facet": {
+    "row": {
+      "field": "row_label",
+      "type": "nominal",
+      "title": null,
+      "sort": {"field": "ord", "op": "min", "order": "ascending"},
+      "header": null
+    }
+  },
+  "spec": {
+    "width": 760,
+    "height": 52,
+    "layer": [
+      {
+        "transform": [{"density": "avg_rating", "groupby": ["skin", "row_label"], "extent": [2.5, 5], "bandwidth": 0.07}],
+        "mark": {"type": "area", "interpolate": "monotone", "fillOpacity": 0.6, "strokeWidth": 1.5},
+        "encoding": {
+          "x": {
+            "field": "value",
+            "type": "quantitative",
+            "title": "Average rating (★)",
+            "scale": {"domain": [2.5, 5]},
+            "axis": {"values": [2.5, 3, 3.5, 4, 4.5, 5], "grid": false}
+          },
+          "y": {"field": "density", "type": "quantitative", "axis": null, "scale": {"range": [52, -34]}},
+          "color": {
+            "field": "skin",
+            "type": "nominal",
+            "title": null,
+            "scale": {"domain": ["Oily skin", "Dry skin", "Combination skin", "Normal skin"], "range": ["#4f5f0c", "#5f8ccc", "#b7adb3", "#d6ccd2"]},
+            "legend": {"orient": "top", "direction": "horizontal", "symbolType": "square", "symbolSize": 140, "labelFontSize": 13, "columnPadding": 16}
+          },
+          "stroke": {
+            "field": "skin",
+            "type": "nominal",
+            "scale": {"domain": ["Oily skin", "Dry skin", "Combination skin", "Normal skin"], "range": ["#4f5f0c", "#3d6aa8", "#8f858b", "#a99fa5"]},
+            "legend": null
+          },
+          "tooltip": null
+        }
+      },
+      {
+        "description": "Typical (median) rating for each skin type.",
+        "transform": [{"aggregate": [{"op": "median", "field": "avg_rating", "as": "median"}, {"op": "count", "as": "products"}], "groupby": ["skin"]}],
+        "layer": [
+          {
+            "mark": {"type": "rule", "color": "#261b24", "strokeWidth": 1.5, "y": -8, "y2": 52},
+            "encoding": {
+              "x": {"field": "median", "type": "quantitative"},
+              "tooltip": [
+                {"field": "skin", "type": "nominal", "title": "Reviewers with"},
+                {"field": "median", "type": "quantitative", "title": "Typical (median) rating", "format": ".2f"},
+                {"field": "products", "type": "quantitative", "title": "Products", "format": ","}
+              ]
+            }
+          },
+          {
+            "mark": {"type": "text", "align": "left", "dx": 5, "y": 2, "fontSize": 12, "color": "#261b24"},
+            "encoding": {"x": {"field": "median", "type": "quantitative"}, "text": {"field": "median", "type": "quantitative", "format": ".2f"}}
+          }
+        ]
+      },
+      {
+        "description": "Row label inside each row, on the flat left-hand side of the curves.",
+        "transform": [{"aggregate": [{"op": "count", "as": "n"}], "groupby": ["skin", "row_label"]}],
+        "mark": {"type": "text", "align": "left", "baseline": "bottom", "x": 0, "y": 50, "fontSize": 13, "fontWeight": 600},
+        "encoding": {"text": {"field": "row_label"}, "color": {"condition": [{"test": "datum.skin == 'Oily skin'", "value": "#4f5f0c"}, {"test": "datum.skin == 'Dry skin'", "value": "#3d6aa8"}], "value": "#6e6069"}}
+      },
+      {
+        "description": "Context the shapes only hint at: oily-skin reviewers give 4.5 stars or more to 24% of products, against 30–33% for the other skin types (products with 30+ reviews from that skin type).",
+        "transform": [{"filter": "datum.skin == 'Oily skin'"}, {"aggregate": [{"op": "count", "as": "n"}]}],
+        "mark": {"type": "text", "align": "left", "baseline": "top", "x": 0, "y": -24, "fontSize": 12, "fontStyle": "italic", "color": "#261b24", "lineHeight": 15},
+        "encoding": {"text": {"value": ["Oily skin gives 4.5★ or more", "to only 24% of products;", "other skin types: 30–33%"]}}
+      }
+    ]
+  },
+  "spacing": 0,
+  "resolve": {"scale": {"y": "shared"}}
+}

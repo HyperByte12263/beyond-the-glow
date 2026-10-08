@@ -261,7 +261,7 @@ func skinRatings(products map[string]product) {
 			}
 			rating, rec, st := num(row[c["rating"]]), row[c["is_recommended"]], row[c["skin_type"]]
 			add(id+"|all", rating, rec)
-			if st == "oily" || st == "dry" {
+			if st == "oily" || st == "dry" || st == "combination" || st == "normal" {
 				add(id+"|"+st, rating, rec)
 			}
 		}
