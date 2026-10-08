@@ -11,7 +11,7 @@
     ]
   },
   "width": "container",
-  "height": 430,
+  "height": 370,
   "data": {
     "url": "data/skincare_products.csv",
     "format": {"parse": {"price_usd": "number", "rating": "number", "reviews": "number", "loves": "number"}}

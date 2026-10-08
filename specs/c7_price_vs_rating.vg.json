@@ -6,6 +6,7 @@
     "subtitle": [
       "1,812 skincare products with 30+ reviews, by price band.",
       "Band averages differ by less than 0.2★.",
+      "Dots are spread sideways only so they don't overlap.",
       "Click a band to compare its ratings on the right;",
       "Shift-click to add bands; double-click to clear."
     ]
@@ -61,7 +62,7 @@
           "params": [{"name": "pick", "select": {"type": "point", "fields": ["band"], "on": "click"}}],
           "mark": {"type": "circle", "size": 20, "cursor": "pointer"},
           "encoding": {
-            "xOffset": {"field": "jitter", "type": "quantitative", "scale": {"domain": [0, 1], "range": [-40, 40]}},
+            "xOffset": {"field": "jitter", "type": "quantitative", "scale": {"domain": [-0.2, 1.2]}},
             "color": {
               "condition": {"param": "pick", "empty": false, "datum": "Products in the band you picked"},
               "datum": "One product"
@@ -96,6 +97,11 @@
                   {"field": "n", "type": "quantitative", "title": "Products"}
                 ]
               }
+            },
+            {
+              "description": "Pale outline drawn behind each average, so dots never hide the number.",
+              "mark": {"type": "text", "dy": -14, "fontSize": 13, "fontWeight": 700, "stroke": "#faf7f8", "strokeWidth": 5, "strokeJoin": "round", "fill": "#faf7f8"},
+              "encoding": {"text": {"field": "rating", "type": "quantitative", "format": ".2f"}}
             },
             {
               "mark": {"type": "text", "dy": -14, "fontSize": 13, "fontWeight": 700},
