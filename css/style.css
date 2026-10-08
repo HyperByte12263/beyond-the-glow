@@ -68,10 +68,10 @@ section { margin-bottom: 104px; }
 .questions li { counter-increment: q; display: flex; gap: 10px; font-size: .9rem; line-height: 1.4; padding: 5px 0; }
 .questions li::before { content: counter(q); flex: none; display: inline-grid; place-items: center; width: 1.45em; height: 1.45em; margin-top: .05em; border-radius: 50%; background: var(--ui); color: #fff; font-size: .75rem; font-weight: 600; }
 .questions a { color: var(--ui); text-decoration: none; }
-.questions a::after { content: " \2193"; }
+.questions a::after { content: "\00a0\2193"; }   /* non-breaking space: the arrow never wraps onto a line alone */
 .questions a:hover, .questions a:focus-visible { text-decoration: underline; }
 /* Jump links land with a little space above the chart title. */
-.vis { scroll-margin-top: 28px; }
+.vis, section { scroll-margin-top: 28px; }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 /* Sight-lines: side text starts on the same top line as its chart's title. */
 .row { margin-bottom: 56px; align-items: flex-start; }
