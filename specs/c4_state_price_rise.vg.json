@@ -31,8 +31,11 @@
           }
         }
       ],
-      "mark": {"type": "geoshape", "stroke": "#ffffff", "strokeWidth": 0.8},
+      "params": [{"name": "state_hover", "select": {"type": "point", "fields": ["state"], "on": "mouseover", "clear": "mouseout"}}],
+      "mark": {"type": "geoshape"},
       "encoding": {
+        "stroke": {"condition": {"param": "state_hover", "empty": false, "value": "#261b24"}, "value": "#ffffff"},
+        "strokeWidth": {"condition": {"param": "state_hover", "empty": false, "value": 2.2}, "value": 0.8},
         "color": {
           "field": "rise_pct",
           "type": "quantitative",

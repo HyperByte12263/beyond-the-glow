@@ -27,6 +27,16 @@ Headings use **Gloock**, a high-contrast serif that echoes cosmetics packaging. 
 
 Visual hierarchy follows the FIT3179 figure-ground notes: page title > section titles > chart titles (21 px, dark serif) > side-text headings (18 px) > body text (17 px, near-black). Secondary information (subtitles, axes, legends, captions, sources) is smaller and grey; annotations and tooltip values are dark and bold. No chart text is smaller than 12 px. Key words in the text are coloured with the chart colour they refer to, acting as the colour key.
 
+## Interaction
+
+Interaction follows Shneiderman's mantra, "overview first, zoom and filter, then details-on-demand" (as discussed by Stephen Few, *The Surest Path to Visual Discovery*, 2006), kept light because the page presents a story rather than an exploration tool:
+
+- **Overview first:** headline numbers and the treemap open the page; each section opens with its overview chart.
+- **Zoom and filter:** brush the price-versus-rating scatterplot (C7) to filter the rating histogram; choose a product type; switch the sunscreen chart (C12) to products labelled "Best for Oily".
+- **Details-on-demand:** every chart has tooltips; the price lines (C5) show all three prices for the hovered month.
+- **Focus plus context:** hovering highlights one item and fades the rest without hiding them (C2 countries, C4 states, C11 products, C12 sunscreens, C7 selection).
+- **Linked views:** hovering a country in the bump chart (C2) highlights its route on the import flow map (C1), linking the detail back to the overview.
+
 ## Data sources
 
 | Data | Source | Licence |

@@ -13,6 +13,9 @@
   "width": "container",
   "height": 420,
   "projection": {"type": "equalEarth", "rotate": [-150, 0, 0]},
+  "params": [
+    {"name": "focus", "value": "", "description": "Set by js/main.js when the reader hovers a country in the bump chart (C2): that route is highlighted, the others fade."}
+  ],
   "layer": [
     {
       "description": "Base map without Antarctica (saves space). Malaysia is a slightly darker grey.",
@@ -42,8 +45,9 @@
       ],
       "layer": [
         {
-          "mark": {"type": "rule", "color": "#c08a1e", "opacity": 0.75, "strokeCap": "round"},
+          "mark": {"type": "rule", "color": "#c08a1e", "strokeCap": "round"},
           "encoding": {
+            "opacity": {"condition": {"test": "focus == '' || datum.partner == focus", "value": 0.8}, "value": 0.12},
             "longitude": {"field": "lon", "type": "quantitative"},
             "latitude": {"field": "lat", "type": "quantitative"},
             "longitude2": {"field": "kl_lon"},
@@ -64,8 +68,9 @@
           }
         },
         {
-          "mark": {"type": "circle", "color": "#c08a1e", "size": 30, "opacity": 1},
+          "mark": {"type": "circle", "color": "#c08a1e", "size": 30},
           "encoding": {
+            "opacity": {"condition": {"test": "focus == '' || datum.partner == focus", "value": 1}, "value": 0.2},
             "longitude": {"field": "lon", "type": "quantitative"},
             "latitude": {"field": "lat", "type": "quantitative"},
             "tooltip": [
@@ -90,6 +95,19 @@
             {"transform": [{"filter": "datum.partner == 'South Korea'"}], "mark": {"type": "text", "align": "left", "dx": 8, "dy": -8, "fontSize": 13, "fontWeight": 600}},
             {"transform": [{"filter": "datum.partner != 'China' && datum.partner != 'South Korea'"}], "mark": {"type": "text", "dy": -10, "fontSize": 13, "fontWeight": 600}}
           ]
+        },
+        {
+          "description": "Details on demand: label the hovered supplier if it isn't one of the four labelled already.",
+          "transform": [
+            {"filter": "focus != '' && datum.partner == focus && datum.rank > 4"},
+            {"calculate": "datum.partner + ' · $' + format(datum.value_m, '.0f') + ' million'", "as": "label"}
+          ],
+          "mark": {"type": "text", "dy": -10, "fontSize": 13, "fontWeight": 600},
+          "encoding": {
+            "longitude": {"field": "lon", "type": "quantitative"},
+            "latitude": {"field": "lat", "type": "quantitative"},
+            "text": {"field": "label"}
+          }
         }
       ]
     },
@@ -102,8 +120,9 @@
       ],
       "layer": [
         {
-          "mark": {"type": "circle", "size": 420, "color": "#c08a1e", "opacity": 0.35, "stroke": "#c08a1e", "strokeWidth": 1.2},
+          "mark": {"type": "circle", "size": 420, "color": "#c08a1e", "stroke": "#c08a1e", "strokeWidth": 1.2},
           "encoding": {
+            "opacity": {"condition": {"test": "focus == '' || focus == 'Singapore'", "value": 0.4}, "value": 0.1},
             "longitude": {"field": "lon", "type": "quantitative"},
             "latitude": {"field": "lat", "type": "quantitative"},
             "tooltip": [

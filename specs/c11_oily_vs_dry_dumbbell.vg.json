@@ -68,7 +68,8 @@
         "mark": {"type": "rule", "color": "#c4bcc1", "strokeWidth": 3},
         "encoding": {
           "x": {"field": "r_dry", "type": "quantitative", "scale": {"domain": [2.8, 5], "zero": false}},
-          "x2": {"field": "r_oily"}
+          "x2": {"field": "r_oily"},
+          "opacity": {"condition": {"param": "product", "value": 1}, "value": 0.25}
         }
       },
       {
@@ -77,8 +78,10 @@
           {"calculate": "datum.who == 'r_oily' ? 'Oily skin' : 'Dry skin'", "as": "reviewers"},
           {"calculate": "datum.who == 'r_oily' ? datum.n_oily : datum.n_dry", "as": "n"}
         ],
-        "mark": {"type": "circle", "size": 110, "opacity": 1, "stroke": "#ffffff", "strokeWidth": 1.5},
+        "params": [{"name": "product", "select": {"type": "point", "fields": ["product_id"], "on": "mouseover", "clear": "mouseout"}}],
+        "mark": {"type": "circle", "size": 110, "stroke": "#ffffff", "strokeWidth": 1.5},
         "encoding": {
+          "opacity": {"condition": {"param": "product", "value": 1}, "value": 0.25},
           "x": {
             "field": "rating",
             "type": "quantitative",

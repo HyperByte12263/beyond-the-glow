@@ -71,13 +71,30 @@
             "range": [[6, 3], [1, 0], [1, 0]]
           },
           "legend": null
-        },
+        }
+      }
+    },
+    {
+      "description": "Details on demand: a vertical guide follows the pointer and the tooltip lists all three prices for that month.",
+      "transform": [{"pivot": "series", "value": "index", "groupby": ["date"]}],
+      "params": [{"name": "month", "select": {"type": "point", "fields": ["date"], "nearest": true, "on": "mouseover", "clear": "mouseout"}}],
+      "mark": {"type": "rule", "color": "#6e6069", "strokeWidth": 1},
+      "encoding": {
+        "y": null,
+        "opacity": {"condition": {"param": "month", "empty": false, "value": 0.7}, "value": 0},
         "tooltip": [
-          {"field": "series", "type": "nominal", "title": "Prices of"},
-          {"field": "date", "type": "temporal", "title": "Month", "format": "%b %Y"},
-          {"field": "index", "type": "quantitative", "title": "Index (2010 = 100)", "format": ".1f"}
+          {"field": "date", "type": "temporal", "title": "Month", "format": "%B %Y"},
+          {"field": "Beauty products", "type": "quantitative", "title": "Beauty products (2010 = 100)", "format": ".1f"},
+          {"field": "All items", "type": "quantitative", "title": "All items", "format": ".1f"},
+          {"field": "Salon & grooming", "type": "quantitative", "title": "Salon & grooming", "format": ".1f"}
         ]
       }
+    },
+    {
+      "description": "Dots on each line at the hovered month.",
+      "transform": [{"filter": {"param": "month", "empty": false}}],
+      "mark": {"type": "circle", "size": 55, "opacity": 1, "stroke": "#ffffff", "strokeWidth": 1.5},
+      "encoding": {"color": {"field": "series", "type": "nominal", "legend": null}}
     },
     {
       "description": "Direct labels at the end of each line instead of a legend.",

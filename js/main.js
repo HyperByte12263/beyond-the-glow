@@ -30,6 +30,19 @@ const SOURCES = {
   c12: "Source: Sephora Products and Skincare Reviews (Kaggle), products and reviews, collected March 2023."
 };
 
+// Linked views (overview + detail): hovering a country in the bump chart (C2)
+// highlights its route on the import flow map (C1).
+const views = {};
+let linked = false;
+function linkCharts() {
+  if (linked || !views.c1 || !views.c2) return;
+  linked = true;
+  views.c2.addSignalListener("hover", (name, value) => {
+    const partner = value && value.partner ? [].concat(value.partner)[0] : "";
+    views.c1.signal("focus", partner || "").runAsync();
+  });
+}
+
 function renderCharts(theme) {
   for (const [id, spec] of Object.entries(CHARTS)) {
     const el = document.getElementById(id);
@@ -38,7 +51,10 @@ function renderCharts(theme) {
       el.innerHTML = `<div class="placeholder">${id.toUpperCase()}: chart coming soon</div>`;
       continue;
     }
-    vegaEmbed(el, spec, { actions: false, config: theme, renderer: "svg" }).catch(err => {
+    vegaEmbed(el, spec, { actions: false, config: theme, renderer: "svg" }).then(result => {
+      views[id] = result.view;
+      linkCharts();
+    }).catch(err => {
       console.error(id, err);
       el.innerHTML = `<div class="placeholder">${id.toUpperCase()} failed to load: ${err.message}</div>`;
     });

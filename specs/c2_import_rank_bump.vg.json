@@ -6,7 +6,7 @@
     "subtitle": [
       "Each country's rank among Malaysia's suppliers, by import value.",
       "1st is at the top.",
-      "Hover a line to follow one country."
+      "Hover a line: its route lights up on the map."
     ]
   },
   "width": "container",
