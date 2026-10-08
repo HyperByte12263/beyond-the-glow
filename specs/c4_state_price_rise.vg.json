@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "C4 choropleth: % rise in DOSM's Division 13 price index by state, August 2016 to August 2026.",
   "title": {
-    "text": "How much personal-care prices rose in each state, 2016–2026",
+    "text": "How much personal-care prices rose in each state since 2016",
     "subtitle": [
       "Rise in personal-care prices, August 2016 to August 2026.",
       "Malaysia overall rose 19.5%: lighter states rose more slowly,",

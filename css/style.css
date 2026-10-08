@@ -64,6 +64,20 @@ section { margin-bottom: 104px; }
 .row > .text:last-child { padding: 0 0 0 32px; }
 .text p { color: var(--text); }
 
+/* Side-panel extras: a key number (figure) and a "what to look for" reading guide.
+   Order follows the visual hierarchy: heading > text > big number > guide. */
+/* Two sight-lines per row: the side text starts level with the chart title and ends level with the chart's
+   source line, because the key figure is pushed to the bottom of the (stretched) side column. */
+.row.has-text { align-items: stretch; }
+.row.has-text > .text { display: flex; flex-direction: column; }
+.row.has-text > .text > p:not(.key-figure):not(.look) { margin-bottom: 24px; }
+.key-figure { margin: auto 0 0; padding-top: 18px; border-top: 1px solid var(--line); }
+.key-figure b:not([class]) { color: var(--ink); }
+.key-figure b { display: block; font-family: var(--display); font-weight: 400; font-size: 1.8rem; line-height: 1.1; }   /* coloured by its k-* class; below section titles (1.9rem) and header stats (2.2rem) */
+.key-figure > span { display: block; font-size: .9rem; line-height: 1.45; color: var(--muted); margin-top: 6px; max-width: 22em; }
+.look { margin: 20px 0 0; font-size: .95rem; color: var(--text); max-width: 22em; }
+.look-label { display: block; font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ui); margin-bottom: 4px; }
+
 /* Coloured words act as the colour key in the text (same hue as the chart, darkened where needed for 4.5:1 contrast). */
 .k { font-weight: 600; }
 .k-trade { color: #8a6212; }
