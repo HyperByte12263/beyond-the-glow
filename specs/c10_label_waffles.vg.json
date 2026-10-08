@@ -36,8 +36,8 @@
     }
   },
   "spec": {
-    "width": 145,
-    "height": 145,
+    "width": 160,
+    "height": 160,
     "layer": [
       {
         "mark": {"type": "rect", "cornerRadius": 2, "stroke": "#ffffff", "strokeWidth": 2},

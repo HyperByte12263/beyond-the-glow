@@ -13,6 +13,7 @@
   },
   "width": "container",
   "height": 400,
+  "padding": {"left": 3, "top": 5, "right": 5, "bottom": 5},
   "projection": {"type": "mercator"},
   "layer": [
     {

@@ -37,5 +37,6 @@ const VEGA_THEME = {
   },
   legend: { labelColor: "#6e6069", titleColor: "#6e6069", labelFontSize: 13, titleFontSize: 13, titleFontWeight: 500 },
   header: { labelFontSize: 13, titleFontSize: 13 },
-  text: { color: "#261b24", fontSize: 13 }
+  text: { color: "#261b24", fontSize: 13 },
+  padding: { left: 0, top: 5, right: 5, bottom: 5 }   // no inner left padding: chart titles sit exactly on the column edge
 };

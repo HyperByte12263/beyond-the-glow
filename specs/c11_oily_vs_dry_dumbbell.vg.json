@@ -53,7 +53,7 @@
     }
   },
   "spec": {
-    "width": 420,
+    "width": 448,
     "encoding": {
       "y": {
         "field": "name",

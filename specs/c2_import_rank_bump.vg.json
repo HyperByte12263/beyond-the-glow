@@ -28,7 +28,7 @@
       "field": "year",
       "type": "quantitative",
       "title": null,
-      "scale": {"domain": [2015, 2024]},
+      "scale": {"domain": [2015, 2024], "range": [125, {"expr": "width - 125"}]},
       "axis": {"format": "d", "values": [2015, 2018, 2021, 2024], "grid": false, "domain": false, "ticks": false, "labelPadding": 8}
     },
     "y": {
@@ -45,7 +45,7 @@
       "data": {"values": [{"year": 2020, "label": "COVID-19"}]},
       "layer": [
         {"mark": {"type": "rule", "color": "#c4bcc1", "strokeDash": [4, 3]}, "encoding": {"y": null, "detail": null}},
-        {"mark": {"type": "text", "y": -6, "fontSize": 13, "color": "#6e6069"}, "encoding": {"y": null, "detail": null, "text": {"field": "label"}}}
+        {"mark": {"type": "text", "align": "left", "dx": 5, "fontSize": 13, "color": "#6e6069"}, "encoding": {"y": {"datum": 9.2}, "detail": null, "text": {"field": "label"}}}
       ]
     },
     {
@@ -127,5 +127,5 @@
       }
     }
   ],
-  "padding": {"left": 125, "right": 125, "top": 10}
+  "padding": {"left": 0, "right": 0, "top": 10}
 }
