@@ -4,9 +4,9 @@
   "title": {
     "text": "Only about 1 in 9 skincare products is fragrance-free",
     "subtitle": [
-      "Each grid has 100 squares, one for every 1% of 2,420 skincare products.",
-      "A product can carry several labels, so don't add them up.",
-      "*\"Clean at Sephora\" is Sephora's own label, not an official standard."
+      "Each grid has 100 squares, one per 1% of products.",
+      "A product can carry several labels; don't add them up.",
+      "*\"Clean at Sephora\" is Sephora's own label, not a standard."
     ]
   },
   "data": {"url": "data/skincare_products.csv"},
@@ -38,20 +38,34 @@
   "spec": {
     "width": 145,
     "height": 145,
-    "mark": {"type": "rect", "cornerRadius": 2, "stroke": "#ffffff", "strokeWidth": 2},
-    "encoding": {
-      "x": {"field": "col", "type": "ordinal", "axis": null},
-      "y": {"field": "row", "type": "ordinal", "axis": null, "sort": "descending"},
-      "color": {
-        "condition": {"test": "datum.filled", "value": "#a3442c"},
-        "value": "#efeaec"
+    "layer": [
+      {
+        "mark": {"type": "rect", "cornerRadius": 2, "stroke": "#ffffff", "strokeWidth": 2},
+        "encoding": {
+          "x": {"field": "col", "type": "ordinal", "axis": null},
+          "y": {"field": "row", "type": "ordinal", "axis": null, "sort": "descending"},
+          "color": {
+            "condition": {"test": "datum.filled", "value": "#a3442c"},
+            "value": "#efeaec"
+          },
+          "tooltip": [
+            {"field": "label", "type": "nominal", "title": "Label"},
+            {"field": "pct", "type": "quantitative", "title": "% of skincare products"},
+            {"field": "n", "type": "quantitative", "title": "Products", "format": ","}
+          ]
+        }
       },
-      "tooltip": [
-        {"field": "label", "type": "nominal", "title": "Label"},
-        {"field": "pct", "type": "quantitative", "title": "% of skincare products"},
-        {"field": "n", "type": "quantitative", "title": "Products", "format": ","}
-      ]
-    }
+      {
+        "description": "Annotation above each grid: what the label means and how many products carry it.",
+        "transform": [
+          {"filter": "datum.cell == 0"},
+          {"calculate": "{'Clean at Sephora*': 'Sephora\\'s own standard', 'Vegan': 'no animal ingredients', 'Cruelty-free': 'not tested on animals', 'Fragrance-free': 'no added scent'}[datum.label]", "as": "meaning"},
+          {"calculate": "[datum.meaning, format(datum.n, ',') + ' of 2,420 products']", "as": "note"}
+        ],
+        "mark": {"type": "text", "align": "left", "baseline": "bottom", "x": 0, "y": -8, "fontSize": 12, "lineHeight": 16, "color": "#261b24"},
+        "encoding": {"text": {"field": "note"}}
+      }
+    ]
   },
   "resolve": {"scale": {"x": "independent", "y": "independent"}},
   "spacing": 22

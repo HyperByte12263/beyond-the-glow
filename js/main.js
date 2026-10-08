@@ -16,11 +16,11 @@ const CHARTS = {
 };
 
 const SOURCES = {
-  c1: "Source: UN Comtrade, Malaysia's imports of beauty, make-up and skincare products (HS code 3304), 2024. Values in US dollars.",
-  c2: "Source: UN Comtrade, Malaysia's imports of beauty, make-up and skincare products (HS code 3304), 2015–2024.",
-  c3: "Source: UN Comtrade, Malaysia's exports of beauty, make-up and skincare products (HS code 3304), 2024. Values in US dollars.",
-  c4: "Source: Department of Statistics Malaysia (OpenDOSM), Consumer Price Index by state, Division 13, Aug 2016 and Aug 2026. Boundaries: geoBoundaries.",
-  c5: "Source: Department of Statistics Malaysia (OpenDOSM), Consumer Price Index, Jan 2010 – Aug 2026.",
+  c1: "Source: UN Comtrade, Malaysia's imports of beauty, make-up and skincare products (trade code 3304), 2024. Values in US dollars.",
+  c2: "Source: UN Comtrade, Malaysia's imports of beauty, make-up and skincare products (trade code 3304), 2015–2024.",
+  c3: "Source: UN Comtrade, Malaysia's exports of beauty, make-up and skincare products (trade code 3304), 2024. Values in US dollars.",
+  c4: "Source: Department of Statistics Malaysia (OpenDOSM), Consumer Price Index by state, Division 13, August 2016 and August 2026. Boundaries: geoBoundaries.",
+  c5: "Source: Department of Statistics Malaysia (OpenDOSM), Consumer Price Index, January 2010 – August 2026.",
   c6: "Source: Sephora Products and Skincare Reviews (Kaggle), 2,420 skincare products from Sephora's US store, collected March 2023.",
   c7: "Source: Sephora Products and Skincare Reviews (Kaggle), collected March 2023. Ratings are customers' average stars.",
   c8: "Source: Sephora Products and Skincare Reviews (Kaggle), all 8,494 products, collected March 2023.",

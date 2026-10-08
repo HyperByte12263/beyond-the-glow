@@ -4,8 +4,10 @@
   "title": {
     "text": "Where Malaysia's make-up and skincare imports come from",
     "subtitle": [
-      "Imports in 2024: US$624 M from 82 countries. Thicker lines carry more value; the 10 biggest suppliers are shown.",
-      "Singapore, the biggest supplier, is a trading hub that passes on goods made elsewhere; it is shown as a circle."
+      "Imports in 2024: US$624 million from 82 countries.",
+      "Thicker lines carry more value; top 10 suppliers shown.",
+      "Singapore, the biggest supplier, is a trading hub",
+      "for goods made elsewhere, so it appears as a circle."
     ]
   },
   "width": "container",
@@ -49,14 +51,14 @@
             "strokeWidth": {
               "field": "value_m",
               "type": "quantitative",
-              "title": "Imports, 2024 (US$ M)",
+              "title": "Imports, 2024 (US$ million)",
               "scale": {"domain": [0, 75], "range": [0.5, 9]},
               "legend": {"orient": "bottom-left", "values": [10, 30, 70], "direction": "horizontal"}
             },
             "order": {"field": "value_m", "sort": "ascending"},
             "tooltip": [
               {"field": "partner", "type": "nominal", "title": "From"},
-              {"field": "value_m", "type": "quantitative", "title": "Imports, 2024 (US$ M)", "format": ",.1f"},
+              {"field": "value_m", "type": "quantitative", "title": "Imports, 2024 (US$ million)", "format": ",.1f"},
               {"field": "share_pct", "type": "quantitative", "title": "Share of imports (%)", "format": ".1f"}
             ]
           }
@@ -68,7 +70,7 @@
             "latitude": {"field": "lat", "type": "quantitative"},
             "tooltip": [
               {"field": "partner", "type": "nominal", "title": "From"},
-              {"field": "value_m", "type": "quantitative", "title": "Imports, 2024 (US$ M)", "format": ",.1f"}
+              {"field": "value_m", "type": "quantitative", "title": "Imports, 2024 (US$ million)", "format": ",.1f"}
             ]
           }
         },
@@ -76,7 +78,7 @@
           "description": "Label the four biggest long-distance suppliers. China and South Korea sit close together, so their labels go to opposite sides.",
           "transform": [
             {"filter": "datum.rank <= 4"},
-            {"calculate": "datum.partner + ' · $' + format(datum.value_m, '.0f') + ' M'", "as": "label"}
+            {"calculate": "datum.partner + ' · $' + format(datum.value_m, '.0f') + ' million'", "as": "label"}
           ],
           "encoding": {
             "longitude": {"field": "lon", "type": "quantitative"},
@@ -96,7 +98,7 @@
       "data": {"url": "data/trade_imports.csv", "format": {"parse": {"year": "number", "value_usd": "number", "share_pct": "number", "lat": "number", "lon": "number"}}},
       "transform": [
         {"filter": "datum.year == 2024 && datum.partner == 'Singapore'"},
-        {"calculate": "'Singapore · $' + format(datum.value_usd / 1e6, '.0f') + ' M (' + format(datum.share_pct, '.0f') + '%)'", "as": "label"}
+        {"calculate": "'Singapore · $' + format(datum.value_usd / 1e6, '.0f') + ' million (' + format(datum.share_pct, '.0f') + '%)'", "as": "label"}
       ],
       "layer": [
         {

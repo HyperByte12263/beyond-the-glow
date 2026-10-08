@@ -4,9 +4,10 @@
   "title": {
     "text": "304 brands, and none owns the shelf",
     "subtitle": [
-      "Area = number of products listed (not sales).",
-      "Purple = skincare, the focus of this page; grey = other categories.",
-      "Darker blocks are each category's 5 biggest brands; the light block is all other brands.",
+      "Each category is split into its brands.",
+      "Area shows the number of products listed, not sales.",
+      "Purple is skincare, this page's focus; grey, other categories.",
+      "Darker blocks: each category's 5 biggest brands.",
       "No brand has more than 8% of any category."
     ],
     "anchor": "start",

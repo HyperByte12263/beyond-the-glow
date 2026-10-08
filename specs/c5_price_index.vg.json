@@ -3,7 +3,10 @@
   "description": "C5 indexed line chart: national price indexes (2010 = 100) for all items, personal-care products and personal grooming services.",
   "title": {
     "text": "Beauty products got cheaper compared with everything else",
-    "subtitle": "Price index, 2010 = 100. A value of 150 means prices are 50% higher than in 2010."
+    "subtitle": [
+      "Price index: 2010 prices = 100.",
+      "A value of 150 means prices are 50% higher."
+    ]
   },
   "width": "container",
   "height": 320,

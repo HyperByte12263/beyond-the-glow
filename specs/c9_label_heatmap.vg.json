@@ -4,7 +4,8 @@
   "title": {
     "text": "What each product type advertises on the label",
     "subtitle": [
-      "% of products that list it as a highlight; darker squares mean more products.",
+      "Share of products advertising each ingredient or claim.",
+      "Darker squares mean more products.",
       "This shows what is advertised, not every ingredient inside."
     ]
   },
@@ -20,14 +21,14 @@
     {"calculate": "indexof(datum.tags, '|Hyaluronic Acid|') >= 0 ? 100 : 0", "as": "Hyaluronic acid · holds moisture"},
     {"calculate": "indexof(datum.tags, '|Vitamin C|') >= 0 ? 100 : 0", "as": "Vitamin C · brightens"},
     {"calculate": "indexof(datum.tags, '|Niacinamide|') >= 0 ? 100 : 0", "as": "Niacinamide · evens skin tone"},
-    {"calculate": "indexof(datum.tags, '|AHA/Glycolic Acid|') >= 0 ? 100 : 0", "as": "AHA / glycolic acid · exfoliates"},
+    {"calculate": "indexof(datum.tags, '|AHA/Glycolic Acid|') >= 0 ? 100 : 0", "as": "Glycolic acid · exfoliates"},
     {"calculate": "indexof(datum.tags, '|Salicylic Acid|') >= 0 ? 100 : 0", "as": "Salicylic acid · unclogs pores"},
     {"calculate": "indexof(datum.tags, '|Retinol|') >= 0 ? 100 : 0", "as": "Retinol · smooths fine lines"},
     {"calculate": "indexof(datum.tags, '|Oil Free|') >= 0 ? 100 : 0", "as": "Oil-free · no added oils"},
     {"calculate": "indexof(datum.tags, '|Alcohol Free|') >= 0 ? 100 : 0", "as": "Alcohol-free · no drying alcohol"},
     {
       "fold": [
-        "Hyaluronic acid · holds moisture", "Vitamin C · brightens", "Niacinamide · evens skin tone", "AHA / glycolic acid · exfoliates",
+        "Hyaluronic acid · holds moisture", "Vitamin C · brightens", "Niacinamide · evens skin tone", "Glycolic acid · exfoliates",
         "Salicylic acid · unclogs pores", "Retinol · smooths fine lines", "Oil-free · no added oils", "Alcohol-free · no drying alcohol"
       ],
       "as": ["tag", "has"]

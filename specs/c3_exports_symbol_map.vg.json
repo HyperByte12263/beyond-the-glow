@@ -4,8 +4,10 @@
   "title": {
     "text": "Who buys Malaysia's make-up and skincare",
     "subtitle": [
-      "Exports in 2024: US$173 M to 187 countries, and 57% went to ASEAN neighbours. Circle area shows value.",
-      "Outside this map: the USA (US$5.7 M) and many small markets."
+      "Exports in 2024: US$173 million to 187 countries.",
+      "57% went to our South-East Asian neighbours.",
+      "Circle area shows value. Not on this map:",
+      "the USA (US$5.7 million) and many small markets."
     ]
   },
   "width": "container",
@@ -44,14 +46,14 @@
         "size": {
           "field": "value_m",
           "type": "quantitative",
-          "title": "Exports, 2024 (US$ M)",
+          "title": "Exports, 2024 (US$ million)",
           "scale": {"domain": [0, 62], "range": [0, 1900]},
           "legend": {"orient": "bottom-left", "values": [5, 20, 60], "symbolFillColor": "#c08a1e", "symbolOpacity": 0.55, "symbolStrokeColor": "#a8771a", "direction": "horizontal"}
         },
         "order": {"field": "value_m", "sort": "descending"},
         "tooltip": [
           {"field": "partner", "type": "nominal", "title": "Sold to"},
-          {"field": "value_m", "type": "quantitative", "title": "Exports, 2024 (US$ M)", "format": ",.1f"},
+          {"field": "value_m", "type": "quantitative", "title": "Exports, 2024 (US$ million)", "format": ",.1f"},
           {"field": "share_pct", "type": "quantitative", "title": "Share of exports (%)", "format": ".1f"}
         ]
       }
@@ -62,7 +64,7 @@
       "transform": [
         {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "value_usd", "order": "descending"}]},
         {"filter": "datum.rank <= 5"},
-        {"calculate": "datum.partner + ' · $' + format(datum.value_usd / 1e6, '.0f') + ' M' + (datum.rank == 1 ? ' (' + format(datum.share_pct, '.0f') + '%)' : '')", "as": "label"}
+        {"calculate": "datum.partner + ' · $' + format(datum.value_usd / 1e6, '.0f') + ' million' + (datum.rank == 1 ? ' (' + format(datum.share_pct, '.0f') + '%)' : '')", "as": "label"}
       ],
       "encoding": {
         "longitude": {"field": "lon", "type": "quantitative"},

@@ -4,8 +4,10 @@
   "title": {
     "text": "Paying more barely changes the rating",
     "subtitle": [
-      "1,812 skincare products with 30+ reviews. Products under US$25 average 4.17★; those over US$250 average 4.24★.",
-      "Drag across the left chart to select products. On the right, purple bars show how the selection is rated; grey bars show all products."
+      "1,812 skincare products with 30+ reviews.",
+      "Under US$25 they average 4.17★; over US$250, 4.24★.",
+      "Drag across the left chart to select products.",
+      "Purple bars: your selection. Grey bars: all products."
     ]
   },
   "data": {

@@ -4,9 +4,10 @@
   "title": {
     "text": "A typical moisturiser costs US$58; a typical cleanser US$34",
     "subtitle": [
-      "Each box holds the middle half of products; the dark line is the typical (median) price;",
-      "whiskers reach the cheapest and priciest. Each faint dot is one product.",
-      "Prices above US$250 (3% or fewer per category) are drawn at the right edge."
+      "Each box holds the middle half of products;",
+      "the dark line is the typical (median) price.",
+      "Whiskers reach the extremes; each faint dot is one product.",
+      "Prices above US$250 are drawn at the right edge."
     ]
   },
   "width": "container",

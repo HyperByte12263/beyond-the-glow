@@ -4,9 +4,12 @@
   "title": {
     "text": "Finding a sunscreen for oily skin",
     "subtitle": [
-      "The 15 face sunscreens most reviewed by people with oily skin. Each line is one product; on every axis, better is at the top.",
-      "Highlighted: innisfree Daily UV Defense, the cheapest (US$16), rated 4.5★ by oily skin across 195 reviews.",
-      "None of these 15 is labelled \"Best for Oily\". Tick the box below to compare the 12 that are."
+      "The 15 face sunscreens most reviewed by oily skin.",
+      "Each line is one product; better is at the top.",
+      "Purple: innisfree Daily UV Defense, the cheapest at US$16,",
+      "rated 4.5★ by oily skin across 195 reviews.",
+      "None of these 15 is labelled \"Best for Oily\";",
+      "tick the box below to see the 12 that are."
     ]
   },
   "width": "container",

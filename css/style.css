@@ -33,8 +33,8 @@ h1 { font-size: clamp(2.6rem, 6vw, 4.2rem); }
 h2 { font-size: 1.9rem; }
 /* Hierarchy: page title > section title > chart title (21px, js/theme.js) > side-text heading (18px) > body (17px). */
 h3 { font-size: 1.1rem; margin-bottom: 6px; }
-/* About 60 characters (7 to 10 words) per line, as the typography notes recommend. */
-p { margin: 0 0 12px; max-width: 27em; }
+/* At most 10 words (about 55 characters) per line: typography notes and DV1 feedback. */
+p { margin: 0 0 12px; max-width: 23em; }
 a { color: var(--ui); }
 
 .eyebrow { text-transform: uppercase; letter-spacing: .1em; font-size: .8rem; font-weight: 600; color: var(--ui); margin-bottom: 8px; }
@@ -42,7 +42,7 @@ a { color: var(--ui); }
 
 /* Hero */
 .hero { padding-bottom: 32px; margin-bottom: 48px; border-bottom: 1px solid var(--line); }
-.subtitle { font-size: 1.25rem; color: var(--muted); max-width: 55ch; margin-top: 12px; }
+.subtitle { font-size: 1.25rem; color: var(--muted); max-width: 22em; margin-top: 12px; }
 .byline { font-size: .85rem; color: var(--muted); }
 .stats { margin: 24px 0 16px; }
 .stat { font-size: .9rem; color: var(--muted); padding-right: 24px; }
@@ -50,11 +50,14 @@ a { color: var(--ui); }
 .caveat { font-size: .85rem; color: var(--muted); border-left: 3px solid var(--line); padding-left: 12px; }
 
 /* Sections */
-section { margin-bottom: 64px; }
-.section-title { display: flex; align-items: baseline; gap: 14px; margin-bottom: 16px; }
+/* White space (DV1 feedback): generous gaps between sections and rows group related items. */
+section { margin-bottom: 104px; }
+.section-title { display: flex; align-items: baseline; gap: 14px; margin-bottom: 20px; }
 .section-title span { font-family: var(--body); font-size: .9rem; font-weight: 600; color: var(--ui); border: 1px solid var(--ui); border-radius: 50%; width: 1.9em; height: 1.9em; display: inline-grid; place-items: center; flex: none; transform: translateY(-4px); }
-.lede { color: var(--text); margin-bottom: 8px; }
-.row { margin-bottom: 32px; align-items: center; }
+.lede { color: var(--text); margin-bottom: 20px; }
+/* Sight-lines: side text starts on the same top line as its chart's title. */
+.row { margin-bottom: 56px; align-items: flex-start; }
+.row > .text { padding-top: 4px !important; }
 /* Sight-lines: side text keeps the page's left/right edges and only gets space on the side facing the chart. */
 .text { box-sizing: border-box; }
 .row > .text:first-child { padding: 0 32px 0 0; }

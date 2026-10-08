@@ -1,12 +1,14 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "C4 choropleth: % rise in DOSM's Division 13 price index by state, Aug 2016 to Aug 2026.",
+  "description": "C4 choropleth: % rise in DOSM's Division 13 price index by state, August 2016 to August 2026.",
   "title": {
-    "text": "How much personal-care prices rose in each state, 2016 to 2026",
+    "text": "How much personal-care prices rose in each state, 2016–2026",
     "subtitle": [
-      "Rise in DOSM's price index for personal care (Division 13), Aug 2016 to Aug 2026. Malaysia overall rose 19.5%;",
-      "the colour bands are centred on that, so lighter states rose more slowly than the country and darker states faster.",
-      "Division 13 also includes salon services, jewellery, childcare and other personal items."
+      "Rise in personal-care prices, August 2016 to August 2026.",
+      "Malaysia overall rose 19.5%: lighter states rose more slowly,",
+      "darker states faster.",
+      "The price group used (Division 13) also covers salon services,",
+      "jewellery, childcare and other personal items."
     ]
   },
   "width": "container",
@@ -50,9 +52,9 @@
         },
         "tooltip": [
           {"field": "properties.shapeName", "type": "nominal", "title": "State"},
-          {"field": "rise_pct", "type": "quantitative", "title": "Rise since Aug 2016 (%)", "format": ".1f"},
-          {"field": "index_aug2016", "type": "quantitative", "title": "Index, Aug 2016", "format": ".1f"},
-          {"field": "index_aug2026", "type": "quantitative", "title": "Index, Aug 2026", "format": ".1f"}
+          {"field": "rise_pct", "type": "quantitative", "title": "Rise since August 2016 (%)", "format": ".1f"},
+          {"field": "index_aug2016", "type": "quantitative", "title": "Index, August 2016", "format": ".1f"},
+          {"field": "index_aug2026", "type": "quantitative", "title": "Index, August 2026", "format": ".1f"}
         ]
       }
     },
