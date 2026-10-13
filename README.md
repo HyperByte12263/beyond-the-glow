@@ -13,7 +13,7 @@ FIT3179 Data Visualisation 2, Monash University Malaysia, 2026. Author: Tan Le H
 | `js/theme.js` | Shared Vega-Lite config (fonts, axes) |
 | `js/main.js` | Embeds each chart spec into the page |
 | `specs/*.vg.json` | One Vega-Lite (or Vega) spec per chart, formatted for reading |
-| `data/` | Small, chart-ready data files (about 1.4 MB in total) |
+| `data/` | Small, chart-ready data files (about 2.2 MB in total) |
 | `scripts/` | How `data/` was made from the raw downloads |
 | `sketch/` | PDF of the hand-drawn sketch |
 
@@ -35,7 +35,7 @@ Visual hierarchy follows the FIT3179 figure-ground notes: page title > section t
 | C1 | Flow map with curved routes + zoomed inset | Where do our imports come from? |
 | C2b | Streamgraph | How have imports grown, and who drove it? |
 | C2 | Bump chart | How did each supplier's rank change? |
-| C3 | Proportional-symbol map | Who buys Malaysia's exports? |
+| C3 | Graduated-symbol map (five size classes) linked to a ranked bar chart | Who buys Malaysia's exports? |
 | C4 | Choropleth map | Which states saw the biggest price rises? |
 | C5 | Indexed line chart | Did beauty products rise faster than everything else? |
 | C6 | Boxplot with jittered dots | How much does each product type cost? |
@@ -64,7 +64,7 @@ Interaction follows Shneiderman's mantra, "overview first, zoom and filter, then
 | Consumer Price Index by state (Division 13), national CPI by division and by subclass | Department of Statistics Malaysia, [OpenDOSM](https://open.dosm.gov.my/data-catalogue) | CC BY 4.0 |
 | Sephora products and skincare reviews (collected March 2023) | Nady Inky, [Kaggle](https://www.kaggle.com/datasets/nadyinky/sephora-products-and-skincare-reviews) | CC BY 4.0 |
 | Malaysia state boundaries | [geoBoundaries](https://www.geoboundaries.org/) gbOpen MYS ADM1 | ODbL |
-| World map | [world-atlas](https://github.com/topojson/world-atlas) 110m, from Natural Earth | Public domain |
+| World map | [world-atlas](https://github.com/topojson/world-atlas) 110m (world view) and 50m (regional maps, which need small countries such as Singapore), from Natural Earth | Public domain |
 | Country centre coordinates | Google [countries.csv](https://developers.google.com/public-data/docs/canonical/countries_csv), via the FIT3179 studio examples | See source |
 
 ## Rebuilding `data/`

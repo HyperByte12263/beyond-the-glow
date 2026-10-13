@@ -139,7 +139,7 @@
       "layer": [
         {"data": {"sphere": true}, "mark": {"type": "geoshape", "fill": "#e2eaee", "stroke": null, "clip": true}},
         {
-          "data": {"url": "data/world-110m.json", "format": {"type": "topojson", "feature": "countries"}},
+          "data": {"url": "data/world-50m.json", "format": {"type": "topojson", "feature": "countries"}},
           "mark": {"type": "geoshape", "stroke": "#ffffff", "strokeWidth": 0.7, "clip": true},
           "encoding": {"color": {"condition": {"test": "datum.id == '458'", "value": "#cfc5cb"}, "value": "#f4f1f2"}}
         },

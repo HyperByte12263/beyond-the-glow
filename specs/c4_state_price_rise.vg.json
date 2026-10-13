@@ -22,7 +22,7 @@
     {"description": "Sea.", "data": {"sphere": true}, "mark": {"type": "geoshape", "fill": "#e2eaee", "stroke": null, "clip": true}},
     {
       "description": "Neighbouring countries in light grey, so Malaysia stands out as the figure.",
-      "data": {"url": "data/world-110m.json", "format": {"type": "topojson", "feature": "countries"}},
+      "data": {"url": "data/world-50m.json", "format": {"type": "topojson", "feature": "countries"}},
       "transform": [{"filter": "datum.id != '458'"}],
       "mark": {"type": "geoshape", "fill": "#f4f1f2", "stroke": "#ffffff", "strokeWidth": 0.5, "clip": true}
     },
