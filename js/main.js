@@ -22,7 +22,7 @@ const SOURCES = {
   c2b: "Source: UN Comtrade, Malaysia's imports of beauty, make-up and skincare products (trade code 3304), 2015–2024. Values in US dollars.",
   c2: "Source: UN Comtrade, Malaysia's imports of beauty, make-up and skincare products (trade code 3304), 2015–2024.",
   c3: "Source: UN Comtrade, Malaysia's exports of beauty, make-up and skincare products (trade code 3304), 2024. Values in US dollars.",
-  c4: "Source: Department of Statistics Malaysia (OpenDOSM), Consumer Price Index by state, Division 13, August 2016 and August 2026. Boundaries: geoBoundaries.",
+  c4: "Source: Department of Statistics Malaysia (OpenDOSM), Consumer Price Index by state, August 2016 and August 2026. The price group used (Division 13) also covers salon services, jewellery, childcare and other personal items. Boundaries: geoBoundaries.",
   c5: "Source: Department of Statistics Malaysia (OpenDOSM), Consumer Price Index, January 2010 – August 2026.",
   c6: "Source: Sephora Products and Skincare Reviews (Kaggle), 2,420 skincare products from Sephora's US store, collected March 2023.",
   c7: "Source: Sephora Products and Skincare Reviews (Kaggle), collected March 2023. Ratings are customers' average stars.",
@@ -32,6 +32,17 @@ const SOURCES = {
   c11a: "Source: Sephora Products and Skincare Reviews (Kaggle), 1.09 million skincare reviews, 2008–2023. Skin type as reported by each reviewer.",
   c11: "Source: Sephora Products and Skincare Reviews (Kaggle), 1.09 million skincare reviews, 2008–2023. Skin type as reported by each reviewer.",
   c12: "Source: Sephora Products and Skincare Reviews (Kaggle), products and reviews, collected March 2023."
+};
+
+// How to use each interactive chart. Shown as a plum "Try it" chip above the chart (page UI),
+// kept apart from the grey chart subtitles that describe the data.
+const INTERACTIONS = {
+  c2b: "Hover a stream to see its value each year.",
+  c2: "Hover a line: its route lights up on the map.",
+  c3: "Hover a bar or circle: the same country lights up.",
+  c7: "Click a band to compare its ratings, or filter below.",
+  c9: "Hover a square for the exact share.",
+  c12: "Hover a dot for the product, price and reviews."
 };
 
 // Linked views (overview + detail): hovering a country in the bump chart (C2)
@@ -62,6 +73,13 @@ function renderCharts(theme) {
       console.error(id, err);
       el.innerHTML = `<div class="placeholder">${id.toUpperCase()} failed to load: ${err.message}</div>`;
     });
+    if (INTERACTIONS[id] && !el.previousElementSibling?.classList.contains("try")) {
+      const tip = document.createElement("p");
+      tip.className = "try";
+      tip.innerHTML = '<span class="try-label">Try it</span>';
+      tip.append(INTERACTIONS[id]);
+      el.before(tip);
+    }
     if (SOURCES[id] && !el.nextElementSibling?.classList.contains("source")) {
       const p = document.createElement("p");
       p.className = "source";

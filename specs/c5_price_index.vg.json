@@ -47,17 +47,17 @@
     },
     {
       "data": {"values": [{"date": "2015-04-01", "y": 95.5, "label": ["GST begins, April 2015:", "beauty prices up 2.3%"]}], "format": {"parse": {"date": "date"}}},
-      "mark": {"type": "text", "align": "right", "baseline": "top", "dx": -5, "fontSize": 12, "fontStyle": "italic", "color": "#261b24", "lineHeight": 15},
+      "mark": {"type": "text", "align": "right", "baseline": "top", "dx": -5, "fontSize": 13, "fontStyle": "italic", "color": "#261b24", "lineHeight": 16},
       "encoding": {"y": {"field": "y", "type": "quantitative"}, "text": {"field": "label"}}
     },
     {
       "data": {"values": [{"date": "2018-06-01", "y": 97.5, "label": ["GST removed, June 2018: beauty", "prices fell 4% in a month and stayed low"]}], "format": {"parse": {"date": "date"}}},
-      "mark": {"type": "text", "align": "left", "baseline": "top", "dx": 5, "fontSize": 12, "fontStyle": "italic", "color": "#261b24", "lineHeight": 15},
+      "mark": {"type": "text", "align": "left", "baseline": "top", "dx": 5, "fontSize": 13, "fontStyle": "italic", "color": "#261b24", "lineHeight": 16},
       "encoding": {"y": {"field": "y", "type": "quantitative"}, "text": {"field": "label"}}
     },
     {
       "data": {"values": [{"date": "2020-03-18", "y": 163, "label": ["Lockdown, March 2020: overall prices", "fell, but salon prices rose 3%"]}], "format": {"parse": {"date": "date"}}},
-      "mark": {"type": "text", "align": "right", "baseline": "top", "dx": -5, "fontSize": 12, "fontStyle": "italic", "color": "#261b24", "lineHeight": 15},
+      "mark": {"type": "text", "align": "right", "baseline": "top", "dx": -5, "fontSize": 13, "fontStyle": "italic", "color": "#261b24", "lineHeight": 16},
       "encoding": {"y": {"field": "y", "type": "quantitative"}, "text": {"field": "label"}}
     },
     {

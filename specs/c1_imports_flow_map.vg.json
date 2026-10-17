@@ -5,8 +5,7 @@
     "text": "Where Malaysia's make-up and skincare imports come from",
     "subtitle": [
       "Imports in 2024: US$624 million from 82 countries.",
-      "Thicker routes carry more value; top 10 suppliers shown.",
-      "Short routes from our neighbours are clearer in the zoom."
+      "Thicker routes carry more value; top 8 suppliers shown."
     ]
   },
   "params": [
@@ -31,12 +30,12 @@
           "encoding": {"color": {"condition": {"test": "datum.id == '458'", "value": "#cfc5cb"}, "value": "#f4f1f2"}}
         },
         {
-          "description": "Curved routes for the top 9 suppliers after Singapore. Each route is a quadratic curve from the supplier to Kuala Lumpur, bowed to one side so routes fan out. Western-hemisphere longitudes are shifted by 360 so the USA route crosses the Pacific.",
+          "description": "Curved routes for the top 7 suppliers after Singapore (the same 8 countries as the bump chart, so its hover link covers every route). Each route is a quadratic curve from the supplier to Kuala Lumpur, bowed to one side so routes fan out. Western-hemisphere longitudes are shifted by 360 so the USA route crosses the Pacific. Sorted by value so thinner routes are drawn on top of thicker ones.",
           "data": {"url": "data/trade_imports.csv", "format": {"parse": {"year": "number", "value_usd": "number", "share_pct": "number", "lat": "number", "lon": "number"}}},
           "transform": [
             {"filter": "datum.year == 2024 && datum.partner != 'Singapore'"},
             {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "value_usd", "order": "descending"}]},
-            {"filter": "datum.rank <= 9"},
+            {"filter": "datum.rank <= 7"},
             {"calculate": "datum.value_usd / 1e6", "as": "value_m"},
             {"calculate": "datum.lon < -30 ? datum.lon + 360 : datum.lon", "as": "lon0"},
             {"calculate": "(datum.lon0 + 101.69) / 2 + 0.15 * (datum.lat - 3.14)", "as": "cx"},
@@ -68,12 +67,12 @@
           }
         },
         {
-          "description": "Supplier dots and labels for the four biggest long-distance suppliers (China and South Korea sit close together, so their labels go to opposite sides).",
+          "description": "Supplier dots and labels for the long-distance suppliers. China, South Korea and Japan sit close together, so China's label goes left, South Korea's above its dot and Japan's right, out in the Pacific: each label sits clearly beside its own dot.",
           "data": {"url": "data/trade_imports.csv", "format": {"parse": {"year": "number", "value_usd": "number", "share_pct": "number", "lat": "number", "lon": "number"}}},
           "transform": [
             {"filter": "datum.year == 2024 && datum.partner != 'Singapore'"},
             {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "value_usd", "order": "descending"}]},
-            {"filter": "datum.rank <= 9"},
+            {"filter": "datum.rank <= 7"},
             {"calculate": "datum.value_usd / 1e6", "as": "value_m"},
             {"calculate": "datum.partner + ' · $' + format(datum.value_m, '.0f') + ' million'", "as": "label"}
           ],
@@ -93,11 +92,18 @@
               }
             },
             {"transform": [{"filter": "datum.partner == 'China'"}], "mark": {"type": "text", "align": "right", "dx": -8, "dy": -8, "fontSize": 13, "fontWeight": 600}, "encoding": {"text": {"field": "label"}}},
-            {"transform": [{"filter": "datum.partner == 'South Korea'"}], "mark": {"type": "text", "align": "left", "dx": 8, "dy": -8, "fontSize": 13, "fontWeight": 600}, "encoding": {"text": {"field": "label"}}},
+            {
+              "description": "South Korea's label is lifted above China's and Japan's labels, with a short leader line down to its dot.",
+              "transform": [{"filter": "datum.partner == 'South Korea'"}, {"calculate": "datum.lat + 1.5", "as": "lat_from"}, {"calculate": "datum.lat + 9", "as": "lat_to"}],
+              "mark": {"type": "rule", "color": "#6e6069", "strokeWidth": 0.8},
+              "encoding": {"latitude": {"field": "lat_from", "type": "quantitative"}, "latitude2": {"field": "lat_to"}, "longitude2": {"field": "lon"}}
+            },
+            {"transform": [{"filter": "datum.partner == 'South Korea'"}, {"calculate": "datum.lat + 10", "as": "lat_label"}], "mark": {"type": "text", "align": "center", "baseline": "bottom", "fontSize": 13, "fontWeight": 600}, "encoding": {"latitude": {"field": "lat_label", "type": "quantitative"}, "text": {"field": "label"}}},
+            {"transform": [{"filter": "datum.partner == 'Japan'"}], "mark": {"type": "text", "align": "left", "dx": 8, "dy": 4, "fontSize": 13, "fontWeight": 600}, "encoding": {"text": {"field": "label"}}},
             {"transform": [{"filter": "datum.partner == 'USA' || datum.partner == 'France'"}], "mark": {"type": "text", "dy": -10, "fontSize": 13, "fontWeight": 600}, "encoding": {"text": {"field": "label"}}},
             {
               "description": "Details on demand: label the hovered supplier if it isn't labelled already.",
-              "transform": [{"filter": "focus != '' && datum.partner == focus && datum.rank > 4"}],
+              "transform": [{"filter": "focus != '' && datum.partner == focus && datum.rank > 4 && datum.partner != 'Japan'"}],
               "mark": {"type": "text", "dy": -10, "fontSize": 13, "fontWeight": 600},
               "encoding": {"text": {"field": "label"}}
             }
@@ -132,7 +138,7 @@
     },
     {
       "description": "Zoom on South-East Asia (focus + context): routes from far suppliers are clipped at the edge, showing only their direction.",
-      "title": {"text": "Zoom: South-East Asia", "fontSize": 16},
+      "title": {"text": "Zoom: South-East Asia", "fontSize": 17},
       "width": 370,
       "height": 400,
       "projection": {"type": "mercator", "fit": {"type": "Feature", "geometry": {"type": "MultiPoint", "coordinates": [[96, -8], [122, 18]]}}},
@@ -144,12 +150,12 @@
           "encoding": {"color": {"condition": {"test": "datum.id == '458'", "value": "#cfc5cb"}, "value": "#f4f1f2"}}
         },
         {
-          "description": "Curved routes for the top 10 suppliers, now including Singapore. Same curve formula as the world view.",
+          "description": "Curved routes for the top 8 suppliers, now including Singapore. Same curve formula as the world view.",
           "data": {"url": "data/trade_imports.csv", "format": {"parse": {"year": "number", "value_usd": "number", "share_pct": "number", "lat": "number", "lon": "number"}}},
           "transform": [
             {"filter": "datum.year == 2024"},
             {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "value_usd", "order": "descending"}]},
-            {"filter": "datum.rank <= 10"},
+            {"filter": "datum.rank <= 8"},
             {"calculate": "datum.value_usd / 1e6", "as": "value_m"},
             {"calculate": "datum.lon < -30 ? datum.lon + 360 : datum.lon", "as": "lon0"},
             {"calculate": "(datum.lon0 + 101.69) / 2 + 0.15 * (datum.lat - 3.14)", "as": "cx"},
@@ -192,7 +198,7 @@
         {
           "description": "Annotation: why Singapore leads.",
           "data": {"values": [{"lon": 108.6, "lat": -0.6, "label": ["Singapore, our biggest supplier,", "is a trading hub: brands", "ship there first"]}]},
-          "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 12, "fontStyle": "italic", "color": "#261b24", "lineHeight": 15},
+          "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 13, "fontStyle": "italic", "color": "#261b24", "lineHeight": 16},
           "encoding": {"longitude": {"field": "lon", "type": "quantitative"}, "latitude": {"field": "lat", "type": "quantitative"}, "text": {"field": "label"}}
         },
         {

@@ -29,31 +29,43 @@ body { margin: 0; color: var(--ink); font-family: var(--body); font-size: 17px; 
 .page { max-width: 1100px; margin: 0 auto; padding: 48px 24px 64px; }
 
 h1, h2, h3 { font-family: var(--display); font-weight: 400; line-height: 1.15; text-wrap: balance; margin: 0; }
+/* One type scale for the whole page, charts included (peer critique: too many near-identical sizes).
+   13 small text · 15 secondary text and chart subtitles · 17 body · 21 headings and chart titles ·
+   30 section titles and key figures · 36 header numbers · page title. Sizes are in px so the 16 px rem
+   base can't produce in-between sizes. */
 h1 { font-size: clamp(2.6rem, 6vw, 4.2rem); }
-h2 { font-size: 1.9rem; }
-/* Hierarchy: page title > section title > chart title (21px, js/theme.js) > side-text heading (19px) > body (17px). */
-h3 { font-size: 1.2rem; margin-bottom: 8px; }
+h2 { font-size: 30px; }
+/* Hierarchy: page title > section title (30) > chart title and side-text heading (21) > body (17). */
+h3 { font-size: 21px; margin-bottom: 8px; }
 /* At most 10 words (about 55 characters) per line: typography notes and DV1 feedback. */
 p { margin: 0 0 12px; max-width: 23em; }
 a { color: var(--ui); }
 
-.eyebrow { text-transform: uppercase; letter-spacing: .1em; font-size: .8rem; font-weight: 600; color: var(--ui); margin-bottom: 8px; }
+.eyebrow { text-transform: uppercase; letter-spacing: .1em; font-size: 13px; font-weight: 600; color: var(--ui); margin-bottom: 8px; }
 .muted { color: var(--muted); }
 
-/* Hero */
-.hero { padding-bottom: 32px; margin-bottom: 48px; border-bottom: 1px solid var(--line); }
-.subtitle { font-size: 1.25rem; color: var(--muted); max-width: 22em; margin-top: 12px; }
-.byline { font-size: .85rem; color: var(--muted); }
-.stats { margin: 24px 0 16px; }
-.stat { font-size: .9rem; color: var(--muted); padding-right: 24px; }
-.stat b { display: block; font-family: var(--display); font-weight: 400; font-size: 2.2rem; color: var(--ink); line-height: 1.1; }
-.caveat { font-size: .85rem; color: var(--muted); border-left: 3px solid var(--line); padding-left: 12px; }
+/* Hero: a centred banner framed like a skincare product label (double plum frame, numbers in a strip
+   along the bottom), so the title fills the width instead of leaving the right side empty. */
+/* Kept compact (peer critique: white space at the title): subtitle on two wide lines, tight padding. */
+.hero { margin: 7px 7px 48px; }
+.hero-label { background: var(--surface); border: 1px solid var(--line); border-radius: 4px; box-shadow: 0 0 0 6px var(--bg), 0 0 0 7px var(--ui); text-align: center; padding: 32px 48px 0; overflow: hidden; }
+.hero-label p { margin-left: auto; margin-right: auto; }
+.hero .eyebrow { letter-spacing: .2em; margin-bottom: 10px; }
+.subtitle { font-size: 21px; color: var(--muted); max-width: none; margin-top: 12px; margin-bottom: 8px; text-wrap: balance; }
+.byline { font-size: 13px; color: var(--muted); }
+.stats { margin: 24px -48px 0; border-top: 1px solid var(--line); }
+.stats > div { box-sizing: border-box; }   /* dividers stay inside each third, so the strip never wraps */
+.stats > div + div { border-left: 1px solid var(--line); }
+.stat { font-size: 15px; color: var(--muted); padding: 16px 20px 18px; margin: 0 auto; max-width: none; }
+.stat b { display: block; font-family: var(--display); font-weight: 400; font-size: 36px; color: var(--ink); line-height: 1.1; margin-bottom: 4px; }
+/* Data caveat sits under the intro text, filling the space beside the "On this page" card. */
+.caveat { font-size: 13px; line-height: 1.45; color: var(--muted); max-width: none; margin: 12px 0 0; }
 
 /* Sections */
 /* White space (DV1 feedback): generous gaps between sections and rows group related items. */
 section { margin-bottom: 104px; }
 .section-title { display: flex; align-items: baseline; gap: 14px; margin-bottom: 20px; }
-.section-title span { font-family: var(--body); font-size: .9rem; font-weight: 600; color: var(--ui); border: 1px solid var(--ui); border-radius: 50%; width: 1.9em; height: 1.9em; display: inline-grid; place-items: center; flex: none; transform: translateY(-4px); }
+.section-title span { font-family: var(--body); font-size: 15px; font-weight: 600; color: var(--ui); border: 1px solid var(--ui); border-radius: 50%; width: 1.9em; height: 1.9em; display: inline-grid; place-items: center; flex: none; transform: translateY(-4px); }
 .lede { color: var(--text); margin-bottom: 20px; }
 /* Section header: title and intro on the left (2/3); on the right (1/3, the side-panel column, so the
    right-hand sight-line runs from header to charts) a small navigation card.
@@ -63,15 +75,16 @@ section { margin-bottom: 104px; }
 .section-head .lede { margin-bottom: 0; }
 .questions { box-sizing: border-box; padding: 2px 0 0 28px; }
 .questions-card { background: #f3ecf1; border: 1px solid #e6d9e2; border-radius: 10px; padding: 14px 18px 16px; }
-.questions-label { font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ui); margin: 0 0 8px; }
+.questions-label { font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ui); margin: 0 0 8px; }
 .questions ol { margin: 0; padding: 0; list-style: none; counter-reset: q; }
-.questions li { counter-increment: q; display: flex; gap: 10px; font-size: .9rem; line-height: 1.4; padding: 5px 0; }
-.questions li::before { content: counter(q); flex: none; display: inline-grid; place-items: center; width: 1.45em; height: 1.45em; margin-top: .05em; border-radius: 50%; background: var(--ui); color: #fff; font-size: .75rem; font-weight: 600; }
+.questions li { counter-increment: q; display: flex; gap: 10px; font-size: 15px; line-height: 1.4; padding: 5px 0; }
+.questions li::before { content: counter(q); flex: none; display: inline-grid; place-items: center; width: 1.45em; height: 1.45em; margin-top: .05em; border-radius: 50%; background: var(--ui); color: #fff; font-size: 13px; font-weight: 600; }
 .questions a { color: var(--ui); text-decoration: none; }
 .questions a::after { content: "\00a0\2193"; }   /* non-breaking space: the arrow never wraps onto a line alone */
 .questions a:hover, .questions a:focus-visible { text-decoration: underline; }
 /* Jump links land with a little space above the chart title. */
 .vis, section { scroll-margin-top: 28px; }
+.try + .vis { scroll-margin-top: 84px; }   /* keep the "Try it" chip in view too */
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 /* Sight-lines: side text starts on the same top line as its chart's title. */
 .row { margin-bottom: 56px; align-items: flex-start; }
@@ -91,10 +104,10 @@ section { margin-bottom: 104px; }
 .row.has-text > .text > p:not(.key-figure):not(.look) { margin-bottom: 24px; }
 .key-figure { margin: auto 0 0; padding-top: 18px; border-top: 1px solid var(--line); }
 .key-figure b:not([class]) { color: var(--ink); }
-.key-figure b { display: block; font-family: var(--display); font-weight: 400; font-size: 1.8rem; line-height: 1.1; }   /* coloured by its k-* class; below section titles (1.9rem) and header stats (2.2rem) */
-.key-figure > span { display: block; font-size: .9rem; line-height: 1.45; color: var(--muted); margin-top: 6px; max-width: 22em; }
-.look { margin: 20px 0 0; font-size: .95rem; color: var(--text); max-width: 22em; }
-.look-label { display: block; font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ui); margin-bottom: 4px; }
+.key-figure b { display: block; font-family: var(--display); font-weight: 400; font-size: 30px; line-height: 1.1; }   /* coloured by its k-* class; same size as section titles, below header numbers (36) */
+.key-figure > span { display: block; font-size: 15px; line-height: 1.45; color: var(--muted); margin-top: 6px; max-width: 22em; }
+.look { margin: 20px 0 0; font-size: 15px; color: var(--text); max-width: 22em; }
+.look-label { display: block; font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ui); margin-bottom: 4px; }
 
 /* Coloured words act as the colour key in the text (same hue as the chart, darkened where needed for 4.5:1 contrast). */
 .k { font-weight: 600; }
@@ -109,24 +122,28 @@ section { margin-bottom: 104px; }
 .vis { width: 100%; min-height: 120px; }
 .vis .vega-embed { width: 100%; }
 /* Per-chart metadata: small and grey (ground), directly under its chart. */
-.source { font-size: .8rem; line-height: 1.45; color: var(--muted); margin: 6px 0 0; max-width: none; }
-.vis .placeholder { border: 1px dashed var(--line); border-radius: 8px; padding: 32px; text-align: center; color: var(--muted); font-size: .9rem; }
+.source { font-size: 13px; line-height: 1.45; color: var(--muted); margin: 6px 0 0; max-width: none; }
+/* "Try it" chip above each interactive chart. Instructions for using a chart are page UI, not data, so they
+   leave the grey chart subtitle and take the plum UI style of the navigation cards (plum = using the page). */
+.try { display: inline-flex; align-items: baseline; gap: 10px; max-width: none; margin: 0 0 14px; padding: 6px 14px 7px 10px; font-size: 15px; line-height: 1.4; color: var(--ui); background: #f3ecf1; border: 1px solid #e6d9e2; border-radius: 999px; }
+.try-label { flex: none; font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #fff; background: var(--ui); border-radius: 999px; padding: 1px 9px 2px; }
+.vis .placeholder { border: 1px dashed var(--line); border-radius: 8px; padding: 32px; text-align: center; color: var(--muted); font-size: 15px; }
 
 /* Takeaways */
 .takeaways { margin: 16px -12px 8px; }
 .tip { margin: 0 12px 24px; padding: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; height: calc(100% - 24px); box-sizing: border-box; }
-.tip-num { display: inline-grid; place-items: center; width: 1.9em; height: 1.9em; border-radius: 50%; border: 1px solid var(--ui); color: var(--ui); font-weight: 600; font-size: .9rem; margin-bottom: 10px; }
+.tip-num { display: inline-grid; place-items: center; width: 1.9em; height: 1.9em; border-radius: 50%; border: 1px solid var(--ui); color: var(--ui); font-weight: 600; font-size: 15px; margin-bottom: 10px; }
 .tip h3 { margin-bottom: 8px; }
-.tip p { color: var(--text); font-size: .95rem; margin: 0; }
+.tip p { color: var(--text); font-size: 15px; margin: 0; }
 
 /* Tooltips: the value is the figure (bold, dark), the field name is ground (small, grey). */
 #vg-tooltip-element { font-family: var(--body); font-size: 13px; border: 1px solid var(--line); border-radius: 6px; box-shadow: 0 4px 14px rgba(38, 27, 36, .12); }
 #vg-tooltip-element table tr td.key { color: var(--muted); font-weight: 400; }
 #vg-tooltip-element table tr td.value { color: var(--ink); font-weight: 600; }
-.small { font-size: .85rem; }
+.small { font-size: 13px; }
 
 /* Footer */
-.footer { border-top: 1px solid var(--line); padding-top: 32px; font-size: .9rem; }
+.footer { border-top: 1px solid var(--line); padding-top: 32px; font-size: 15px; }
 .footer h2 { margin-bottom: 12px; }
 .footer h3 { margin-top: 24px; }
 .sources { padding-left: 18px; color: var(--muted); }
@@ -135,4 +152,8 @@ section { margin-bottom: 104px; }
 @media (max-width: 767px) {
   .row > .text:first-child, .row > .text:last-child { padding: 16px 0 0; }
   .questions { padding: 20px 0 0; }
+  .hero-label { padding: 32px 20px 0; }
+  .subtitle br, .caveat br { display: none; }   /* desktop line breaks (≤10 words a line) wrap naturally on phones */
+  .stats { margin: 24px -20px 0; }
+  .stats > div + div { border-left: 0; border-top: 1px solid var(--line); }
 }

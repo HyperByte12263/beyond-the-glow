@@ -77,7 +77,7 @@
             }
           },
           {
-            "mark": {"type": "text", "align": "left", "dx": 5, "y": 2, "fontSize": 12, "color": "#261b24"},
+            "mark": {"type": "text", "align": "left", "dx": 5, "y": 2, "fontSize": 13, "color": "#261b24"},
             "encoding": {"x": {"field": "median", "type": "quantitative"}, "text": {"field": "median", "type": "quantitative", "format": ".2f"}}
           }
         ]
@@ -91,7 +91,7 @@
       {
         "description": "Context the shapes only hint at: oily-skin reviewers give 4.5 stars or more to 24% of products, against 30–33% for the other skin types (products with 30+ reviews from that skin type).",
         "transform": [{"filter": "datum.skin == 'Oily skin'"}, {"aggregate": [{"op": "count", "as": "n"}]}],
-        "mark": {"type": "text", "align": "left", "baseline": "top", "x": 0, "y": -24, "fontSize": 12, "fontStyle": "italic", "color": "#261b24", "lineHeight": 15},
+        "mark": {"type": "text", "align": "left", "baseline": "top", "x": 0, "y": -24, "fontSize": 13, "fontStyle": "italic", "color": "#261b24", "lineHeight": 16},
         "encoding": {"text": {"value": ["Oily skin gives 4.5★ or more", "to only 24% of products;", "other skin types: 30–33%"]}}
       }
     ]

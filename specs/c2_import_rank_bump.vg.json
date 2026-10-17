@@ -4,9 +4,7 @@
   "title": {
     "text": ["Singapore climbed from 6th to 1st supplier", "(7% → 30% of imports)"],
     "subtitle": [
-      "Each country's rank among Malaysia's suppliers, by import value.",
-      "1st is at the top.",
-      "Hover a line: its route lights up on the map."
+      "Rank by import value each year; 1st is at the top."
     ]
   },
   "width": "container",
@@ -22,7 +20,8 @@
     {"calculate": "min(datum.rank, 9)", "as": "rank_shown"},
     {"calculate": "datum.value_usd / 1e6", "as": "value_m"},
     {"calculate": "datum.partner == 'Singapore'", "as": "is_singapore"},
-    {"calculate": "datum.is_singapore ? 'Singapore' : 'Other top suppliers'", "as": "who"}
+    {"calculate": "indexof(['South Korea', 'China', 'Japan'], datum.partner) >= 0", "as": "is_named"},
+    {"description": "Three levels of emphasis so the lines are easy to follow: Singapore (the story), the three countries the side text names, and the rest as context.", "calculate": "datum.is_singapore ? 'Singapore' : datum.is_named ? 'South Korea, China, Japan' : 'Other top suppliers'", "as": "who"}
   ],
   "encoding": {
     "x": {
@@ -59,13 +58,14 @@
           "field": "who",
           "type": "nominal",
           "title": null,
-          "scale": {"domain": ["Singapore", "Other top suppliers"], "range": ["#c08a1e", "#c4bcc1"]},
+          "scale": {"domain": ["Singapore", "South Korea, China, Japan", "Other top suppliers"], "range": ["#c08a1e", "#6e6069", "#c4bcc1"]},
           "legend": {"orient": "top", "direction": "horizontal", "symbolType": "stroke", "symbolStrokeWidth": 3, "labelFontSize": 13, "offset": 14}
         },
         "strokeWidth": {
           "condition": [
             {"param": "hover", "empty": false, "value": 4},
-            {"test": "datum.is_singapore", "value": 4}
+            {"test": "datum.is_singapore", "value": 4},
+            {"test": "datum.is_named", "value": 2.5}
           ],
           "value": 2
         },
@@ -99,7 +99,7 @@
           {"year": 2019.4, "rank_shown": 0.42, "label": "Why Singapore? The region's beauty hub: brands ship there first"}
         ]
       },
-      "mark": {"type": "text", "fontSize": 12, "fontStyle": "italic", "color": "#261b24"},
+      "mark": {"type": "text", "fontSize": 13, "fontStyle": "italic", "color": "#261b24"},
       "encoding": {"text": {"field": "label"}, "detail": null}
     },
     {
@@ -108,10 +108,11 @@
         {"filter": "datum.year == 2015"},
         {"calculate": "(datum.rank <= 8 ? datum.rank + '. ' + datum.partner : datum.partner + ' (9th+)') + '  ' + format(datum.share_pct, '.0f') + '%'", "as": "label"}
       ],
-      "mark": {"type": "text", "align": "right", "dx": -10, "fontSize": 12},
+      "mark": {"type": "text", "align": "right", "dx": -10, "fontSize": 13},
       "encoding": {
         "text": {"field": "label"},
-        "fontWeight": {"condition": {"test": "datum.is_singapore", "value": 700}, "value": 400}
+        "fontWeight": {"condition": [{"test": "datum.is_singapore", "value": 700}, {"test": "datum.is_named", "value": 600}], "value": 400},
+        "color": {"condition": {"test": "datum.is_singapore || datum.is_named", "value": "#261b24"}, "value": "#6e6069"}
       }
     },
     {
@@ -120,10 +121,11 @@
         {"filter": "datum.year == 2024"},
         {"calculate": "datum.rank + '. ' + datum.partner + '  ' + format(datum.share_pct, '.0f') + '%'", "as": "label"}
       ],
-      "mark": {"type": "text", "align": "left", "dx": 10, "fontSize": 12},
+      "mark": {"type": "text", "align": "left", "dx": 10, "fontSize": 13},
       "encoding": {
         "text": {"field": "label"},
-        "fontWeight": {"condition": {"test": "datum.is_singapore", "value": 700}, "value": 400}
+        "fontWeight": {"condition": [{"test": "datum.is_singapore", "value": 700}, {"test": "datum.is_named", "value": 600}], "value": 400},
+        "color": {"condition": {"test": "datum.is_singapore || datum.is_named", "value": "#261b24"}, "value": "#6e6069"}
       }
     }
   ],

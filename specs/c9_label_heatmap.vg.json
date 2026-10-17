@@ -5,8 +5,7 @@
     "text": "What each product type advertises on the label",
     "subtitle": [
       "Share of products advertising each ingredient or claim.",
-      "This shows what is advertised, not every ingredient inside.",
-      "Hover a square for the exact number."
+      "This shows what is advertised, not every ingredient inside."
     ]
   },
   "width": "container",
@@ -90,8 +89,8 @@
       "data": {"values": [{}]},
       "encoding": {"y": null},
       "layer": [
-        {"mark": {"type": "text", "align": "left", "baseline": "bottom", "x": -262, "y": -8, "fontSize": 12, "color": "#6e6069", "fontStyle": "italic", "text": "Ingredient or claim"}},
-        {"mark": {"type": "text", "align": "left", "baseline": "bottom", "x": -138, "y": -8, "fontSize": 12, "color": "#6e6069", "fontStyle": "italic", "text": "What it does"}}
+        {"mark": {"type": "text", "align": "left", "baseline": "bottom", "x": -262, "y": -8, "fontSize": 13, "color": "#6e6069", "fontStyle": "italic", "text": "Ingredient or claim"}},
+        {"mark": {"type": "text", "align": "left", "baseline": "bottom", "x": -138, "y": -8, "fontSize": 13, "color": "#6e6069", "fontStyle": "italic", "text": "What it does"}}
       ]
     }
   ]

@@ -66,7 +66,7 @@
           {"calculate": "{'Clean at Sephora*': 'Sephora\\'s own standard', 'Vegan': 'no animal ingredients', 'Cruelty-free': 'not tested on animals', 'Fragrance-free': 'no added scent'}[datum.label]", "as": "meaning"},
           {"calculate": "[datum.meaning, format(datum.n, ',') + ' of 2,420 products']", "as": "note"}
         ],
-        "mark": {"type": "text", "align": "left", "baseline": "top", "x": 0, "y": -42, "fontSize": 12, "lineHeight": 16, "color": "#261b24"},
+        "mark": {"type": "text", "align": "left", "baseline": "top", "x": 0, "y": -42, "fontSize": 13, "lineHeight": 16, "color": "#261b24"},
         "encoding": {"text": {"field": "note"}}
       }
     ]

@@ -5,16 +5,14 @@
     "text": "Who buys Malaysia's make-up and skincare",
     "subtitle": [
       "Exports in 2024: US$173 million to 187 countries.",
-      "57% went to our South-East Asian neighbours.",
-      "Circle size shows export value in five classes.",
-      "Hover a bar or a circle to link the two."
+      "57% went to our South-East Asian neighbours."
     ]
   },
   "spacing": 24,
   "hconcat": [
     {
       "description": "Map, zoomed on South-East and East Asia, where 81% of export value goes.",
-      "width": 440,
+      "width": 428,
       "height": 420,
       "projection": {
         "type": "mercator",
@@ -47,7 +45,7 @@
               "type": "ordinal",
               "title": "Exports, 2024 (US$ million)",
               "scale": {"type": "ordinal", "domain": ["Under 2", "2–5", "5–10", "10–20", "20 or more"], "range": [30, 90, 200, 380, 650]},
-              "legend": {"orient": "bottom", "direction": "horizontal", "symbolFillColor": "#c08a1e", "symbolOpacity": 0.75, "symbolStrokeColor": "#8f6514", "labelFontSize": 12, "titleLimit": 400, "columnPadding": 10, "offset": 10}
+              "legend": {"orient": "bottom", "direction": "horizontal", "symbolFillColor": "#c08a1e", "symbolOpacity": 0.75, "symbolStrokeColor": "#8f6514", "labelFontSize": 13, "titleLimit": 400, "columnPadding": 10, "offset": 10}
             },
             "opacity": {"condition": {"test": {"and": [{"param": "buyer_map"}, {"param": "buyer_bar"}]}, "value": 0.8}, "value": 0.2},
             "strokeWidth": {"condition": {"test": {"or": [{"param": "buyer_map", "empty": false}, {"param": "buyer_bar", "empty": false}]}, "value": 2.2}, "value": 0.9},
@@ -78,7 +76,7 @@
         {
           "description": "Context the circles cannot show: 20.2% of export value goes to 44 Muslim-majority countries (Indonesia, the UAE, Brunei and Saudi Arabia lead), markets where halal certification often decides whether a product can be sold.",
           "data": {"values": [{"lon": 93.2, "lat": 41.2, "label": ["1 in 5 export dollars goes to", "Muslim-majority countries, where", "halal certification matters"]}]},
-          "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 12, "fontStyle": "italic", "color": "#261b24", "lineHeight": 15},
+          "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 13, "fontStyle": "italic", "color": "#261b24", "lineHeight": 16},
           "encoding": {
             "longitude": {"field": "lon", "type": "quantitative"},
             "latitude": {"field": "lat", "type": "quantitative"},
@@ -98,7 +96,7 @@
     },
     {
       "description": "Top 10 buyers ranked, with exact values. Buyers outside the map are marked with an asterisk.",
-      "title": {"text": "Top 10 buyers (US$ million)", "fontSize": 15, "subtitle": "* Too far away to show on the map", "subtitleFontSize": 12},
+      "title": {"text": "Top 10 buyers (US$ million)", "fontSize": 17, "subtitle": "* Too far away to show on the map", "subtitleFontSize": 13},
       "width": 130,
       "height": 300,
       "data": {"url": "data/trade_exports_2024.csv", "format": {"parse": {"value_usd": "number", "share_pct": "number", "lat": "number", "lon": "number"}}},
@@ -116,7 +114,7 @@
           "type": "nominal",
           "title": null,
           "sort": {"field": "value_usd", "order": "descending"},
-          "axis": {"domain": false, "ticks": false, "labelLimit": 0, "labelFontSize": 12, "labelColor": "#261b24", "labelPadding": 6}
+          "axis": {"domain": false, "ticks": false, "labelLimit": 0, "labelFontSize": 13, "labelColor": "#261b24", "labelPadding": 6}
         },
         "x": {"field": "value_m", "type": "quantitative", "title": null, "axis": null, "scale": {"domain": [0, 62]}}
       },
@@ -134,7 +132,7 @@
           }
         },
         {
-          "mark": {"type": "text", "align": "left", "dx": 4, "fontSize": 12, "color": "#261b24"},
+          "mark": {"type": "text", "align": "left", "dx": 4, "fontSize": 13, "color": "#261b24"},
           "encoding": {
             "text": {"field": "value_label"}
           }

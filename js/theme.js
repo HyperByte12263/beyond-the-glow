@@ -19,10 +19,10 @@ const VEGA_THEME = {
     anchor: "start",
     frame: "bounds",        // title starts at the chart's left edge, on the same sight-line as the page text
     subtitleFont: "Figtree, system-ui, sans-serif",
-    subtitleFontSize: 14,
+    subtitleFontSize: 15,   // page type scale: 13 / 15 / 17 / 21 / 30 / 36 (css/style.css)
     subtitleColor: "#6e6069",
     subtitlePadding: 6,
-    subtitleLineHeight: 19,
+    subtitleLineHeight: 20,
     offset: 16
   },
   axis: {

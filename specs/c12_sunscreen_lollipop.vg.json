@@ -5,8 +5,7 @@
     "text": "Sunscreen for oily skin: pick the brand, not the label",
     "subtitle": [
       "57 face sunscreens with 30+ reviews from oily skin,",
-      "ranked from best to worst. Stems start at the average.",
-      "Hover a dot for the product, price and reviews."
+      "ranked from best to worst. Stems start at the average."
     ]
   },
   "width": "container",
@@ -50,7 +49,7 @@
       "layer": [
         {"mark": {"type": "rule", "color": "#6e6069", "strokeDash": [4, 3]}, "encoding": {"x": null, "y": {"field": "average", "type": "quantitative", "scale": {"domain": [2.7, 5]}}}},
         {
-          "mark": {"type": "text", "align": "right", "baseline": "bottom", "dy": -4, "fontSize": 12, "color": "#6e6069", "x": {"expr": "width"}},
+          "mark": {"type": "text", "align": "right", "baseline": "bottom", "dy": -4, "fontSize": 13, "color": "#6e6069", "x": {"expr": "width"}},
           "encoding": {"x": null, "y": {"field": "average", "type": "quantitative", "scale": {"domain": [2.7, 5]}}, "text": {"value": "Average of all 57: 4.07★"}}
         }
       ]
@@ -109,22 +108,22 @@
       "layer": [
         {
           "transform": [{"filter": "datum.product_id == 'P501321'"}],
-          "mark": {"type": "text", "align": "left", "dx": 10, "fontSize": 12, "fontWeight": 600},
+          "mark": {"type": "text", "align": "left", "dx": 10, "fontSize": 13, "fontWeight": 600},
           "encoding": {"text": {"value": "Best: Saint Jane, 4.82★ (US$38)"}}
         },
         {
           "transform": [{"filter": "datum.product_id == 'P456392'"}],
-          "mark": {"type": "text", "align": "left", "baseline": "bottom", "dx": -4, "dy": -17, "fontSize": 12, "fontWeight": 600, "lineHeight": 15},
+          "mark": {"type": "text", "align": "left", "baseline": "bottom", "dx": -4, "dy": -17, "fontSize": 13, "fontWeight": 600, "lineHeight": 16},
           "encoding": {"text": {"value": ["innisfree Daily UV Defense, 4.51★:", "the cheapest here at US$16"]}}
         },
         {
           "transform": [{"filter": "datum.product_id == 'P446934'"}],
-          "mark": {"type": "text", "align": "right", "dx": -26, "fontSize": 12, "fontWeight": 600, "lineHeight": 15},
+          "mark": {"type": "text", "align": "right", "dx": -26, "fontSize": 13, "fontWeight": 600, "lineHeight": 16},
           "encoding": {"text": {"value": ["Murad Oil & Pore Control, 3.14★:", "made for oily skin, rated near the bottom"]}}
         },
         {
           "transform": [{"filter": "datum.product_id == 'P419221'"}],
-          "mark": {"type": "text", "align": "right", "baseline": "top", "dx": 4, "dy": 9, "fontSize": 12, "fontWeight": 600},
+          "mark": {"type": "text", "align": "right", "baseline": "top", "dx": 4, "dy": 9, "fontSize": 13, "fontWeight": 600},
           "encoding": {"text": {"value": "Worst: Drunk Elephant Umbra Tinte, 2.95★"}}
         }
       ]
@@ -137,7 +136,7 @@
           {"rank": 30, "y": 3.55, "label": ["Supergoop!, the most-listed brand:", "12 of its 15 products fall below average"]}
         ]
       },
-      "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 12, "fontStyle": "italic", "color": "#261b24", "lineHeight": 15},
+      "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 13, "fontStyle": "italic", "color": "#261b24", "lineHeight": 16},
       "encoding": {"y": {"field": "y", "type": "quantitative", "scale": {"domain": [2.7, 5]}}, "text": {"field": "label"}}
     }
   ]

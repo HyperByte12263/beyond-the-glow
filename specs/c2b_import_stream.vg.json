@@ -4,8 +4,7 @@
   "title": {
     "text": "Imports doubled in ten years; Singapore drove half the growth",
     "subtitle": [
-      "Yearly imports by supplier. A thicker stream means more value.",
-      "Hover a stream to see its value each year."
+      "Yearly imports by supplier. A thicker stream means more value."
     ]
   },
   "width": "container",
@@ -68,8 +67,10 @@
       ],
       "encoding": {"y": {"field": "ymid", "type": "quantitative"}, "text": {"field": "label"}},
       "layer": [
-        {"transform": [{"filter": "datum.supplier == 'Singapore'"}], "mark": {"type": "text", "align": "left", "dx": 8, "fontSize": 12, "fontWeight": 700}},
-        {"transform": [{"filter": "datum.supplier != 'Singapore'"}], "mark": {"type": "text", "align": "left", "dx": 8, "fontSize": 12}}
+        {"transform": [{"filter": "datum.supplier == 'Singapore'"}], "mark": {"type": "text", "align": "left", "dx": 8, "fontSize": 13, "fontWeight": 700}},
+        {"transform": [{"filter": "datum.supplier != 'Singapore' && datum.supplier != 'Thailand' && datum.supplier != 'Japan'"}], "mark": {"type": "text", "align": "left", "dx": 8, "fontSize": 13}},
+        {"description": "Thailand and Japan both sent about US$30 million, so their thin streams sit close; their labels are nudged apart.", "transform": [{"filter": "datum.supplier == 'Thailand'"}], "mark": {"type": "text", "align": "left", "dx": 8, "fontSize": 13}},
+        {"transform": [{"filter": "datum.supplier == 'Japan'"}], "mark": {"type": "text", "align": "left", "dx": 8, "dy": 6, "fontSize": 13}}
       ]
     },
     {
@@ -77,7 +78,7 @@
       "data": {"values": [{"year": 2014.55, "a": 0, "b": 100, "label": ["US$100", "million"]}]},
       "layer": [
         {"mark": {"type": "rule", "color": "#6e6069", "strokeWidth": 2}, "encoding": {"y": {"field": "a", "type": "quantitative"}, "y2": {"field": "b"}}},
-        {"mark": {"type": "text", "align": "right", "dx": -6, "fontSize": 12, "color": "#6e6069", "lineHeight": 15}, "encoding": {"y": {"datum": 57}, "text": {"field": "label"}}}
+        {"mark": {"type": "text", "align": "right", "dx": -6, "fontSize": 13, "color": "#6e6069", "lineHeight": 16}, "encoding": {"y": {"datum": 57}, "text": {"field": "label"}}}
       ]
     },
     {
@@ -90,8 +91,8 @@
       },
       "encoding": {"y": {"field": "y", "type": "quantitative"}, "text": {"field": "label"}},
       "layer": [
-        {"transform": [{"filter": "datum.align == 'center'"}], "mark": {"type": "text", "align": "center", "baseline": "top", "fontSize": 12, "fontStyle": "italic", "color": "#261b24", "lineHeight": 15}},
-        {"transform": [{"filter": "datum.align == 'right'"}], "mark": {"type": "text", "align": "right", "baseline": "bottom", "fontSize": 12, "fontStyle": "italic", "color": "#261b24", "lineHeight": 15}}
+        {"transform": [{"filter": "datum.align == 'center'"}], "mark": {"type": "text", "align": "center", "baseline": "top", "fontSize": 13, "fontStyle": "italic", "color": "#261b24", "lineHeight": 16}},
+        {"transform": [{"filter": "datum.align == 'right'"}], "mark": {"type": "text", "align": "right", "baseline": "bottom", "fontSize": 13, "fontStyle": "italic", "color": "#261b24", "lineHeight": 16}}
       ]
     }
   ],

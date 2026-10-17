@@ -6,9 +6,7 @@
     "subtitle": [
       "1,812 skincare products with 30+ reviews, by price band.",
       "Band averages differ by less than 0.2★.",
-      "Dots are spread sideways only so they don't overlap.",
-      "Click a band to compare its ratings on the right;",
-      "Shift-click to add bands; double-click to clear."
+      "Dots are spread sideways only so they don't overlap."
     ]
   },
   "data": {
@@ -112,7 +110,7 @@
         {
           "description": "Context the dots can't show at a glance: in the over-US$250 band, 3 of 29 products (10%) average under 3.5 stars, more than in any other band (1.5–5%).",
           "transform": [{"filter": "category == 'All'"}, {"aggregate": [{"op": "count", "as": "n"}]}, {"calculate": "'Over US$250'", "as": "band"}, {"calculate": "2.42", "as": "rating"}],
-          "mark": {"type": "text", "align": "right", "baseline": "top", "dx": 48, "fontSize": 12, "fontStyle": "italic", "color": "#261b24", "lineHeight": 15},
+          "mark": {"type": "text", "align": "right", "baseline": "top", "dx": 48, "fontSize": 13, "fontStyle": "italic", "color": "#261b24", "lineHeight": 16},
           "encoding": {"text": {"value": ["Over US$250, 1 in 10 products is rated under 3.5★:", "the highest share of any band. Pricey is no guarantee."]}}
         }
       ]
@@ -179,10 +177,10 @@
           "encoding": {"text": {"field": "label"}}
         },
         {
-          "description": "Prompt shown until a band is picked.",
+          "description": "Key shown until a band is picked (how to pick one is in the page's 'Try it' chip).",
           "transform": [{"aggregate": [{"op": "count", "as": "n"}]}, {"filter": "!length(data('pick_store'))"}],
           "mark": {"type": "text", "align": "left", "x": 0, "y": -26, "fontSize": 13, "color": "#6e6069"},
-          "encoding": {"text": {"value": ["Grey: all products.", "Click a band to compare."]}}
+          "encoding": {"text": {"value": "Grey: all products."}}
         }
       ]
     }
