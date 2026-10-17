@@ -146,6 +146,7 @@ section { margin-bottom: 104px; }
 .footer { border-top: 1px solid var(--line); padding-top: 32px; font-size: 15px; }
 .footer h2 { margin-bottom: 12px; }
 .footer h3 { margin-top: 24px; }
+.footer p { text-wrap: pretty; }   /* no single word left alone on the last line */
 .sources { padding-left: 18px; color: var(--muted); }
 .sources li { margin-bottom: 6px; }
 
