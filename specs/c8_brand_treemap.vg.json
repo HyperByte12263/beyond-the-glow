@@ -110,7 +110,7 @@
         "enter": {
           "stroke": {"value": "#ffffff"},
           "strokeWidth": {"value": 1.5},
-          "tooltip": {"signal": "{'Category': datum.category, 'Brand': datum.brand, 'Products': datum.products, 'Share of category': format(datum.share, '.1%')}"}
+          "tooltip": {"signal": "{'Category': replace(datum.category, 'Makeup', 'Make-up'), 'Brand': datum.brand, 'Products': datum.products, 'Share of category': format(datum.share, '.1%')}"}
         },
         "update": {
           "x": {"field": "x0"}, "y": {"field": "y0"}, "x2": {"field": "x1"}, "y2": {"field": "y1"},
@@ -128,7 +128,7 @@
         "update": {
           "x": {"signal": "datum.x0 + 4"},
           "y": {"signal": "datum.y0 + 3"},
-          "text": {"signal": "(datum.key == 'Other' ? 'Other categories' : datum.key)"}
+          "text": {"signal": "(datum.key == 'Other' ? 'Other categories' : datum.key == 'Makeup' ? 'Make-up' : datum.key)"}
         }
       }
     },

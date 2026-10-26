@@ -39,19 +39,19 @@
     {
       "description": "Events that explain the steps in the lines. GST: 6% from 1 April 2015, zero-rated from 1 June 2018 (replaced by SST on 1 September 2018). COVID-19 movement control order: 18 March 2020. Percentages are from the monthly index values (March vs April 2015; May vs June 2018; March vs June 2020).",
       "data": {
-        "values": [{"date": "2015-04-01"}, {"date": "2018-06-01"}, {"date": "2020-03-18"}],
+        "values": [{"date": "2015-04-01", "lo": 100, "hi": 153}, {"date": "2018-06-01", "lo": 100, "hi": 153}, {"date": "2020-03-18", "lo": 100, "hi": 153}],
         "format": {"parse": {"date": "date"}}
       },
       "mark": {"type": "rule", "color": "#b7adb3", "strokeDash": [4, 3]},
-      "encoding": {"y": null}
+      "encoding": {"y": {"field": "lo", "type": "quantitative"}, "y2": {"field": "hi"}}
     },
     {
-      "data": {"values": [{"date": "2015-04-01", "y": 95.5, "label": ["GST begins, April 2015:", "beauty prices up 2.3%"]}], "format": {"parse": {"date": "date"}}},
+      "data": {"values": [{"date": "2015-04-01", "y": 95.5, "label": ["Goods and Services Tax", "begins, April 2015: beauty", "prices up 2.3%"]}], "format": {"parse": {"date": "date"}}},
       "mark": {"type": "text", "align": "right", "baseline": "top", "dx": -5, "fontSize": 13, "fontStyle": "italic", "color": "#261b24", "lineHeight": 16},
       "encoding": {"y": {"field": "y", "type": "quantitative"}, "text": {"field": "label"}}
     },
     {
-      "data": {"values": [{"date": "2018-06-01", "y": 97.5, "label": ["GST removed, June 2018: beauty", "prices fell 4% in a month and stayed low"]}], "format": {"parse": {"date": "date"}}},
+      "data": {"values": [{"date": "2018-06-01", "y": 97.5, "label": ["Goods and Services Tax removed, June 2018:", "beauty prices fell 4% in a month and stayed low"]}], "format": {"parse": {"date": "date"}}},
       "mark": {"type": "text", "align": "left", "baseline": "top", "dx": 5, "fontSize": 13, "fontStyle": "italic", "color": "#261b24", "lineHeight": 16},
       "encoding": {"y": {"field": "y", "type": "quantitative"}, "text": {"field": "label"}}
     },
@@ -68,7 +68,7 @@
           "field": "series",
           "type": "nominal",
           "scale": {
-            "domain": ["Salon & grooming", "All items", "Beauty products"],
+            "domain": ["Salon and grooming", "All items", "Beauty products"],
             "range": ["#4fa596", "#c4bcc1", "#125e54"]
           },
           "legend": null
@@ -77,7 +77,7 @@
           "field": "series",
           "type": "nominal",
           "scale": {
-            "domain": ["Salon & grooming", "All items", "Beauty products"],
+            "domain": ["Salon and grooming", "All items", "Beauty products"],
             "range": [[6, 3], [1, 0], [1, 0]]
           },
           "legend": null
@@ -96,7 +96,7 @@
           {"field": "date", "type": "temporal", "title": "Month", "format": "%B %Y"},
           {"field": "Beauty products", "type": "quantitative", "title": "Beauty products (2010 = 100)", "format": ".1f"},
           {"field": "All items", "type": "quantitative", "title": "All items", "format": ".1f"},
-          {"field": "Salon & grooming", "type": "quantitative", "title": "Salon & grooming", "format": ".1f"}
+          {"field": "Salon and grooming", "type": "quantitative", "title": "Salon and grooming", "format": ".1f"}
         ]
       }
     },

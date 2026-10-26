@@ -19,7 +19,7 @@
     {"filter": {"field": "category", "oneOf": ["Moisturizers", "Treatments", "Eye Care", "Masks", "Sunscreen", "Cleansers"]}},
     {"calculate": "min(datum.price_usd, 250)", "as": "price_shown"},
     {"joinaggregate": [{"op": "count", "as": "n"}], "groupby": ["category"]},
-    {"calculate": "datum.category + ' (' + datum.n + ' products)'", "as": "category_n"},
+    {"calculate": "replace(datum.category, 'Moisturizers', 'Moisturisers') + ' (' + datum.n + ' products)'", "as": "category_n"},
     {"calculate": "{'Moisturizers': 1, 'Treatments': 2, 'Eye Care': 3, 'Masks': 4, 'Sunscreen': 5, 'Cleansers': 6}[datum.category]", "as": "order_by_median"},
     {"calculate": "random()", "as": "jitter"}
   ],

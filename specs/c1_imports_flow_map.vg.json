@@ -74,7 +74,7 @@
             {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "value_usd", "order": "descending"}]},
             {"filter": "datum.rank <= 7"},
             {"calculate": "datum.value_usd / 1e6", "as": "value_m"},
-            {"calculate": "datum.partner + ' · $' + format(datum.value_m, '.0f') + ' million'", "as": "label"}
+            {"calculate": "datum.partner + ' · US$' + format(datum.value_m, '.0f') + ' million'", "as": "label"}
           ],
           "encoding": {
             "longitude": {"field": "lon", "type": "quantitative"},
@@ -186,7 +186,7 @@
           "data": {"url": "data/trade_imports.csv", "format": {"parse": {"year": "number", "value_usd": "number", "share_pct": "number", "lat": "number", "lon": "number"}}},
           "transform": [
             {"filter": "datum.year == 2024 && (datum.partner == 'Singapore' || datum.partner == 'Thailand' || datum.partner == 'Indonesia')"},
-            {"calculate": "datum.partner + ' · $' + format(datum.value_usd / 1e6, '.0f') + ' million'", "as": "label"}
+            {"calculate": "datum.partner + ' · US$' + format(datum.value_usd / 1e6, '.0f') + ' million'", "as": "label"}
           ],
           "encoding": {"longitude": {"field": "lon", "type": "quantitative"}, "latitude": {"field": "lat", "type": "quantitative"}},
           "layer": [

@@ -393,7 +393,7 @@ func prices() {
 			nat = append(nat, []string{r[c["date"]], "All items", r[c["index"]]})
 		}
 	}
-	label := map[string]string{"13120": "Beauty products", "13132": "Salon & grooming"}
+	label := map[string]string{"13120": "Beauty products", "13132": "Salon and grooming"}
 	h, rows = readCSV(filepath.Join(raw, "dosm", "cpi_5d.csv"))
 	c = cols(h)
 	for _, r := range rows {

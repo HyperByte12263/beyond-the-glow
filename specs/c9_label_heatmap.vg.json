@@ -31,6 +31,7 @@
     },
     {"aggregate": [{"op": "mean", "field": "has", "as": "pct"}, {"op": "count", "as": "products"}], "groupby": ["category", "tag"]},
     {"calculate": "round(datum.pct * datum.products / 100)", "as": "with_tag"},
+    {"calculate": "replace(datum.category, 'Moisturizers', 'Moisturisers')", "as": "category_label"},
     {
       "calculate": "{'Hyaluronic acid': 'holds moisture', 'Vitamin C': 'brightens', 'Niacinamide': 'evens skin tone', 'Glycolic acid': 'exfoliates', 'Salicylic acid': 'unclogs pores', 'Retinol': 'smooths fine lines', 'Oil-free': 'no added oils', 'Alcohol-free': 'no drying alcohol'}[datum.tag]",
       "as": "does"
@@ -54,7 +55,7 @@
           "type": "nominal",
           "title": null,
           "sort": ["Moisturizers", "Treatments", "Cleansers", "Eye Care", "Masks", "Sunscreen"],
-          "axis": {"orient": "top", "labelAngle": 0, "domain": false, "ticks": false, "labelColor": "#261b24", "labelPadding": 8}
+          "axis": {"orient": "top", "labelExpr": "replace(datum.value, 'Moisturizers', 'Moisturisers')", "labelAngle": 0, "domain": false, "ticks": false, "labelColor": "#261b24", "labelPadding": 8}
         },
         "color": {
           "field": "pct",
@@ -65,7 +66,7 @@
         },
         "tooltip": [
           {"field": "tag", "type": "nominal", "title": "Advertised"},
-          {"field": "category", "type": "nominal", "title": "Product type"},
+          {"field": "category_label", "type": "nominal", "title": "Product type"},
           {"field": "pct", "type": "quantitative", "title": "% of products", "format": ".1f"},
           {"field": "with_tag", "type": "quantitative", "title": "Products"},
           {"field": "products", "type": "quantitative", "title": "Of"}

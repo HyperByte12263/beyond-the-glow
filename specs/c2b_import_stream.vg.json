@@ -63,7 +63,7 @@
       "description": "Supplier names at the right end of each stream (direct labels).",
       "transform": [
         {"filter": "datum.year == 2024"},
-        {"calculate": "datum.supplier + '  $' + format(datum.value_m, '.0f') + ' million'", "as": "label"}
+        {"calculate": "datum.supplier + '  US$' + format(datum.value_m, '.0f') + ' million'", "as": "label"}
       ],
       "encoding": {"y": {"field": "ymid", "type": "quantitative"}, "text": {"field": "label"}},
       "layer": [

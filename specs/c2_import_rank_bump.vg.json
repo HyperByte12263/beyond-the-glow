@@ -108,10 +108,13 @@
         {"filter": "datum.year == 2015"},
         {"calculate": "(datum.rank <= 8 ? datum.rank + '. ' + datum.partner : datum.partner + ' (9th+)') + '  ' + format(datum.share_pct, '.0f') + '%'", "as": "label"}
       ],
-      "mark": {"type": "text", "align": "right", "dx": -10, "fontSize": 13},
+      "layer": [
+        {"transform": [{"filter": "datum.is_singapore"}], "mark": {"type": "text", "align": "right", "dx": -10, "fontSize": 13, "fontWeight": 700}},
+        {"transform": [{"filter": "!datum.is_singapore && datum.is_named"}], "mark": {"type": "text", "align": "right", "dx": -10, "fontSize": 13, "fontWeight": 600}},
+        {"transform": [{"filter": "!datum.is_singapore && !datum.is_named"}], "mark": {"type": "text", "align": "right", "dx": -10, "fontSize": 13, "fontWeight": 400}}
+      ],
       "encoding": {
         "text": {"field": "label"},
-        "fontWeight": {"condition": [{"test": "datum.is_singapore", "value": 700}, {"test": "datum.is_named", "value": 600}], "value": 400},
         "color": {"condition": {"test": "datum.is_singapore || datum.is_named", "value": "#261b24"}, "value": "#6e6069"}
       }
     },
@@ -121,10 +124,13 @@
         {"filter": "datum.year == 2024"},
         {"calculate": "datum.rank + '. ' + datum.partner + '  ' + format(datum.share_pct, '.0f') + '%'", "as": "label"}
       ],
-      "mark": {"type": "text", "align": "left", "dx": 10, "fontSize": 13},
+      "layer": [
+        {"transform": [{"filter": "datum.is_singapore"}], "mark": {"type": "text", "align": "left", "dx": 10, "fontSize": 13, "fontWeight": 700}},
+        {"transform": [{"filter": "!datum.is_singapore && datum.is_named"}], "mark": {"type": "text", "align": "left", "dx": 10, "fontSize": 13, "fontWeight": 600}},
+        {"transform": [{"filter": "!datum.is_singapore && !datum.is_named"}], "mark": {"type": "text", "align": "left", "dx": 10, "fontSize": 13, "fontWeight": 400}}
+      ],
       "encoding": {
         "text": {"field": "label"},
-        "fontWeight": {"condition": [{"test": "datum.is_singapore", "value": 700}, {"test": "datum.is_named", "value": 600}], "value": 400},
         "color": {"condition": {"test": "datum.is_singapore || datum.is_named", "value": "#261b24"}, "value": "#6e6069"}
       }
     }

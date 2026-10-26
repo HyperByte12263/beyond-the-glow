@@ -20,6 +20,7 @@
       "bind": {
         "input": "select",
         "options": ["All", "Moisturizers", "Treatments", "Cleansers", "Eye Care", "Masks", "Sunscreen"],
+        "labels": ["All", "Moisturisers", "Treatments", "Cleansers", "Eye Care", "Masks", "Sunscreen"],
         "name": "Product type: "
       }
     }
