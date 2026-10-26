@@ -98,7 +98,7 @@
       "description": "Top 10 buyers ranked, with exact values. Buyers outside the map are marked with an asterisk.",
       "title": {"text": "Top 10 buyers (US$ million)", "fontSize": 17, "subtitle": "* Too far away to show on the map", "subtitleFontSize": 13},
       "width": 130,
-      "height": 300,
+      "height": 420,
       "data": {"url": "data/trade_exports_2024.csv", "format": {"parse": {"value_usd": "number", "share_pct": "number", "lat": "number", "lon": "number"}}},
       "transform": [
         {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "value_usd", "order": "descending"}]},
@@ -121,7 +121,7 @@
       "layer": [
         {
           "params": [{"name": "buyer_bar", "select": {"type": "point", "fields": ["partner"], "on": "mouseover", "clear": "mouseout"}}],
-          "mark": {"type": "bar", "color": "#c08a1e", "cornerRadiusEnd": 2, "height": {"band": 0.7}, "cursor": "pointer"},
+          "mark": {"type": "bar", "color": "#c08a1e", "cornerRadiusEnd": 2, "height": {"band": 0.6}, "cursor": "pointer"},
           "encoding": {
             "opacity": {"condition": {"test": {"and": [{"param": "buyer_map"}, {"param": "buyer_bar"}]}, "value": 0.85}, "value": 0.25},
             "tooltip": [
