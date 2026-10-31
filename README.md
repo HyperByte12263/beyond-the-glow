@@ -4,6 +4,18 @@ Where Malaysia's skincare comes from, what it costs us, and whether it works for
 
 FIT3179 Data Visualisation 2, Monash University Malaysia, 2026. Author: Tan Le Han.
 
+**[Live site](https://hyperbyte12263.github.io/beyond-the-glow/)** · 14 charts · 6 public data sources · 1.09 million reviews
+
+**Key findings**
+
+Malaysia's beauty imports more than doubled, from US$292 million in 2015 to US$624 million in 2024.
+
+Beauty prices rose 19% since 2010, half as fast as overall prices (38%).
+
+Paying more barely buys a better rating: products under US$25 average 4.17 stars, products over US$250 average 4.24.
+
+Built with Vega-Lite, JavaScript and a Go data-preparation script. AI use is acknowledged on the page.
+
 ## Structure
 
 | Path | What it is |
